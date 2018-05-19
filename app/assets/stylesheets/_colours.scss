@@ -1,0 +1,95 @@
+/* Colours */
+
+//Greys
+$grey:            #808080;              // standard css "grey" = #808080
+$darkish-grey:    darken($grey, 3);     // #787878 ~ !$darkish-grey! ~ #888 ~ #7a7976 TODO: this colour is quitre close to $grey and could prehaps be replaced by $grey
+$quite-dark-grey: darken($grey, 7);     // #6e6e6e ~ #6f6f6f
+$dark-grey:       darken($grey, 11);    // #636363 ~ #646567
+$quite-dark-grey: darken($grey, 16);    // #575757 ~ #58585a ~ #565658 ~ #555557
+$nth-dark-grey:   darken($grey, 21);    // #4a4a4a ~ #494949
+$very-dark-grey:  darken($grey, 22);    // #474747 ~ #484646
+$charcoal-grey:   darken($grey, 25);    // #404040 ~ $muddy-grey
+$lightest-charcoal: darken($grey, 31);  // #303030 ~ #34312d ~ #34312e TODO: this colour is quite close to $charcoal and so could perhaps be replaced by $charcoal
+$light-charcoal:  darken($grey, 32);    // #2e2e2e TODO: this colour is very close to $charcoal and so should probably be replaced by $charcoal
+$charcoal:        darken($grey, 34);    // #292929
+$mid-grey:        lighten($grey, 16);   // #ababab ~ #aaa
+$light-grey:      lighten($grey, 29);   // #cccccc ~ #cbcac9
+$nth-light-grey:  lighten($grey, 35);   // #dbdbdb
+$another-lgt-grey: lighten($grey, 37);  // #e0e0e0
+$quite-light-grey: lighten($grey, 39);  // #e6e6e6 ~ #e5e4e2
+$ligher-grey:     lighten($grey, 41);   // #ebebeb ~ #ecebe9
+$slightly-grey:   lighten($grey, 43);   // #f0f0f0 TODO: this colour is quite close to $off-white and so could perhaps be replaced by $off-white
+$very-light-grey: lighten($grey, 44);   // #f2f2f2 ~ #f2f4f5 TODO: this colour is very close to $off-white and so should probably be replaced by $off-white
+$off-white:       lighten($grey, 45);   // #f5f5f5 ~ #f4f4f1 ~ #f5f5f1 ~ #f5f4f2 ~ #f5f4f1 ~ #f6f6f4
+
+$light-red-grey:  saturate(lighten($grey, 38), 18); // #e8dede ~ #e8e1db
+$light-redish-grey: saturate(lighten($grey, 38), 12); //#e7e1dc ~ #e6e1db TODO: this colour is quite close to $light-red-grey...
+$lighter-red-grey: saturate(lighten($grey, 39), 18); // #e1dad2
+
+$muddy-grey:      #46423d;
+$light-muddy-grey: lighten($muddy-grey, 6); // #57524c
+
+$slate-grey:      #74747c;
+
+$slightly-different-grey: #5d5d61;      // TODO: This could perhaps be replaced by darken($grey, 13) which is #5e5e5e
+
+// Red
+$red:             #ff0000;              // standard css "red" = $red
+$sb-red:          #e2001a;              // #e2001a ~ #e60017
+$dark-sb-red:     darken($sb-red, 11);  // #a80013 ~ #a90d13
+
+$lipstick-red:    #e2203a;
+$light-ls-red:    lighten($lipstick-red, 10); // #e84f64 ~ #E25459
+
+// Green
+$green:           #008000;              // standard css "green" = #008000
+$mid-green:       lighten($green, 4);   // #090 = #009900 ~ #009a00
+
+// Blue
+$blue:            #28a5da;
+
+// Yellow
+$light-yellow:    #f3f349;
+
+// Black
+$black:           #000;                 // standard css "black" = $black
+
+//White
+$white:           #ffffff;
+$almost-white:    #f8f7f5;              // #f8f7f5 TODO: this colour is quite close to $off-white...
+
+$colour_sb_red: #c2121e;
+$colour_sb_dark_grey: #585858;
+$colour_sb_darker_grey: #383838;
+$colour_sb_medium_grey: #b0b0b0;
+$colour_sb_light_grey: #dad8d8;
+$colour_sb_almost_black: #1e1e1e;
+$colour_sb_almost_black_transparent: rgba(25, 25, 25, 0.75);
+$colour_sb_very_light_grey: #efeeee;
+$colour_sb_green: #1bbd58;
+$colour_sb_cyan: #1bb7bd;
+$colour_sb_divider_grey: #4c4b4b;
+$colour_sb_blue: #4755a6;
+
+$colour_sb_red: #c2121e;
+$colour_sb_dark_grey: #585858;
+$colour_sb_light_grey: #dad8d8;
+$colour_sb_blue: #4755a6;
+$colour_sb_green: #1bbd58;
+$colour_sb_almost_black_transparent: rgba(25, 25, 25, 0.75);
+$white_60: rgba(255, 255, 255, 0.6);
+$colour_sb_darker_grey: #383838;
+$colour_sb_almost_black: #1e1e1e;
+$colour_sb_very_light_grey: #efeeee;
+$colour_sb_medium_grey: #b0b0b0;
+$colour_sb_lightened_grey: #ccc;
+$colour_sb_thunderbird: #d02800;
+$colour_sb_flame_pea: #d05c2e;
+$colour_sb_bright_sun: #f4d33a;
+$colour_sb_sushi: #7aab34;
+$colour_sb_bilbao: #24880a;
+$colour_sb_mine_shaft: #333;
+$colour_sb_concrete: #f3f3f3;
+$colour_sb_black_haze: #f6f6f6;
+$colour_sb_cyan: #1bb7bd;
+$colour_sb_silver_80: rgba(190, 190, 190, 0.8);

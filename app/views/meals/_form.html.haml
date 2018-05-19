@@ -1,0 +1,6 @@
+= render partial: 'button_strip'
+= form_for @meal, html: {class: 'form'} do |f|
+
+  .fields
+    = f.label :name, 'Meal name:'
+    = f.text_field :name

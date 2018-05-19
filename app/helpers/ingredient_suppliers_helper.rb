@@ -1,0 +1,2 @@
+module IngredientSuppliersHelper
+end

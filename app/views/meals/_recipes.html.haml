@@ -1,0 +1,13 @@
+- if meal_recipes.any?
+  - chevron =  hidden_initially ? "down" : "up"
+  - items_class =  hidden_initially ? "hidden" : ""
+  = link_to icon("chevron-circle-#{chevron}"), "#", id: "#{id}_meal_recipes", class: "padding-left toggle_items"
+  .items_table{id: "#{id}_meal_recipes_items_table", class: items_class}
+    %table.full
+      %tbody
+        - meal_recipes.each do |meal_recipe|
+          %tr
+            %td
+              = meal_recipe.recipe.name
+              - if meal_recipe.recipe.recipe_ingredients.any?
+                = render partial: 'recipes/ingredients', locals: {id: "#{id}_#{meal_recipe.recipe.id}", recipe_ingredients: meal_recipe.recipe.recipe_ingredients, hidden_initially: hidden_initially}

@@ -1,0 +1,32 @@
+= render partial: 'button_strip'
+= simple_form_for @setting, html: {class: 'form'} do |f|
+  .columns
+    %fieldset
+      %legend Menu Rotations:
+      .columns
+        .input
+          = f.label 'Weeks:', required: true
+          = f.select :menu_rotation_weeks, Setting::WEEKS
+      .columns
+        .input
+          = f.input :menu_rotation_start_date, label: "Start date:", as: :date, include_blank: true, input_html: { class: "calende" }
+
+  .columns
+    %fieldset
+      %legend Emails:
+      .columns
+        .input
+          = f.label 'Send reminders:', required: true
+          = f.select :reminder_emails, collection: [["Yes!", true], ["No", false]]
+
+      .columns
+        .input
+          = f.input :reminder_emails_send_time, label: "Time to send:",  as: :date, include_blank: true, input_html: { class: "calende" }
+
+  .columns
+    %fieldset
+      %legend Shopping:
+      .large-4.medium-6.small-12.columns
+        .input
+          = f.label 'Default days:', required: true
+          = f.select :default_shopping_days, (0..31)

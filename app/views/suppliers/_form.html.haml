@@ -1,0 +1,6 @@
+= render partial: 'button_strip'
+= form_for @supplier, html: {class: 'form'} do |f|
+
+  .fields
+    = f.label :name, 'Supplier name:'
+    = f.text_field :name

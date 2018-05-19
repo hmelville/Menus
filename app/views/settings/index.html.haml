@@ -1,0 +1,37 @@
+= render partial: 'button_strip'
+
+= simple_form_for @setting, html: {class: 'form'} do |f|
+  .row
+    .columns
+      %fieldset
+        %legend Menu Rotations:
+        .large-12.medium-12.small-12.columns
+          .input
+            = f.label 'Weeks:'
+            %p= @setting.menu_rotation_weeks
+        .large-12.medium-12.small-12.columns
+          .input
+            = f.label 'Start date:'
+            %p= @setting_d.menu_rotation_start_date
+
+    .columns
+      %fieldset
+        %legend Emails:
+        .large-12.medium-12.small-12
+          .input
+            = f.label 'Email reminders:'
+            %p= @setting_d.to_yesno(@setting.reminder_emails)
+
+        .large-12.medium-12.small-12
+          .input
+            = f.label 'Time to send:'
+            %p= @setting_d.reminder_emails_send_time
+
+  .row
+    .columns
+      %fieldset
+        %legend Shopping:
+        .large-12.medium-12.small-12
+          .input
+            = f.label 'Default days:'
+            %p= @setting.default_shopping_days

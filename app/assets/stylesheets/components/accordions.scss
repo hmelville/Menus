@@ -1,0 +1,29 @@
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+.accordion-navigation.active {
+  .content.scrolling.active {
+    max-height: 20em;
+    overflow-y: scroll;
+  }
+  .content.tall-scrolling.active {
+    max-height: 30em;
+    overflow-y: scroll;
+  }
+}
+.accordion-navigation {
+  a.with-down-up-icon {
+    position: relative;
+    &:before {
+      position: absolute;
+      right: 1rem;
+      top: 1.4rem;
+    }
+  }
+  &.active a.with-down-up-icon:before {
+    @extend .fa, .fa-chevron-up;
+  }
+  a.with-down-up-icon:before {
+    @extend .fa, .fa-chevron-down;
+  }
+}

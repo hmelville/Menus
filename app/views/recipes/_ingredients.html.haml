@@ -1,0 +1,11 @@
+- if recipe_ingredients.any?
+  - chevron =  hidden_initially ? "down" : "up"
+  - items_class =  hidden_initially ? "hidden" : ""
+  = link_to icon("chevron-circle-#{chevron}"), "#", id: "#{id}_recipe_ingredients", class: "padding-left toggle_items"
+  .items_table{id: "#{id}_recipe_ingredients_items_table", class: items_class }
+    %table.full
+      %tbody
+        - recipe_ingredients.each do |recipe_ingredient|
+          %tr
+            %td
+              = recipe_ingredient

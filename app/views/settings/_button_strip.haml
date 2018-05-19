@@ -1,0 +1,14 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+
+      - if @setting_buttons.include?(:save)
+        %li= link_to(icon('save',"Save"), @setting, class: 'button submit')
+
+      - if @setting_buttons.include?(:cancel)
+        %li= link_to(icon('undo',"Cancel"), settings_path, class: 'button')
+
+      - if @setting_buttons.include?(:edit)
+        %li= link_to(icon('pencil',"Edit"), edit_setting_path(@setting), class: 'button')
+
+  %h1= @setting_page_heading.gsub(/\s/, '&nbsp;').html_safe

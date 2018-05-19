@@ -1,0 +1,52 @@
+%html
+  %head
+    %meta{ charset: "utf-8" }
+
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
+
+    %title= content_for?(:title) ? yield(:title) : "Menus"
+
+    = javascript_include_tag "//www.google.com/jsapi"
+    = javascript_include_tag "vendor/modernizr.js"
+    = javascript_include_tag "vendor/jquery.js"
+    = javascript_include_tag "jquery_ujs"
+    = javascript_include_tag "https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"
+    = javascript_include_tag "vendor/foundation"
+    = javascript_include_tag "vendor/what-input"
+    = javascript_include_tag "vendor/foundation.min"
+    = javascript_include_tag "application"
+    = yield :pre_js
+    = stylesheet_link_tag "application", media: 'all'
+
+%body{class: "#{controller_name}"}
+  = render partial: 'shared/top_menu'
+
+  - if flash && flash[:notice]
+    .flash-popup.notice.left
+      .message-content
+        = flash[:notice]
+
+  - if flash && flash[:alert]
+    .flash-popup.alert.left
+      .message-content
+        %h3= "Bugger something went wrong ..."
+        %ul
+          - flash[:alert].full_messages.each do |message|
+            %li.small= message
+  .large-8.medium-12.small-12.large-centered.medium-centered.small-centered.columns.content
+    = yield
+
+:javascript
+
+  $(document).ready(function() {
+    // $(document).foundation();
+
+    attachSubmit();
+    showPopUp();
+
+    $('.toggle_items').click(function() {
+      $('#' + this.id).children().toggleClass('fa-chevron-circle-up').toggleClass('fa-chevron-circle-down')
+      $('#' + this.id + '_items_table').slideToggle(500);
+      return false;
+    });
+  });

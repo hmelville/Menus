@@ -1,0 +1,49 @@
+- if Meal.any? && collection.show_meals?
+  .row
+    .button_strip
+      %ul.button-group.round.right
+        %li= link_to(icon('plus',"New Meal"), new_collection_meal_path(collection_id: collection.id), class: 'button')
+
+  %fieldset.margin-bottom
+    %legend Meals:
+    - if collection.collection_meals.any?
+      %table.full
+        %tbody
+          - collection.collection_meals.each do |collection_meal|
+            %tr
+              %td
+                = link_to collection_meal.meal.name, edit_collection_meal_path(collection_meal), class: "red"
+                = render partial: 'collections/index', locals: {id: collection_meal.meal.id, collection: collection_meal.meal.collection, hidden_initially: hidden_initially, show_prefix: show_prefix}
+
+- if Recipe.any? && collection.show_recipes?
+  .row
+    .button_strip
+      %ul.button-group.round.right
+        %li= link_to(icon('plus',"New Recipe"), new_collection_recipe_path(collection_id: collection.id), class: 'button')
+
+  %fieldset.margin-bottom
+    %legend Recipes:
+    - if collection.collection_recipes.any?
+      %table.full
+        %tbody
+          - collection.collection_recipes.each do |collection_recipe|
+            %tr
+              %td
+                = link_to collection_recipe.recipe.name, edit_collection_recipe_path(collection_recipe), class: "red"
+                = render partial: 'collections/index', locals: {id: collection_recipe.recipe.id, collection: collection_recipe.recipe.collection, hidden_initially: hidden_initially, show_prefix: show_prefix}
+
+- if Ingredient.any?
+  .row
+    .button_strip
+      %ul.button-group.round.right
+        %li= link_to(icon('plus',"New Ingredient"), new_collection_ingredient_path(collection_id: collection.id), class: 'button')
+
+  %fieldset.margin-bottom
+    %legend Ingredients:
+    - if collection.collection_ingredients.any?
+      %table.full
+        %tbody
+          - collection.collection_ingredients.each do |collection_ingredient|
+            %tr
+              %td= link_to collection_ingredient, edit_collection_ingredient_path(collection_ingredient), class: "red"
+

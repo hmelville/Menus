@@ -1,0 +1,21 @@
+.ui-state-default .ui-icon {
+  background-image: url(image_path("jquery-ui/ui-icons_cd0a0a_256x240.png"));
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    border: 1px solid lighten(#C3161D, 25%);
+    background: lighten(#C3161D, 40%) url(image_path("jquery-ui/ui-bg_glass_100_f6f6f6_1x400.png")) 50% 50% repeat-x;
+    font-weight: bold;
+    color: #C3161D;
+}
+
+.ui-multiselect-menu {
+  background-color: #eeeeee !important;
+  .ui-multiselect-checkboxes {
+    label {
+      input {
+        margin: 1px 5px 0 0;
+      }
+    }
+  }
+}
