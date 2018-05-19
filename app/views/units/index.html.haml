@@ -1,15 +1,16 @@
 = render partial: 'button_strip'
 
-%table.full
-  %thead
-    %tr
-      %th Name
-      %th Kind
-      %th Rate
-
-  %tbody
-    - @units.each do |unit|
+- if @units.any?
+  %table.full
+    %thead
       %tr
-        %td= link_to unit, edit_unit_path(unit), class: "name"
-        %td= unit.kind
-        %td.right-align= unit.conversion_rate
+        %th Name
+        %th Kind
+        %th Rate
+
+    %tbody
+      - @units.each do |unit|
+        %tr
+          %td= link_to unit, edit_unit_path(unit), class: "name"
+          %td= unit.kind
+          %td.right-align= unit.conversion_rate

@@ -1,3 +1,26 @@
 %nav.top-bar{data: {topbar: true}, role: 'navigation'}
   %section.top-bar-section.left
-    = top_menu
+    %ul.left
+      %li.active.not-click.has-dropdown
+        = link_to "Menus", "#"
+        %ul.dropdown
+          %li
+            = link_to "Today", "/welcome"
+          %li
+            = link_to "Meals", "/meals"
+          %li
+            = link_to "Recipes", "/recipes"
+          %li
+            = link_to "Ingredients", "/ingredients"
+          %li
+            = link_to "Suppliers", "/suppliers"
+          %li
+            = link_to "Units", "/units"
+          %li
+            = link_to "Menu Rotations", "/menu_rotations"
+          %li
+            = link_to "Build Shopping List", "/shopping_lists"
+          %li
+            = link_to "Shopping List", "/shopping_list_ingredients"
+          %li
+            = link_to "Settings", "/settings"

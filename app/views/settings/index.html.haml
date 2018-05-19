@@ -3,7 +3,7 @@
 = simple_form_for @setting, html: {class: 'form'} do |f|
   .row
     .columns
-      %fieldset
+      %fieldset.margin-bottom
         %legend Menu Rotations:
         .large-12.medium-12.small-12.columns
           .input
@@ -15,7 +15,7 @@
             %p= @setting_d.menu_rotation_start_date
 
     .columns
-      %fieldset
+      %fieldset.margin-bottom
         %legend Emails:
         .large-12.medium-12.small-12
           .input

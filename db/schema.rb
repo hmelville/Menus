@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180516185605) do
+ActiveRecord::Schema.define(version: 20171103101325) do
 
   create_table "collection_ingredients", force: true do |t|
     t.integer  "collection_id"
@@ -52,13 +52,10 @@ ActiveRecord::Schema.define(version: 20180516185605) do
     t.datetime "updated_at"
   end
 
-  add_index "ingredient_suppliers", ["ingredient_id", "supplier_id"], name: "index_ingredient_suppliers_on_ingredient_id_and_supplier_id", unique: true, using: :btree
-
   create_table "ingredients", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.integer  "purchase_unit_id"
   end
 
   create_table "meal_ingredients", force: true do |t|
@@ -83,18 +80,6 @@ ActiveRecord::Schema.define(version: 20180516185605) do
     t.datetime "updated_at"
   end
 
-  create_table "menu_items", force: true do |t|
-    t.string   "name"
-    t.string   "url"
-    t.integer  "position"
-    t.integer  "parent_id"
-    t.integer  "lft"
-    t.integer  "rgt"
-    t.integer  "depth"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "menu_rotations", force: true do |t|
     t.integer  "week"
     t.integer  "day"
@@ -105,10 +90,10 @@ ActiveRecord::Schema.define(version: 20180516185605) do
   create_table "recipe_ingredients", force: true do |t|
     t.integer  "recipe_id"
     t.integer  "ingredient_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.decimal  "quantity",      precision: 8, scale: 2
     t.integer  "unit_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "recipes", force: true do |t|
@@ -121,10 +106,10 @@ ActiveRecord::Schema.define(version: 20180516185605) do
     t.integer  "menu_rotation_weeks"
     t.boolean  "reminder_emails"
     t.time     "reminder_emails_send_time"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.date     "menu_rotation_start_date"
     t.integer  "default_shopping_days"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "shopping_list_days", force: true do |t|
@@ -145,10 +130,10 @@ ActiveRecord::Schema.define(version: 20180516185605) do
 
   create_table "shopping_lists", force: true do |t|
     t.date     "the_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.date     "start_date"
     t.date     "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "suppliers", force: true do |t|
@@ -162,7 +147,6 @@ ActiveRecord::Schema.define(version: 20180516185605) do
     t.string   "abbreviation"
     t.string   "kind"
     t.decimal  "conversion_rate", precision: 10, scale: 2
-    t.boolean  "default_unit"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

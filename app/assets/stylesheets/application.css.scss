@@ -199,6 +199,17 @@ section.top-bar-section a {
   color: white;
   text-decoration: none;
   margin-right: 20px;
+  ul li {
+    &.active > a {
+      background: $colour_sb_light_grey !important;
+      &:hover {
+        background: $colour_sb_light_grey !important;
+      }
+    }
+    &:first-of-type div.nav-hover {
+      top: 12px;
+    }
+  }
 }
 
 .info-message {

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   def create_settings
     unless Setting.all.present?
-      setting = Setting.new(menu_rotation_weeks: 4, menu_rotation_start_date: Date.today, reminder_emails: false, default_shopping_days: 7).save
+      setting = Setting.create(menu_rotation_weeks: 4, menu_rotation_start_date: Date.today, reminder_emails: false, default_shopping_days: 7)
       redirect_to edit_setting_path(setting)
     end
   end

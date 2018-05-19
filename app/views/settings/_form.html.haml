@@ -1,7 +1,7 @@
 = render partial: 'button_strip'
 = simple_form_for @setting, html: {class: 'form'} do |f|
   .columns
-    %fieldset
+    %fieldset.margin-bottom
       %legend Menu Rotations:
       .columns
         .input
@@ -12,7 +12,7 @@
           = f.input :menu_rotation_start_date, label: "Start date:", as: :date, include_blank: true, input_html: { class: "calende" }
 
   .columns
-    %fieldset
+    %fieldset.margin-bottom
       %legend Emails:
       .columns
         .input

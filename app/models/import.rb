@@ -3,6 +3,36 @@ require 'csv'
 
 class Import
 
+  def self.import_units(file_name)
+    file_data = self.get_data_from_file(file_name, ",")
+    output_file = file_name.sub(".csv", "_output.csv")
+
+    Unit.destroy_all
+
+    headings = %w(Name Abbreviation Kind ConversionRate new_id)
+    CSV.open(output_file, "w", headers: headings, write_headers: true) do |csv|
+      file_data.each do |row|
+        row_data = []
+
+        name = row[:name]
+        abbreviation = row[:abbreviation]
+        kind = row[:kind]
+        conversion_rate = row[:conversion_rate]
+
+        row_data << name
+        row_data << abbreviation
+        row_data << kind
+        row_data << conversion_rate
+
+        row_data << Unit.create(name: name, abbreviation: abbreviation, kind: kind, conversion_rate: conversion_rate).id
+
+        csv << row_data
+      end
+    end
+    puts output_file
+    puts nil
+  end
+
   def self.import_ingredients(file_name)
     file_data = self.get_data_from_file(file_name, ",")
     output_file = file_name.sub(".csv", "_output.csv")
@@ -65,5 +95,5 @@ class Import
     end
 
     return data
-end
+  end
 end
