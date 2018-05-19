@@ -1,0 +1,1 @@
+function showPopUp(){$(".flash-popup").fadeIn(500).delay(2500).fadeOut(1e3)}function attachSubmit(){$(".submit").on("click",function(t){t.preventDefault(),$(".form")[0].submit()})}
