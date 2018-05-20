@@ -17,6 +17,6 @@
       %tbody
         - @shopping_list.shopping_list_days.each do |shopping_list_day|
           %tr
-            %td{class: shopping_list_day.the_date == Date.today ? "today" : ""}
+            %td{class: shopping_list_day.the_date == Date.today ? "is_today" : ""}
               = link_to shopping_list_day.day_name, shopping_list_day
               = render partial: 'collections/index', locals: {id: "collection_#{shopping_list_day.id}", collection: shopping_list_day.collection, hidden_initially: true, show_prefix: true}

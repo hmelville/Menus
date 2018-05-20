@@ -7,16 +7,16 @@ class MenuRotation < ActiveRecord::Base
 
   def week_day_name
     setting = Setting.all.first
-    "Week #{self.week} - Day #{self.day} - #{Setting::DAYS[((self.day - 1 + setting.menu_rotation_start_date.wday) % -7) + 7]}"
+    "Week #{self.week} - Day #{self.day} - #{day_name}"
   end
 
-  def self.day_of_week(wday, setting)
-    ((wday + setting.menu_rotation_start_date.wday) % -7) + 7
+  def self.day_of_week(num_days, setting)
+    (setting.menu_rotation_start_date + (num_days.days)).wday
   end
 
   def day_name
     setting = Setting.all.first
-    Setting::DAYS[MenuRotation.day_of_week(self.day, setting)]
+    (setting.menu_rotation_start_date + ((self.week - 1) * 7 + (self.day - 1)).days).strftime("%A")
   end
 
   def is_today?

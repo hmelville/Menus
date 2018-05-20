@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :welcome, only: [:index]
+  resources :today, only: [:index]
   resources :meals
   resources :meal_recipes
   resources :meal_ingredients
@@ -29,5 +29,5 @@ Rails.application.routes.draw do
   resources :collection_ingredients
 
 
-  root 'welcome#index'
+  root 'today#index'
 end
