@@ -1,0 +1,8 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+
+      - if @shopping_list_day_buttons.include?(:index)
+        %li= link_to(icon('list',"List"), food_menus_shopping_lists_path, class: 'button')
+
+  %h1= @shopping_list_day_page_heading.gsub(/\s/, '&nbsp;').html_safe

@@ -40,20 +40,6 @@ class CreateDatabase < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table "meal_ingredients", force: true do |t|
-      t.integer  "meal_id"
-      t.integer  "ingredient_id"
-      t.integer  "unit_id"
-      t.decimal  "quantity",      precision: 8, scale: 2
-      t.timestamps
-    end
-
-    create_table "meal_recipes", force: true do |t|
-      t.integer  "meal_id"
-      t.integer  "recipe_id"
-      t.timestamps
-    end
-
     create_table "meals", force: true do |t|
       t.string   "name"
       t.timestamps
@@ -62,14 +48,6 @@ class CreateDatabase < ActiveRecord::Migration
     create_table "menu_rotations", force: true do |t|
       t.integer  "week"
       t.integer  "day"
-      t.timestamps
-    end
-
-    create_table "recipe_ingredients", force: true do |t|
-      t.integer  "recipe_id"
-      t.integer  "ingredient_id"
-      t.decimal  "quantity",      precision: 8, scale: 2
-      t.integer  "unit_id"
       t.timestamps
     end
 

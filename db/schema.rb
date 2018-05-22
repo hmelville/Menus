@@ -87,15 +87,6 @@ ActiveRecord::Schema.define(version: 20171103101325) do
     t.datetime "updated_at"
   end
 
-  create_table "recipe_ingredients", force: true do |t|
-    t.integer  "recipe_id"
-    t.integer  "ingredient_id"
-    t.decimal  "quantity",      precision: 8, scale: 2
-    t.integer  "unit_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "recipes", force: true do |t|
     t.string   "name"
     t.datetime "created_at"

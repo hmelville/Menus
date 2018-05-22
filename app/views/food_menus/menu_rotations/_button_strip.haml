@@ -1,0 +1,8 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+
+      - if @menu_rotation_buttons.include?(:index)
+        %li= link_to(icon('list',"List"), food_menus_menu_rotations_path, class: 'button')
+
+  %h1= @menu_rotation_page_heading.gsub(/\s/, '&nbsp;').html_safe

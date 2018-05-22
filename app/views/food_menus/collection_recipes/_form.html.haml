@@ -1,0 +1,14 @@
+= render partial: 'button_strip'
+= form_for @collection_recipe, html: {class: 'form'} do |f|
+
+  .fields
+    .large-10.medium-10.small-10.columns.no-padding
+      = f.label :recipe_id, 'Recipe:'
+      = f.select :recipe_id, options_from_collection_for_select(FoodMenus::Recipe.all, :id, :name, @collection_recipe.recipe.try(:id)), include_blank: true
+    .large-2.medium-2.small-2.columns
+      .button-row
+        .button_strip
+          %ul.button-group.round
+            %li= link_to(icon('plus',""), new_food_menus_recipe_path, class: 'button')
+
+    = f.hidden_field :collection_id

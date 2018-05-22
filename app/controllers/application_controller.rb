@@ -2,18 +2,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_action :set_request_uuid
-  before_action :create_settings
   before_filter :prevent_browser_caching
 
   helper_method :safe_back_to_uri
-
-  def create_settings
-    unless Setting.all.present?
-      setting = Setting.create(menu_rotation_weeks: 4, menu_rotation_start_date: Date.today, reminder_emails: false, default_shopping_days: 7)
-      MenuRotation.process_menu_rotations
-      redirect_to edit_setting_path(setting)
-    end
-  end
 
   # Redirects to the URI given by {#safe_back_to_uri} or if that is not present
   # then to the supplied default

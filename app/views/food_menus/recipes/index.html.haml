@@ -1,0 +1,10 @@
+= render partial: 'button_strip'
+
+- if @recipes.any?
+  %table.full
+    %tbody
+      - @recipes.each do |recipe|
+        %tr
+          %td
+            = link_to recipe.name, recipe, class: "red"
+            = render partial: '/food_menus/collections/index', locals: {id: "collection_#{recipe.id}", collection: recipe.collection, hidden_initially: true, show_prefix: false}
