@@ -20,4 +20,222 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  date:
+    formats:
+      default: "%d-%m-%Y"
+      short: "%d %b"
+      medium: "%d %b %y"
+      long: "%a, %d %B, %Y"
+      dotted: "%d.%m.%Y"
+      weekday: "%A"
+      excel: "%d-%b-%Y"
+
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    order:
+      - :day
+      - :month
+      - :year
+
+  time:
+    formats:
+      default: "%a, %d %b %Y at %H:%M"
+      short: "%e %b %H:%M"
+      long: "%e %b %Y %H:%M"
+      precise: "%d-%b-%Y %H:%M:%S"
+      excel: "%a %d-%b-%Y %H:%M"
+      time_only: "%H:%M:%S"
+      tiny: "%-I:%M %P"
+      date_and_time: '%F %T'
+    am: "am"
+    pm: "pm"
+
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " and "
+      last_word_connector: ", and "
+
+    select:
+      prompt: "Please select"
+
+  number:
+    format:
+      separator: "."
+      delimiter: ","
+      precision: 3
+      significant: false
+      strip_insignificant_zeros: false
+
+    currency:
+      format:
+        format: "%u%n"
+        unit: "£"
+        separator: "."
+        delimiter: ","
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+
+    percentage:
+      format:
+        delimiter: ""
+
+    precision:
+      format:
+        delimiter: ""
+
+    human:
+      format:
+        delimiter: ""
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+      decimal_units:
+        format: "%n %u"
+        units:
+          unit: ""
+          thousand: Thousand
+          million: Million
+          billion: Billion
+          trillion: Trillion
+          quadrillion: Quadrillion
+
+      lengths:
+        format: "%n%u"
+        units:
+          mili: "mm"
+          centi: "cm"
+          unit: "m"
+          thousand: "km"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute"
+      less_than_x_seconds:
+        one:   "less than 1 second"
+        other: "less than %{count} seconds"
+      x_seconds:
+        one:   "1 second"
+        other: "%{count} seconds"
+      less_than_x_minutes:
+        one:   "less than a minute"
+        other: "less than %{count} minutes"
+      x_minutes:
+        one:   "1 minute"
+        other: "%{count} minutes"
+      about_x_hours:
+        one:   "about 1 hour"
+        other: "about %{count} hours"
+      x_days:
+        one:   "1 day"
+        other: "%{count} days"
+      about_x_months:
+        one:   "about 1 month"
+        other: "about %{count} months"
+      x_months:
+        one:   "1 month"
+        other: "%{count} months"
+      about_x_years:
+        one:   "about 1 year"
+        other: "about %{count} years"
+      over_x_years:
+        one:   "over 1 year"
+        other: "over %{count} years"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost %{count} years"
+    prompts:
+      year:   "Year"
+      month:  "Month"
+      day:    "Day"
+      hour:   "Hour"
+      minute: "Minute"
+      second: "Seconds"
+
+  helpers:
+    select:
+      prompt: "Please select"
+
+    submit:
+      create: 'Create'
+      update: 'Update'
+      submit: 'Save'
+
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: ""
+          one: "Displaying <b>1</b> of <b>1</b>"
+          other: "Displaying <b>%{count}</b> of <b>%{count}</b>"
+      more_pages:
+        display_entries: "Displaying <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b>"
+
+
+  errors:
+    format: "%{attribute} %{message}"
+
+    messages: &errors_messages
+      inclusion: "is not included in the list"
+      exclusion: "is reserved"
+      invalid: "is invalid"
+      confirmation: "doesn't match confirmation"
+      accepted: "must be accepted"
+      empty: "can't be empty"
+      blank: "can't be blank"
+      too_long: "is too long (maximum is %{count} characters)"
+      too_short: "is too short (minimum is %{count} characters)"
+      wrong_length: "is the wrong length (should be %{count} characters)"
+      not_a_number: "is not a number"
+      not_an_integer: "must be an integer"
+      greater_than: "must be greater than %{count}"
+      greater_than_or_equal_to: "must be greater than or equal to %{count}"
+      equal_to: "must be equal to %{count}"
+      less_than: "must be less than %{count}"
+      less_than_or_equal_to: "must be less than or equal to %{count}"
+      odd: "must be odd"
+      even: "must be even"
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
+        body: "There were problems with the following fields:"
+
+      messages:
+        taken: "has already been taken"
+        record_invalid: "Validation failed: %{errors}"
+        date_not_in_range: "not in %{from} - %{to}"
+        <<: *errors_messages
+
+      full_messages:
+        format: "%{attribute} %{message}"
+
+  request_password_reset:
+    blank: You must enter a valid email address
+
+  password_reset:
+    expired: We're sorry, but that password recovery link has expired. Please request another Password Recovery email.
+    invalid: We're sorry, but we do not recognise that password recovery link. Please request another Password Recovery email.
+    success: Your password was successfully updated.
+    blank: You must enter a password.
+
+  account_activation:
+    expired: We're sorry, but that activation link has expired. To activate your account please request a Password Recovery email using the form below.
+    invalid: We're sorry, but we do not recognise that account activation link. Either contact Customer Services or re-register using the form below.
+    success: Your account has now been activated

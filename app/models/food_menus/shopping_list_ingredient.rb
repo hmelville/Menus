@@ -1,5 +1,5 @@
 module FoodMenus
-  class ShoppingListIngredient < ActiveRecord::Base
+  class ShoppingListIngredient < ::ApplicationBase
 
     belongs_to :shopping_list
     belongs_to :ingredient

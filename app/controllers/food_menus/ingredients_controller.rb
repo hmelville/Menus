@@ -5,7 +5,7 @@ module FoodMenus
     skip_before_action :verify_authenticity_token
 
     def index
-      @ingredients = FoodMenus::Ingredient.all
+      @ingredients = current_user.ingredients.all
     end
 
     def new
@@ -13,7 +13,7 @@ module FoodMenus
     end
 
     def create
-      @ingredient = FoodMenus::Ingredient.new(ingredient_params)
+      @ingredient = current_user.ingredients.new(ingredient_params)
       if @ingredient.save
         flash[:notice] = "Successfully created ingredient."
         redirect_to session[:ingredient_return_to]
@@ -36,7 +36,7 @@ module FoodMenus
     def destroy
       @ingredient.destroy
       flash[:notice] = "Successfully destroyed ingredient."
-      redirect_to ingredients_path
+      redirect_to food_menus_ingredients_path
     end
 
     private
@@ -46,7 +46,13 @@ module FoodMenus
 
       def setup
         if params[:id]
-          @ingredient ||= FoodMenus::Ingredient.find(params[:id])
+          @ingredient = current_user.ingredients.find_by_id(params[:id])
+
+          unless @ingredient
+            flash[:notice] = "Can't find ingredient."
+            redirect_to session[:ingredient_return_to]
+            return
+          end
         end
 
         case action_name
@@ -66,7 +72,7 @@ module FoodMenus
       end
 
       def ingredient_params
-        params.require(:food_menus_ingredient).permit(:name)
+        params.require(:food_menus_ingredient).permit(:name, :unit_id, :quantity)
       end
   end
 end

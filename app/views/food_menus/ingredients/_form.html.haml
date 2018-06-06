@@ -1,6 +1,11 @@
-= render partial: 'button_strip'
-= form_for @ingredient, html: {class: 'form'} do |f|
-
-  .fields
-    = f.label :name, 'Ingredient name:'
-    = f.text_field :name
+.form
+  = render partial: 'button_strip'
+  .margin-top
+    = form_for @ingredient, html: {class: "submit_form"} do |f|
+      .fields.columns
+        .large-8.columns
+          = f.label :name, 'Name:'
+          = f.text_field :name
+        .large-4.columns
+          = f.label :unit, 'Purchase Unit:'
+          = f.select :unit_id, options_from_collection_for_select(FoodMenus::Unit.all, :id, :name, @ingredient.unit.try(:id)), include_blank: true

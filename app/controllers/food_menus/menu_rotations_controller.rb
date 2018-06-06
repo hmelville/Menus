@@ -4,21 +4,25 @@ module FoodMenus
     skip_before_action :verify_authenticity_token
 
     def show
-      @menu_rotations = FoodMenus::MenuRotation.all
+      @menu_rotations = current_user.menu_rotations.all
     end
 
     def index
-      FoodMenus::MenuRotation.process_menu_rotations unless FoodMenus::MenuRotation.any?
-      @menu_rotations = FoodMenus::MenuRotation.all
+      current_user.process_menu_rotations unless current_user.menu_rotations.any?
+      @menu_rotations = current_user.menu_rotations.all
     end
 
     private
       def setup
         if params[:id]
-          @menu_rotation ||= FoodMenus::MenuRotation.find(params[:id])
+          @menu_rotation = current_user.menu_rotations.find_by_id(params[:id])
+          unless @menu_rotation
+            flash[:notice] = "Can't find menu rotation."
+            redirect_to food_menus_menu_rotations_path
+            return
+          end
         end
-
-        @setting = Setting.all.first
+        @setting = current_user.setting
 
         case action_name
         when 'show'

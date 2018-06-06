@@ -1,11 +1,11 @@
 module FoodMenus
   class RecipesController < BaseController
-    before_action :set_back, only: [:edit]
+    before_action :set_back, only: [:new, :edit]
     before_action :setup
     skip_before_action :verify_authenticity_token
 
     def index
-      @recipes = FoodMenus::Recipe.all
+      @recipes = current_user.recipes.all
     end
 
     def new
@@ -13,7 +13,7 @@ module FoodMenus
     end
 
     def create
-      @recipe = FoodMenus::Recipe.new(recipe_params)
+      @recipe = current_user.recipes.new(recipe_params)
       if @recipe.save
         flash[:notice] = "Successfully created recipe."
         redirect_to session[:recipe_return_to]
@@ -46,7 +46,12 @@ module FoodMenus
 
       def setup
         if params[:id]
-          @recipe ||= FoodMenus::Recipe.find(params[:id])
+          @recipe = current_user.recipes.find_by_id(params[:id])
+          unless @recipe
+            flash[:notice] = "Can't find recipe."
+            redirect_to food_menus_recipes_path
+            return
+          end
         end
 
         case action_name

@@ -1,11 +1,12 @@
 module FoodMenus
-  class Recipe < ActiveRecord::Base
+  class Recipe < ::ApplicationBase
 
+    belongs_to :user
     has_one :collection, as: :target, dependent: :destroy
     after_create :create_collection
 
     validates :name, presence: true
-    validates_uniqueness_of :name
+    validates_uniqueness_of :name, scope: :user_id
 
     default_scope { order(:name) }
 

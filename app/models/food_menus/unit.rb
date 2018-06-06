@@ -1,5 +1,5 @@
 module FoodMenus
-  class Unit < ActiveRecord::Base
+  class Unit < ::ApplicationBase
     KINDS = ['Quantity', 'Measurement', 'Volume', 'Weight']
 
     validates_presence_of :name, :abbreviation, :kind, :conversion_rate

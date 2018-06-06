@@ -5,12 +5,10 @@ module FoodMenus
     skip_before_action :verify_authenticity_token
 
     def new
-      @ingredient = FoodMenus::Ingredient.find(params[:ingredient_id])
       @ingredient_supplier = FoodMenus::IngredientSupplier.new(ingredient_id: @ingredient.id)
     end
 
     def create
-      @ingredient = FoodMenus::Ingredient.find(params[:food_menus_ingredient_supplier][:ingredient_id])
       @ingredient_supplier = FoodMenus::IngredientSupplier.new(ingredient_supplier_params)
       if @ingredient_supplier.save
         flash[:notice] = "Successfully added supplier to ingredient."
@@ -44,19 +42,29 @@ module FoodMenus
 
       def setup
         if params[:id]
-          @ingredient_supplier ||= FoodMenus::IngredientSupplier.find(params[:id])
-          @ingredient ||= @ingredient_supplier.ingredient
+          @ingredient_supplier = FoodMenus::IngredientSupplier.find(params[:id])
+          @ingredient = @ingredient_supplier.ingredient
         elsif params[:ingredient_id]
           @ingredient = FoodMenus::Ingredient.find(params[:ingredient_id])
+        elsif params[:food_menus_ingredient_supplier][:ingredient_id]
+          @ingredient = FoodMenus::Ingredient.find(params[:food_menus_ingredient_supplier][:ingredient_id])
+        end
+
+        unless @ingredient.user == current_user
+          flash[:notice] = "Can't find ingredient supplier."
+          redirect_to session[:ingredient_supplier_return_to]
+          return
         end
 
         case action_name
         when 'new','create'
           @ingredient_supplier_page_heading = "New Ingredient Supplier"
           @ingredient_supplier_buttons = %i(save cancel)
+          @suppliers = current_user.suppliers.all
         when 'edit','update'
           @ingredient_supplier_page_heading = "Edit Ingredient Supplier"
           @ingredient_supplier_buttons = %i(save cancel delete)
+          @suppliers = current_user.suppliers.all
         when 'show'
           @ingredient_supplier_page_heading = "#{@ingredient_supplier.supplier.name}"
           @ingredient_supplier_buttons = %i(edit delete index)

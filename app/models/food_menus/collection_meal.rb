@@ -1,5 +1,5 @@
 module FoodMenus
-  class CollectionMeal < ActiveRecord::Base
+  class CollectionMeal < ::ApplicationBase
 
     belongs_to :collection
     belongs_to :meal

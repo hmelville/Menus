@@ -8,6 +8,7 @@ module ApplicationHelper
     result << 'active' if menu_item_active_state?(menu_item, menu)
     result << 'not-click' unless menu_item.url.present?
     result << 'has-dropdown' unless menu_item.url.present?
+    result += menu_item.classes.split(',') if menu_item.classes.present?
     return result.join(" ")
   end
 
@@ -54,10 +55,24 @@ module ApplicationHelper
       elsif index != 0
         output << '</li><li class="' + menu_item_classes(object, objects) + '">'
       end
-      output << '<a href="' + menu_item_url(object) + '">' + capture(object, path.size - 1, &block) + '</a>'
+      output << '<a href="' + menu_item_url(object) + '"' + get_method(object) +'>' + get_icon(object) + capture(object, path.size - 1, &block) + '</a>'
     end
 
     output << '</li></ul>' * path.length
     output.html_safe
+  end
+
+  def get_method(object)
+    unless object.method.blank?
+      return ' data-method="' + object.method + '"'
+    end
+    return ''
+  end
+
+  def get_icon(object)
+    unless object.icon.blank?
+      return icon(object.icon,'')
+    end
+    return ''
   end
 end

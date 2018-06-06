@@ -1,11 +1,9 @@
 /*
   *= require_self
-  *= require config/foundation_and_overrides
   *= require jquery-ui
   *= require jquery.treeview
   *= require jquery.swinxy-combined
   *= require elrte.min
-  *= require_tree ./views
   *= require_tree ./food_menus
 */
 
@@ -18,9 +16,65 @@ $include-html-classes: false;
 @import "font-awesome";
 @import url('https://fonts.googleapis.com/css?family=Droid+Sans');
 
+body {
+  background: url(image_path('background.jpg'));
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: black;
+  min-width: 320px;
+}
+
+.content{
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 10px;
+}
+
+.form {
+  background: $white-smoke;
+  border: 0;
+  padding: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.log-in-button{
+  position: relative;
+  top: 14px;
+  padding: 10px 25px 9px 25px !important;
+}
+
+.explainer {
+  text-align: center;
+  background: $white-smoke;
+  border: 0;
+  margin: 2em 0 0 0;
+  padding: 1.25em;
+}
+
+.intro-copy {
+  clear: both;
+  font-weight: 400;
+  font-size: 0.8em;
+  line-height: 1.4em;
+  margin: 0 0 0.5em 0;
+  padding: 0;
+  a {
+    font-weight: 600;
+  }
+}
+
+h1, h2, h3, h4, h5, h6, form, label, p, ul, li, a, button {
+  font-family: $font_0, $font_1 !important;
+  color: $colour_menus_darker_grey;
+}
+
+a {
+  color: $colour_menus_red;
+}
+
  h1, h2, h3, h4, h5, h6 {
-  color: #222222;
-  font-family: "Droid Sans", sans-serif;
   font-style: normal;
   font-weight: normal;
   line-height: 1.4;
@@ -30,7 +84,6 @@ $include-html-classes: false;
 }
 
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
-  color: #6f6f6f;
   font-size: 60%;
   line-height: 0;
 }
@@ -41,6 +94,13 @@ h1 {
 
 h2 {
   font-size: 1.25rem;
+  &.warning {
+    display: block;
+    width: 100%;
+    color: $white;
+    background-color: $colour_menus_red;
+    padding: 15px;
+  }
 }
 
 h3 {
@@ -59,6 +119,14 @@ h6 {
   font-size: 0.7rem;
 }
 
+label{
+  font-size: 0.8rem;
+}
+
+.absent {
+  display: none !important;
+}
+
 .clb {
   clear: both;
 }
@@ -73,7 +141,11 @@ h6 {
 
 button, .button {
   margin: 0 !important;
-  font-size: 0.75em !important;;
+  font-size: 0.75em !important;
+}
+
+.button {
+  border-radius: 10px !important;
 }
 
 .padding-left {
@@ -100,10 +172,11 @@ fieldset{
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding: 5px !important;
+  border-radius: 5px;
 }
 
 legend{
-  font-size: 10px
+  font-size: 10px;
 }
 
 .bottom {
@@ -147,6 +220,7 @@ em {
 
 table {
   margin-bottom: 0 !important;
+  border-radius: 5px;
   thead tr {
     th.nowrap {
       white-space: nowrap;
@@ -154,6 +228,7 @@ table {
     th {
       text-align: center;
       font-size: 0.8em;
+      border-radius: 5px;
     }
   }
   tbody tr {
@@ -164,6 +239,7 @@ table {
       font-size: 1em;
       padding-left: 5px;
       padding-right: 5px;
+      border-radius: 5px;
     }
     td.center-align {
       text-align: center;
@@ -196,15 +272,13 @@ div.row.login {
 }
 
 section.top-bar-section a {
-  font-size: rem-calc(17);
   color: white;
   text-decoration: none;
-  margin-right: 20px;
   ul li {
     &.active > a {
-      background: $colour_sb_light_grey !important;
+      background: $colour_menus_light_grey !important;
       &:hover {
-        background: $colour_sb_light_grey !important;
+        background: $colour_menus_light_grey !important;
       }
     }
     &:first-of-type div.nav-hover {
@@ -213,9 +287,13 @@ section.top-bar-section a {
   }
 }
 
+.top-bar-section ul li > a {
+  font-size: 0.75em !important;
+}
+
 .info-message {
-  border: 1px $colour_sb_light_grey solid;
-  background: $colour_sb_light_grey url(image_path('alerts-message-thumb.png')) no-repeat top 8px left 7px;
+  border: 1px $colour_menus_light_grey solid;
+  background: $colour_menus_light_grey url(image_path('alerts-message-thumb.png')) no-repeat top 8px left 7px;
   width: 100%;
   padding-left: 45px;
   margin-top: 10px;
@@ -223,35 +301,51 @@ section.top-bar-section a {
   font-size: 0.9em;
   z-index: 1002;
   &.notice {
-    background: $colour_sb_light_grey url(image_path('alerts-warning-thumb-blue.png')) no-repeat top 8px left 7px;
-    border: 1px $colour_sb_blue solid;
+    background: $colour_menus_light_grey url(image_path('alerts-warning-thumb-blue.png')) no-repeat top 8px left 7px;
+    border: 1px $colour_menus_blue solid;
   }
   &.alert {
-    border: 1px $colour_sb_red solid;
-    background: $colour_sb_red url(image_path('alerts-warning-thumb-red.png')) no-repeat top 8px left 7px;
+    border: 1px $colour_menus_red solid;
+    background: $colour_menus_red url(image_path('alerts-warning-thumb-red.png')) no-repeat top 8px left 7px;
   }
   .message-content {
-    background-color: $white;
     padding: 10px;
   }
+}
+
+.add-button {
+  position: absolute;
+  bottom: 1.3rem !important;
+  right: 0.5rem !important;
 }
 
 .no-padding {
   padding: 0 !important;
 }
+
 .no-left-padding {
   padding-left: 0 !important;
 }
+
 .no-right-padding {
   padding-right: 0 !important;
 }
+
+.padding-left {
+  padding-left: 5px !important;
+}
+
+.margin-left {
+  margin-left: 20px !important;
+}
+
 .no-margin {
   margin: 0;
 }
 
 .flash-popup {
-  border: 1px $colour_sb_light_grey solid;
-  background: $colour_sb_light_grey url(image_path('alerts-message-thumb.png')) no-repeat top 8px left 7px;
+  border: 1px $colour_menus_light_grey solid;
+  background: $colour_menus_light_grey url(image_path('alerts-message-thumb.png')) no-repeat top 8px left 7px;
   max-width: 500px;
   min-width: 250px;
   min-height: 70px;
@@ -262,95 +356,32 @@ section.top-bar-section a {
   display: none;
   z-index: 1002;
   &.notice {
-    background: $colour_sb_light_grey url(image_path('alerts-warning-thumb-blue.png')) no-repeat top 8px left 7px;
-    border: 1px $colour_sb_blue solid;
+    background: $colour_menus_light_grey url(image_path('alerts-warning-thumb-blue.png')) no-repeat top 8px left 7px;
+    border: 1px $colour_menus_blue solid;
   }
   &.alert {
-    border: 1px $colour_sb_red solid;
-    background: $colour_sb_red url(image_path('alerts-warning-thumb-red.png')) no-repeat top 8px left 7px;
+    border: 1px $colour_menus_red solid;
+    background: $colour_menus_red url(image_path('alerts-warning-thumb-red.png')) no-repeat top 8px left 7px;
   }
   .message-content {
     display: block;
-    background-color: $white;
+    background-color: $white-smoke;
     padding: 10px;
     min-height: 70px;
   }
 }
 
-
-//  ref: mobile-menu
-
-.side-bar-section {
-  border-top: 6px $colour_sb_dark_grey solid;
-  li {
-    position: relative;
-    display: block;
-    img {
-      position: relative;
-      display: block;
-      z-index: 10;
-      width: 100%;
-      height: 100%;
-    }
-    a:not(.button):hover {
-      background: $colour_sb_light_grey !important;
-      display: block;
-    }
-    div.nav-hover {
-      display: none;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      color: $colour_sb_dark_grey;
-      font-weight: bold;
-      z-index: 0;
-    }
-    &.scbmenu-in div.nav-hover {
-      color: $colour_sb_dark_grey;
-    }
-    &:hover div.nav-hover {
-      display: block;
-    }
-  }
-  ul li {
-    &.active > a {
-      background: $colour_sb_light_grey !important;
-      &:hover {
-        background: $colour_sb_light_grey !important;
-      }
-    }
-    &:first-of-type div.nav-hover {
-      top: 12px;
-    }
-  }
+.button-row {
+  padding-top: 0;
 }
 
-.sidegrey {
-  background: $colour_sb_dark_grey;
-  margin: 0;
-  padding: 90px 0 7em;
-  width: 100px;
-  position: relative;
-  top: -90px;
-  z-index: 1000;
+.fa{
+  padding-right: 5px;
 }
-.sidegrey-background-menu {
-  background: $colour_sb_dark_grey;
-  width: 100px;
-  position: fixed;
-  z-index: -400;
-  height: 100vh;
-}
-.sidegrey-base {
-  bottom: 0;
-  background: $colour_sb_dark_grey;
-  height: 0.4em;
+.top-bar-section ul li {
+  float: left;
 }
 
-@media #{$small-only} {
-  .sidegrey-background-menu {
-    display: none;
-  }
+.normal{
+  font-weight: normal;
 }

@@ -1,11 +1,11 @@
 module FoodMenus
-  class CollectionIngredient < ActiveRecord::Base
+  class CollectionIngredient < ::ApplicationBase
 
     belongs_to :collection
     belongs_to :ingredient
     belongs_to :unit
 
-    validates_presence_of :ingredient_id, :collection_id
+    validates_presence_of :ingredient_id, :collection_id, :quantity, :unit_id
 
     default_scope { joins(:ingredient).order("ingredients.name") }
 

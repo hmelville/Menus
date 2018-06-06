@@ -5,7 +5,7 @@ module FoodMenus
     skip_before_action :verify_authenticity_token
 
     def index
-      @meals = FoodMenus::Meal.all
+      @meals = current_user.meals.all
     end
 
     def new
@@ -13,7 +13,7 @@ module FoodMenus
     end
 
     def create
-      @meal = FoodMenus::Meal.new(meal_params)
+      @meal = current_user.meals.new(meal_params)
       if @meal.save
         flash[:notice] = "Successfully created meal."
         redirect_to session[:meal_return_to]
@@ -46,7 +46,12 @@ module FoodMenus
 
       def setup
         if params[:id]
-          @meal ||= FoodMenus::Meal.find(params[:id])
+          @meal = current_user.meals.find_by_id(params[:id])
+          unless @meal
+            flash[:notice] = "Can't find meal."
+            redirect_to food_menus_meals_path
+            return
+          end
         end
 
         case action_name

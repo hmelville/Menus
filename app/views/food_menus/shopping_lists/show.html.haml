@@ -1,21 +1,22 @@
-= simple_form_for @shopping_list, html: {class: 'form'} do |f|
-  %h1= "Build Shopping List:".gsub(/\s/, '&nbsp;').html_safe
-  .large-12.medium-12.small-12.columns.no-padding
-    .left.margin-right
-      = f.input :start_date, label: "Start date:", as: :date, include_blank: true, input_html: { class: "calende" }
-    .left
-      = f.input :end_date, label: "End date:", as: :date, include_blank: true, input_html: { class: "calende" }
+.form
+  = simple_form_for @shopping_list, html: {class: "submit_form"} do |f|
+    %h1= "Build Shopping List:".gsub(/\s/, '&nbsp;').html_safe
+    .columns.no-padding
+      .left.margin-right
+        = f.input :start_date, label: "Start date:", as: :date, include_blank: true, input_html: { class: "calende" }
+      .left
+        = f.input :end_date, label: "End date:", as: :date, include_blank: true, input_html: { class: "calende" }
 
-  .large-12.medium-12.small-12.columns.no-padding
-    %ul.button-group.round.margin-top.margin-bottom
-      %li= link_to(icon('save',"Create Menus"), @shopping_list, class: 'button submit')
-      %li= link_to(icon('save',"Build List"), build_shopping_list_food_menus_shopping_list_path(@shopping_list), class: 'button')
+    .columns.no-padding
+      %ul.button-group.round.margin-top.margin-bottom
+        %li= link_to(icon('save',"Create Menus"), @shopping_list, class: 'button submit')
+        %li= link_to(icon('save',"Build List"), build_shopping_list_food_menus_shopping_list_path(@shopping_list), class: 'button')
 
-  - if @shopping_list.shopping_list_days.any?
-    %table.full
-      %tbody
-        - @shopping_list.shopping_list_days.each do |shopping_list_day|
-          %tr
-            %td{class: shopping_list_day.the_date == Date.today ? "is_today" : ""}
-              = link_to shopping_list_day.day_name, shopping_list_day
-              = render partial: '/food_menus/collections/index', locals: {id: "collection_#{shopping_list_day.id}", collection: shopping_list_day.collection, hidden_initially: true, show_prefix: true}
+    - if @shopping_list.shopping_list_days.any?
+      %table.full
+        %tbody
+          - @shopping_list.shopping_list_days.each do |shopping_list_day|
+            %tr
+              %td{class: shopping_list_day.the_date == Date.today ? "is_today" : ""}
+                = link_to shopping_list_day.day_name, shopping_list_day
+                = render partial: '/food_menus/collections/index', locals: {id: "collection_#{shopping_list_day.id}", collection: shopping_list_day.collection, hidden_initially: true, show_prefix: true}

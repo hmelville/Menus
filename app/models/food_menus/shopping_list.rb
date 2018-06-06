@@ -1,6 +1,7 @@
 module FoodMenus
-  class ShoppingList < ActiveRecord::Base
+  class ShoppingList < ::ApplicationBase
 
+    belongs_to :user
     has_many :shopping_list_days, dependent: :destroy
     has_many :shopping_list_ingredients, dependent: :destroy
 
@@ -36,7 +37,7 @@ module FoodMenus
 
         shopping_list_day = shopping_list_days.create(the_date: the_date)
 
-        menu_rotation = FoodMenus::MenuRotation.get_rotation_by_date(the_date)
+        menu_rotation = user.get_rotation_by_date(the_date)
 
         if menu_rotation.present?
           if menu_rotation.collection.present?
@@ -72,15 +73,25 @@ module FoodMenus
     end
 
     def add_ingredient(new_ingredient)
+      new_ingredient = align_to_purchase_unit(new_ingredient)
       existing = shopping_list_ingredients.find_by(ingredient_id: new_ingredient.ingredient_id)
-      if existing.present?
-        if existing.unit_id == new_ingredient.unit_id
-          existing.update_attributes(quantity: (existing.quantity + new_ingredient.quantity))
-        else
-        end
+      if existing.present? && existing.unit_id == new_ingredient.unit_id
+        existing.update_attributes(quantity: (existing.quantity + new_ingredient.quantity))
       else
         shopping_list_ingredients.create(ingredient_id: new_ingredient.ingredient_id, unit_id: new_ingredient.unit_id, quantity: new_ingredient.quantity)
       end
+    end
+
+    def align_to_purchase_unit(new_ingredient)
+      ingredient_unit = new_ingredient.unit
+      purchase_unit = new_ingredient.ingredient.unit
+
+      if purchase_unit.present?
+        new_ingredient.unit = purchase_unit
+        new_ingredient.quantity = new_ingredient.quantity / purchase_unit.conversion_rate * ingredient_unit.conversion_rate
+      end
+
+      return new_ingredient
     end
   end
 end

@@ -5,7 +5,7 @@ module FoodMenus
     skip_before_action :verify_authenticity_token
 
     def index
-      @suppliers = FoodMenus::Supplier.all
+      @suppliers = current_user.suppliers.all
     end
 
     def new
@@ -47,7 +47,7 @@ module FoodMenus
 
       def setup
         if params[:id]
-          @supplier = FoodMenus::Supplier.find(params[:id])
+          @supplier = current_user.suppliers.find(params[:id])
         end
 
         case action_name

@@ -9,7 +9,7 @@ module FoodMenus
 
     def update
       if @setting.update(setting_params)
-        FoodMenus::MenuRotation.process_menu_rotations
+        current_user.process_menu_rotations
         flash[:notice] = "Successfully updated settings."
         redirect_to food_menus_settings_path
       else
@@ -20,10 +20,12 @@ module FoodMenus
 
     private
       def setup
-        if params[:id]
-          @setting = FoodMenus::Setting.find(params[:id])
-        else
-          @setting = FoodMenus::Setting.all.first
+        @setting = current_user.setting
+
+        unless @setting
+          flash[:notice] = "Can't find settings."
+          redirect_to account_path
+          return
         end
 
         case action_name

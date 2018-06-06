@@ -1,10 +1,55 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  skip_before_filter :verify_authenticity_token
+  before_filter :secure_headers
+  before_filter :prevent_browser_caching
+  before_filter :get_platform
+
   before_action :set_request_uuid
   before_filter :prevent_browser_caching
 
   helper_method :safe_back_to_uri
+
+  def self.skip_authentication_check(*arguments)
+    skip_before_filter :require_user, *arguments
+  end
+
+  def self.check_authentication(*arguments)
+    before_filter :require_user, *arguments
+  end
+
+  def self.allow_browser_to_cache(*arguments)
+    skip_before_filter :prevent_browser_caching
+  end
+
+  def current_user
+    if session[:user_id]
+      @current_user ||= User.find_by_id(session[:user_id])
+      session.delete(:user_id) unless @current_user
+    end
+    @current_user
+  end
+
+  def sign_in_user(user)
+    session[:user_id] = user.id
+  end
+
+  def user_signed_in?
+    !!current_user
+  end
+
+  def user_signed_out?
+    !user_signed_in?
+  end
+
+  def require_user
+    if user_signed_in?
+      current_user.update_columns(last_login_ip_address: request.remote_ip, last_login_datetime: DateTime.now)
+    else
+      redirect_to root_path(:back_to => sanitise_uri(request.fullpath), :unauthenticated => true)
+    end
+  end
 
   # Redirects to the URI given by {#safe_back_to_uri} or if that is not present
   # then to the supplied default
@@ -41,6 +86,11 @@ class ApplicationController < ActionController::Base
     nil
   end
 
+
+  def secure_headers
+    response.headers['X-Frame-Options'] = "DENY"
+  end
+
   private
 
     # sets the http headers to prevent the browser caching the response
@@ -54,4 +104,12 @@ class ApplicationController < ActionController::Base
     def set_request_uuid
       Thread.current[:request_uuid] = request.uuid
     end
+
+    def get_platform
+      ua = UserAgent.parse(request.user_agent)
+      @platform = ua.platform
+    end
+
+    helper_method :current_user, :user_signed_in?, :user_signed_out?
+    check_authentication
 end

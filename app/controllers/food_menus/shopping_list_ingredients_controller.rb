@@ -4,15 +4,15 @@ module FoodMenus
     skip_before_action :verify_authenticity_token
 
     def index
-      @shopping_list_ingredients = FoodMenus::ShoppingListIngredient.all
+      @shopping_list_ingredients =  @shopping_list.shopping_list_ingredients.all
     end
 
     def new
-      @shopping_list_ingredient = FoodMenus::ShoppingListIngredient.new(shopping_list_id: @shopping_list.id)
+      @shopping_list_ingredient = @shopping_list.shopping_list_ingredients.new(shopping_list_id: @shopping_list.id)
     end
 
     def create
-      @shopping_list_ingredient = FoodMenus::ShoppingListIngredient.new(shopping_list_ingredient_params)
+      @shopping_list_ingredient = @shopping_list.shopping_list_ingredients.new(shopping_list_ingredient_params)
       if @shopping_list_ingredient.save
         flash[:notice] = "Successfully added ingredient."
         redirect_to food_menus_shopping_list_ingredients_path
@@ -38,19 +38,21 @@ module FoodMenus
 
     private
       def setup
-        @shopping_list = FoodMenus::ShoppingList.all.first
+        @shopping_list = current_user.shopping_list
 
         if params[:id]
-          @shopping_list_ingredient = FoodMenus::ShoppingListIngredient.find(params[:id])
+          @shopping_list_ingredient = @shopping_list.shopping_list_ingredients.find(params[:id])
         end
 
         case action_name
         when 'new','create'
           @shopping_list_ingredient_page_heading = "New Ingredient"
           @shopping_list_ingredient_buttons = %i(save cancel)
+          @ingredients = current_user.ingredients.all
         when 'index'
           @shopping_list_ingredient_page_heading = "Shopping List"
           @shopping_list_ingredient_buttons = %i(new)
+          @ingredients = current_user.ingredients.all
         end
       end
 

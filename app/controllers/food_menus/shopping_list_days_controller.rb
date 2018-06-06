@@ -9,7 +9,7 @@ module FoodMenus
     private
       def setup
         if params[:id]
-          @shopping_list_day ||= FoodMenus::ShoppingListDay.find(params[:id])
+          @shopping_list_day = current_user.shopping_list.shopping_list_days.find(params[:id])
         end
 
         case action_name

@@ -5,12 +5,10 @@ module FoodMenus
     skip_before_action :verify_authenticity_token
 
     def new
-      @collection = FoodMenus::Collection.find(params[:collection_id])
       @collection_meal = FoodMenus::CollectionMeal.new(collection_id: @collection.id)
     end
 
     def create
-      @collection = FoodMenus::Collection.find(params[:food_menus_collection_meal][:collection_id])
       @collection_meal = FoodMenus::CollectionMeal.new(collection_meal_params)
       if @collection_meal.save
         flash[:notice] = "Successfully added meal."
@@ -24,7 +22,7 @@ module FoodMenus
 
     def update
       if @collection_meal.update_attributes(collection_meal_params)
-        flash[:notice] = "Successfully updated menu."
+        flash[:notice] = "Successfully updated meal."
         redirect_to session[:collection_meal_return_to]
       else
         flash.now[:alert] = @collection_meal.errors if @collection_meal.errors.any?
@@ -45,22 +43,36 @@ module FoodMenus
 
       def setup
         if params[:id]
-          @collection_meal ||= FoodMenus::CollectionMeal.find(params[:id])
-          @collection ||= @collection_meal.collection
+          @collection_meal = FoodMenus::CollectionMeal.find(params[:id])
+          @collection = @collection_meal.collection
         elsif params[:collection_id]
           @collection = FoodMenus::Collection.find(params[:collection_id])
+        elsif params[:food_menus_collection_meal][:collection_id]
+          @collection = FoodMenus::Collection.find(params[:food_menus_collection_meal][:collection_id])
         end
+
+        check_permission(@collection)
 
         case action_name
         when 'new','create'
           @collection_meal_page_heading = "New Meal"
           @collection_meal_buttons = %i(save cancel)
+          @meals = current_user.meals.all
         when 'edit','update'
           @collection_meal_page_heading = "Edit Meal"
           @collection_meal_buttons = %i(save cancel delete)
+          @meals = current_user.meals.all
         when 'show'
           @collection_meal_page_heading = "#{@collection_meal.meal.name}"
           @collection_meal_buttons = %i(edit delete index)
+        end
+      end
+
+      def check_permission(collection)
+        unless collection.target.user == current_user
+          flash[:notice] = "Can't find meal."
+          redirect_to session[:collection_meal_return_to]
+          return
         end
       end
 

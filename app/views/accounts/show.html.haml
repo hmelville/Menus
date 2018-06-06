@@ -1,0 +1,16 @@
+- content_for :title do
+  My details
+.form
+  = simple_form_for @user, :url => account_path do |f|
+    %h1 My Details
+    .columns
+      %fieldset.margin-bottom
+        .large-6.columns
+          = f.label 'Name:'
+          %p= @user.display_name
+        .columns
+          = f.label 'Email:'
+          %p= @user.email
+    .row.bottom-no-small.full-width.margin-bottom.margin-top
+      .columns
+        = link_to "Edit these details", edit_account_path, class: "button left"

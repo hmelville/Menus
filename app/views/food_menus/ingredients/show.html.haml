@@ -1,22 +1,32 @@
-= render partial: 'button_strip'
-.row
-  .button_strip
-    %ul.button-group.round.right
-      %li= link_to(icon('plus',"New Supplier"), new_food_menus_ingredient_supplier_path(ingredient_id: @ingredient.id), class: 'button')
+.form
+  = render partial: 'button_strip'
 
-%fieldset.full
-  %legend Suppliers:
-  - if @ingredient.ingredient_suppliers.any?
-    %table.full
-      %tbody
-        %thead
-          %tr
-            %th= "Supplier"
-            %th= "Price"
-            %th= "Aisle"
+  = form_for @ingredient, html:{class: "no-padding"} do |f|
+    .large-8.columns
+      = f.label :name, 'Name:'
+      %h2= @ingredient.name
+    .large-4.columns
+      = f.label :unit, 'Purchase Unit:'
+      %h2= @ingredient.unit.try(:name)
+
+  .row.margin-top
+    .button_strip
+      %ul.button-group.round.right
+        %li= link_to(icon('plus',"New Supplier"), new_food_menus_ingredient_supplier_path(ingredient_id: @ingredient.id), class: 'button')
+
+  %fieldset.full
+    %legend Suppliers:
+    - if @ingredient.ingredient_suppliers.any?
+      %table.full
         %tbody
-          - @ingredient.ingredient_suppliers.each do |ingredient_supplier|
+          %thead
             %tr
-              %td= link_to ingredient_supplier.supplier.name, edit_food_menus_ingredient_supplier_path(ingredient_supplier), class: "red"
-              %td.right-align= number_with_precision(ingredient_supplier.price, precision: 2)
-              %td.right-align= ingredient_supplier.aisle
+              %th= "Supplier"
+              %th= "Price"
+              %th= "Aisle"
+          %tbody
+            - @ingredient.ingredient_suppliers.each do |ingredient_supplier|
+              %tr
+                %td= link_to ingredient_supplier.supplier.name, edit_food_menus_ingredient_supplier_path(ingredient_supplier), class: "red"
+                %td.right-align= number_with_precision(ingredient_supplier.price, precision: 2)
+                %td.right-align= ingredient_supplier.aisle

@@ -1,0 +1,111 @@
+[
+  {
+    "name": "Menus",
+    "url": "",
+    "icon": "cutlery",
+    "method": "",
+    "classes": ["left"],
+    "items": [
+      {
+        "name": "Today",
+        "url": "/food_menus/today",
+        "icon": "calendar",
+        "method": "",
+        "classes": []
+      },
+      {
+        "name": "Ingredients",
+        "url": "/food_menus/ingredients",
+        "icon": "pagelines",
+        "method": "",
+        "classes": ["divider"]
+      },
+      {
+        "name": "Recipes",
+        "url": "/food_menus/recipes",
+        "icon": "book",
+        "method": "",
+        "classes": []
+      },
+      {
+        "name": "Meals",
+        "url": "/food_menus/meals",
+        "icon": "cutlery",
+        "method": "",
+        "classes": []
+      },
+      {
+        "name": "Menu Rotations",
+        "url": "/food_menus/menu_rotations",
+        "icon": "exchange",
+        "method": "",
+        "classes": ["divider"]
+      },
+      {
+        "name": "Build Shopping List",
+        "url": "/food_menus/shopping_lists",
+        "icon": "cart-plus",
+        "method": "",
+        "classes": []
+      },
+      {
+        "name": "Shopping List",
+        "url": "/food_menus/shopping_list_ingredients",
+        "icon": "list-ul",
+        "method": "",
+        "classes": []
+      },
+      {
+        "name": "Settings",
+        "url": "/food_menus/settings",
+        "icon": "cog",
+        "method": "",
+        "classes": ["divider"]
+      },
+      {
+        "name": "Units",
+        "url": "/food_menus/units",
+        "icon": "balance-scale",
+        "method": "",
+        "classes": []
+      },
+      {
+        "name": "Suppliers",
+        "url": "/food_menus/suppliers",
+        "icon": "shopping-basket",
+        "method": "",
+        "classes": []
+      }
+    ]
+  },
+  {
+    "name": "Budgets",
+    "url": "",
+    "icon": "calculator",
+    "method": "",
+    "classes": ["left"]
+  },
+  {
+    "name": "Account",
+    "url": "",
+    "icon": "user-circle",
+    "method": "",
+    "classes": ["left"],
+    "items": [
+      {
+        "name": "Details",
+        "url": "/account",
+        "icon": "user-circle",
+        "method": "",
+        "classes": []
+      },
+      {
+        "name": "Log out",
+        "url": "/session",
+        "icon": "sign-out",
+        "method": "delete",
+        "classes": []
+      }
+    ]
+  }
+]

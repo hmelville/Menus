@@ -1,6 +1,7 @@
 module FoodMenus
-  class Setting < ActiveRecord::Base
+  class Setting < ::ApplicationBase
 
+    belongs_to :user
     validates :menu_rotation_weeks, numericality: { greater_than: 0 }
     validates_presence_of :menu_rotation_weeks, :menu_rotation_start_date
 

@@ -1,0 +1,98 @@
+.pages {
+  max-width: 100%;
+  max-height: 100%;
+  background: url(image_path('background.jpg'));
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.mainpage {
+  max-width: 100%;
+  max-height: 100%;
+  background: $white;
+}
+h1 {
+  &.intro-title {
+    font-family: $font_0, $font_3, $font_1, $font_2;
+    font-weight: 600;
+    font-size: 2.2em;
+    line-height: 1.25em;
+    margin: 0 0 0.5em 0;
+    padding: 0;
+    color: $white;
+  }
+}
+
+h2.sub-heading {
+  font-family: volkswagen_seriallight, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1.25em;
+  line-height: 1.25em !important;
+  margin: 0.5em 0 0.5em 0;
+  padding: 0;
+  color: $white !important;
+}
+
+.introduction {
+  background: $colour_menus_almost_black_transparent;
+  color: $white;
+  border: 0;
+  margin: -0.5em 0 2em 0;
+  padding: 1.25em;
+  label {
+    color: $white;
+  }
+  .error {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: $colour_menus_red;
+    padding: 5px;
+    background-color: $white_60;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  h1.intro-title {
+    font-size: 1.8em;
+  }
+  form input[type=submit] {
+    position: relative;
+    top: 14px;
+    padding: 10px 25px 9px 25px !important;
+  }
+}
+.explainer {
+  text-align: center;
+  background: $colour_menus_almost_black_transparent;
+  color: $white;
+  border: 0;
+  margin: 0 0 2em 0;
+  padding: 1.25em;
+}
+.promo-over {
+  overflow-y: hidden !important;
+  height: 100px;
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+.outline-red {
+  border: 1px $colour_menus_red solid;
+}
+.intro-copy {
+  clear: both;
+  font-family: $font_0, $font_3, $font_1, $font_2;
+  font-weight: 400;
+  font-size: 0.8em;
+  line-height: 1.4em;
+  color: $white !important;
+  margin: 0 0 0.5em 0;
+  padding: 0;
+  a {
+    font-weight: 600;
+    color: $white;
+    &:hover {
+      color: $colour_menus_red;
+    }
+  }
+}

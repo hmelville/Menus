@@ -1,5 +1,5 @@
 module FoodMenus
-  class Collection < ActiveRecord::Base
+  class Collection < ::ApplicationBase
 
     belongs_to :target, polymorphic: true
 

@@ -31,16 +31,19 @@
       .message-content
         %h3= "Bugger something went wrong ..."
         %ul
-          - flash[:alert].full_messages.each do |message|
-            %li.small= message
-  .large-8.medium-12.small-12.large-centered.medium-centered.small-centered.columns.content
-    = yield
+          - if flash[:alert].try(:full_messages).present?
+            - flash[:alert].full_messages.each do |message|
+              %li.small= message
+          - else
+            %li.small= flash[:alert]
+  .content
+    .large-8.large-offset-2
+      = yield
 
 :javascript
 
   $(document).ready(function() {
     // $(document).foundation();
-
     attachSubmit();
     showPopUp();
 
@@ -49,4 +52,18 @@
       $('#' + this.id + '_items_table').slideToggle(500);
       return false;
     });
+    resizeContent();
   });
+
+  var doit;
+
+  $(window).resize(function() {
+    clearTimeout(doit);
+    doit = setTimeout(resizeContent, 500);
+  });
+
+  var resizeContent = function(){
+    tbh = $('#top_bar').height() ;
+    wh = $(window).height();
+    $('.content').height(wh - tbh - 20);
+  };

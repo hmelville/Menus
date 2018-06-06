@@ -1,8 +1,14 @@
-= render partial: 'button_strip'
+.form
+  = render partial: 'button_strip'
 
-- if @ingredients.any?
-  %table.full
-    %tbody
-      - @ingredients.each do |ingredient|
+  - if @ingredients.any?
+    %table.full
+      %thead
         %tr
-          %td= link_to ingredient.name, ingredient, class: "Name"
+          %th Name
+          %th Purchase unit
+      %tbody
+        - @ingredients.each do |ingredient|
+          %tr
+            %td= link_to ingredient.name, ingredient, class: "Name"
+            %td= ingredient.unit.try(:name)

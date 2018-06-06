@@ -10,7 +10,7 @@ module FoodMenus
     end
 
     def edit
-      @shopping_list = FoodMenus::ShoppingList.all.first
+      @shopping_list = current_user.shopping_list
     end
 
     def update
@@ -26,13 +26,9 @@ module FoodMenus
 
     private
       def setup
-        @Setting = FoodMenus::Setting.all.first
+        @Setting = current_user.setting
 
-        if params[:id]
-          @shopping_list = FoodMenus::ShoppingList.find(params[:id])
-        else
-          @shopping_list = FoodMenus::ShoppingList.all.first || FoodMenus::ShoppingList.create()
-        end
+        @shopping_list = current_user.shopping_list || FoodMenus::ShoppingList.create()
 
         @start_date = Date.today
         @end_date = @start_date + (@Setting.default_shopping_days - 1).day

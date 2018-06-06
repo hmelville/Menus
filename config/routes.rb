@@ -1,4 +1,26 @@
 Rails.application.routes.draw do
+
+  resource :session
+  resource :account do
+    get 'password', :action => 'password', :as => :password_recovery
+    post 'password', :action => 'password_sent'
+    get 'password_reset/:token', :action => 'password_reset', :as => :password_reset, purpose: "password_reset"
+    put 'password_reset/:token', :action => 'update_password'
+    get 'subscription_edit/:subscription_token', :action => 'subscription_edit', :as => :subscription_edit
+    get 'subscription_edit', :action => 'subscription_edit' # this route is just to prevent a routing exception if malformed request (without a token) is received
+    get 'subscribe/:subscription_token', :action => 'subscribe', :as => :subscribe
+    get 'subscribe', :action => 'subscribe' # this route is just to prevent a routing exception if malformed request (without a token) is received
+    put 'subscribe/:subscription_token', :action => 'subscribe'
+    get 'unsubscribe/:subscription_token', :action => 'unsubscribe', :as => :unsubscribe
+    get 'unsubscribe', :action => 'unsubscribe' # this route is just to prevent a routing exception if malformed request (without a token) is received
+    put 'unsubscribe/:subscription_token', :action => 'unsubscribe'
+    get 'close'
+    get :xdomain_login
+    post :xdomain_redirect
+    get :xdomain_redirect
+  end
+
+
   namespace :food_menus do
     resources :today, only: [:index]
     resources :meals
@@ -26,7 +48,11 @@ Rails.application.routes.draw do
     resources :collection_recipes
     resources :collection_ingredients
 
-
-    root 'today#index'
   end
+
+  resources :users, :only => [:edit, :update] do
+    resource :controls, :only => [:new, :destroy]
+  end
+
+  root 'pages#welcome'
 end

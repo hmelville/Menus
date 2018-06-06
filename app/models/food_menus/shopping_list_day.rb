@@ -1,5 +1,5 @@
 module FoodMenus
-  class ShoppingListDay < ActiveRecord::Base
+  class ShoppingListDay < ::ApplicationBase
 
     belongs_to :shopping_list
     has_one :collection, as: :target, dependent: :destroy

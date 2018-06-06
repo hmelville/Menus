@@ -1,5 +1,5 @@
 module FoodMenus
-  class IngredientSupplier < ActiveRecord::Base
+  class IngredientSupplier < ::ApplicationBase
     belongs_to :ingredient
     belongs_to :supplier
 
