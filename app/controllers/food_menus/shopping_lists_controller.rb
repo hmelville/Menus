@@ -28,7 +28,7 @@ module FoodMenus
       def setup
         @Setting = current_user.setting
 
-        @shopping_list = current_user.shopping_list || FoodMenus::ShoppingList.create()
+        @shopping_list = current_user.shopping_list || FoodMenus::ShoppingList.create(user: current_user)
 
         @start_date = Date.today
         @end_date = @start_date + (@Setting.default_shopping_days - 1).day
