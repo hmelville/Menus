@@ -10,8 +10,13 @@ module FoodMenus
     def name
       the_date.strftime("%d/%m/%Y - %A")
     end
+
     def day_name
       the_date.strftime("%d/%m/%Y - %A")
+    end
+
+    def user
+      self.shopping_list.user
     end
   end
 end

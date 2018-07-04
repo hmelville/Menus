@@ -38,7 +38,7 @@ module FoodMenus
             @shopping_list.update_attributes(start_date: @start_date, end_date: @end_date)
           end
         else
-          @shopping_list = FoodMenus::ShoppingList.new(start_date: @start_date, end_date: @end_date).save
+          @shopping_list = FoodMenus::ShoppingList.new(start_date: @start_date, end_date: @end_date, user: current_user).save
         end
 
         redirect_to food_menus_shopping_list_path(@shopping_list) if action_name == "index"
