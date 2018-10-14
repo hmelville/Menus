@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180605210722) do
+ActiveRecord::Schema.define(version: 20180802120355) do
+
+  create_table "accounts", force: true do |t|
+    t.string   "name"
+    t.date     "start_date"
+    t.decimal  "opening_balance", precision: 8, scale: 2
+    t.boolean  "active"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "group"
+    t.string   "currency"
+    t.integer  "sort_order"
+  end
 
   create_table "collection_ingredients", force: true do |t|
     t.integer  "collection_id"
@@ -58,6 +71,17 @@ ActiveRecord::Schema.define(version: 20180605210722) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "expenses", force: true do |t|
+    t.integer  "account_id"
+    t.string   "name"
+    t.date     "start_date"
+    t.decimal  "amount",     precision: 8, scale: 2
+    t.integer  "parent_id"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "ingredient_suppliers", force: true do |t|
     t.integer  "ingredient_id"
@@ -122,6 +146,25 @@ ActiveRecord::Schema.define(version: 20180605210722) do
     t.integer  "user_id"
   end
 
+  create_table "payments", force: true do |t|
+    t.integer  "account_id"
+    t.string   "name"
+    t.integer  "period_id"
+    t.decimal  "amount",     precision: 8, scale: 2
+    t.boolean  "is_main"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "periods", force: true do |t|
+    t.string   "name"
+    t.string   "abbreviation"
+    t.decimal  "multiplier",   precision: 8, scale: 2
+    t.integer  "sort_order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "recipe_ingredients", force: true do |t|
     t.integer  "recipe_id"
     t.integer  "ingredient_id"
@@ -161,7 +204,6 @@ ActiveRecord::Schema.define(version: 20180605210722) do
     t.date     "the_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   create_table "shopping_list_ingredients", force: true do |t|
@@ -174,7 +216,6 @@ ActiveRecord::Schema.define(version: 20180605210722) do
   end
 
   create_table "shopping_lists", force: true do |t|
-    t.date     "the_date"
     t.date     "start_date"
     t.date     "end_date"
     t.datetime "created_at"
@@ -187,6 +228,28 @@ ActiveRecord::Schema.define(version: 20180605210722) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+  end
+
+  create_table "transaction_expenses", force: true do |t|
+    t.integer  "transaction_id"
+    t.integer  "expense_id"
+    t.decimal  "amount",         precision: 8, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transactions", force: true do |t|
+    t.integer  "account_id"
+    t.date     "transaction_date"
+    t.string   "details"
+    t.date     "import_date"
+    t.decimal  "amount",           precision: 8, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "transaction_type"
+    t.string   "particulars"
+    t.decimal  "balance",          precision: 8, scale: 2
+    t.integer  "sort_order"
   end
 
   create_table "units", force: true do |t|

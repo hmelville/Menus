@@ -1,0 +1,16 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+      - if @buttons.include?(:save)
+        %li= link_to(icon('save',"Save"), @account, class: 'button submit')
+
+      - if @buttons.include?(:cancel)
+        %li= link_to(icon('undo',"Cancel"), session[:budgets_return_to], class: 'button')
+
+      - if @buttons.include?(:edit)
+        %li= link_to(icon('pencil',"Edit"), edit_budgets_account_path, class: 'button')
+
+      - if @buttons.include?(:delete)
+        %li= link_to(icon('trash',"Delete"), @account, class: 'button', data: {confirm: 'Are you sure you want to delete Account?'}, method: :delete)
+
+  %h2= @account.name + " : " + number_to_currency(@account.current_balance, precision: 2, format: "%u%n", unit: @account.currency)

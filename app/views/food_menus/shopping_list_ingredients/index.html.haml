@@ -13,12 +13,12 @@
                 = link_to icon("chevron-circle-down"), "#", id: "ingredients_#{shopping_list_ingredient.id}", class: "padding-left toggle_items"
               .right.larger
                 - if shopping_list_ingredient.quantity <= 1
-                  = link_to(icon('minus-circle', class: "margin-right"), shopping_list_ingredient, data: {confirm: 'This will delete the ingredient. Are you sure?'}, method: :delete)
+                  = link_to(icon('minus-circle', class: "margin-right"), shopping_list_ingredient, data: {confirm: "Are you sure you want to remove #{shopping_list_ingredient.ingredient.name}?"}, method: :delete)
                 - else
-                  = link_to(icon('minus-circle',"", class: "margin-right"), deduct_quantity_food_menus_shopping_list_ingredient_path(shopping_list_ingredient))
+                  = link_to(icon('minus-circle', class: "margin-right"), deduct_quantity_food_menus_shopping_list_ingredient_path(shopping_list_ingredient))
 
-                = link_to(icon('plus-circle',"", class: "margin-right"), add_quantity_food_menus_shopping_list_ingredient_path(shopping_list_ingredient))
-                = link_to(icon('trash'), shopping_list_ingredient, data: {confirm: 'Are you sure?'}, method: :delete)
+                = link_to(icon('plus-circle', class: "margin-right"), add_quantity_food_menus_shopping_list_ingredient_path(shopping_list_ingredient))
+                = link_to(icon('trash'), shopping_list_ingredient, data: {confirm: "Are you sure you want to remove #{shopping_list_ingredient.ingredient.name}?"}, method: :delete)
 
               .items_table{id: "ingredients_#{shopping_list_ingredient.id}_items_table", class: "hidden"}
                 %table.full

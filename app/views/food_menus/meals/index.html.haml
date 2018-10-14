@@ -8,4 +8,4 @@
           %tr
             %td
               = link_to meal.name, meal, class: "red"
-              = render partial: '/food_menus/collections/index', locals: {id: "collection_#{meal.id}", collection: meal.collection, hidden_initially: true, show_prefix: true}
+              = render partial: '/food_menus/collections/index', locals: {id: "collection_#{meal.id}", collection: meal.collection, hidden_initially: true, show_prefix: true, show_recipe_names: false}

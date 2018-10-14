@@ -16,4 +16,4 @@
                       %tr
                         %td{class: h[:week] == menu_rotation.week && h[:day] == menu_rotation.day ? "is_today" : ""}
                           = link_to menu_rotation.day_name, menu_rotation
-                          = render partial: '/food_menus/collections/index', locals: {id: "collection_#{menu_rotation.id}", collection: menu_rotation.collection, hidden_initially: true, show_prefix: true}
+                          = render partial: '/food_menus/collections/index', locals: {id: "collection_#{menu_rotation.id}", collection: menu_rotation.collection, hidden_initially: true, show_prefix: true, show_recipe_names: true}

@@ -1,3 +1,3 @@
 # Be sure to restart your server when you modify this file.
 
-Rails.application.config.session_store :active_record_store, expire_after: 12.hours
+Rails.application.config.session_store :active_record_store, expire_after: 5.days

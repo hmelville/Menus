@@ -36,4 +36,8 @@ class ApplicationBase < ActiveRecord::Base
       "LEFT OUTER JOIN #{table} ON #{self.model_name.singular_route_key.pluralize}.#{table.to_s.singularize}_id = #{table}.id"
     )
   end
+
+  def self.permitted_attributes(blacklist_array = [])
+    self.attribute_names - (["created_at", "updated_at"] + blacklist_array)
+  end
 end

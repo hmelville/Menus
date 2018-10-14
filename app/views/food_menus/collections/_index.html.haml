@@ -2,6 +2,9 @@
   - chevron =  hidden_initially ? "down" : "up"
   - items_class =  hidden_initially ? "hidden" : ""
   = link_to icon("chevron-circle-#{chevron}"), "#", id: "#{id}_collection_#{collection.id}", class: "padding-left toggle_items"
+  - if show_recipe_names
+    = collection.main_recipes
+
   .items_table{id: "#{id}_collection_#{collection.id}_items_table", class: items_class}
 
     - if collection.collection_meals.any?
@@ -13,7 +16,7 @@
               %tr
                 %td
                   = collection_meal.meal.name
-                  = render partial: '/food_menus/collections/index', locals: {id: "#{id}_collection_#{collection.id}_meal_#{collection_meal.meal.id}", collection: collection_meal.meal.collection, hidden_initially: hidden_initially, show_prefix: true}
+                  = render partial: '/food_menus/collections/index', locals: {id: "#{id}_collection_#{collection.id}_meal_#{collection_meal.meal.id}", collection: collection_meal.meal.collection, hidden_initially: hidden_initially, show_prefix: true, show_recipe_names: false}
 
     - if collection.collection_recipes.any?
       %fieldset.full
@@ -24,7 +27,7 @@
               %tr
                 %td
                   = collection_recipe.recipe.name
-                  = render partial: '/food_menus/collections/index', locals: {id: "#{id}_collection_#{collection.id}_recipe_#{collection_recipe.recipe.id}", collection:  collection_recipe.recipe.collection, hidden_initially: hidden_initially, show_prefix: true}
+                  = render partial: '/food_menus/collections/index', locals: {id: "#{id}_collection_#{collection.id}_recipe_#{collection_recipe.recipe.id}", collection:  collection_recipe.recipe.collection, hidden_initially: hidden_initially, show_prefix: false, show_recipe_names: false}
 
     - if collection.collection_ingredients.any?
       %fieldset.full

@@ -11,7 +11,7 @@
           .button-row
             .button_strip
               %ul.button-group.round
-                %li= link_to(icon('plus',""), new_food_menus_ingredient_path, class: 'button')
+                %li= link_to(icon('plus', class: "no-padding"), new_food_menus_ingredient_path(reset_back: true), class: 'button')
       .large-6.columns.no-padding
         .large-6.medium-6.small-6.columns
           = f.label :quantity

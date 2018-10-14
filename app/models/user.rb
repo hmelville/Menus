@@ -13,6 +13,8 @@ class User < ::ApplicationBase
   has_one :setting, class_name: '::FoodMenus::Setting', dependent: :destroy
   has_one :shopping_list, class_name: '::FoodMenus::ShoppingList', dependent: :destroy
 
+  has_many :accounts, class_name: '::Budgets::Account', dependent: :destroy
+
   attr_accessor :old_password, :email_is_valid, :email_validator_message
 
   default_scope { where(account_closed: false) }

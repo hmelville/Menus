@@ -1,0 +1,22 @@
+.form
+  = render partial: '/budgets/shared/button_strip'
+  = simple_form_for @account, html: {class: "submit_form"} do |f|
+    .fields
+      .large-6.columns
+        = f.input :name, label: "Account name:"
+      .large-6.columns
+        = f.input :group, label: "Group:"
+      .large-6.columns
+        = f.label "Start date:"
+        = f.date_field :start_date, include_blank: true
+      .large-6.columns
+        = f.label "Opening balance:"
+        = f.number_field :opening_balance, value: number_to_currency(@account.opening_balance, precision: 2, delimiter: '', unit: ''), step: :any
+      .large-6.columns
+        = f.input :currency, label: "Currency:"
+      .large-6.columns
+        = f.label "Sort order:"
+        = f.number_field :sort_order, step: :any
+      .large-6.columns
+        =f.label "Active:"
+        = f.input :active, label: "", as: :boolean

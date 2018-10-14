@@ -20,6 +20,13 @@ module FoodMenus
       %w(FoodMenus::Recipe FoodMenus::Ingredient).exclude?(self.target_type)
     end
 
+    def main_recipes
+      recipes = []
+      collection_meals.collect {|cm| recipes += cm.meal.collection.collection_recipes.collect{|mr| mr.recipe.name} }
+      recipes += collection_recipes.collect {|cr| cr.recipe.name }
+      return recipes.uniq.sort.to_sentence
+    end
+
     def get_all_ingredients(ingredient_id = 0)
       all_ingredients = []
 

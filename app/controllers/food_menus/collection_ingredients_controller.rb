@@ -1,8 +1,13 @@
 module FoodMenus
   class CollectionIngredientsController < BaseController
-    before_action :set_back, only: [:new, :edit]
     before_action :setup
     skip_before_action :verify_authenticity_token
+
+    BACK_TO_KEY = :food_menus_collection_ingredient_return_to
+
+    def back_to_key
+      BACK_TO_KEY
+    end
 
     def new
       @collection_ingredient = CollectionIngredient.new(collection_id: @collection.id)
@@ -13,9 +18,8 @@ module FoodMenus
 
       if @collection_ingredient.save
         flash[:notice] = "Successfully added ingredient."
-        redirect_to session[:collection_ingredient_return_to]
+        go_back
       else
-        byebug
         flash.now[:alert] = @collection_ingredient.errors if @collection_ingredient.errors.any?
         render :new
       end
@@ -24,7 +28,7 @@ module FoodMenus
     def update
       if @collection_ingredient.update_attributes(collection_ingredient_params)
         flash[:notice] = "Successfully updated ingredient."
-        redirect_to session[:collection_ingredient_return_to]
+        go_back
       else
         flash.now[:alert] = @collection_ingredient.errors if @collection_ingredient.errors.any?
         render :edit
@@ -34,16 +38,11 @@ module FoodMenus
     def destroy
       @collection_ingredient.destroy
       flash[:notice] = "Successfully destroyed ingredient."
-      redirect_to session[:collection_ingredient_return_to]
+      go_back
     end
 
     private
-      def set_back
-        session[:collection_ingredient_return_to] = request.referer
-      end
-
       def setup
-
         if params[:id]
           @collection_ingredient = FoodMenus::CollectionIngredient.find(params[:id])
           @collection = @collection_ingredient.collection
@@ -57,7 +56,7 @@ module FoodMenus
 
         case action_name
         when 'new','create'
-          @collection_ingredient_page_heading = "New Ingredient"
+          @collection_ingredient_page_heading = "Add Ingredient"
           @collection_ingredient_buttons = %i(save cancel)
           @ingredients = current_user.ingredients.all
         when 'edit','update'
@@ -73,13 +72,13 @@ module FoodMenus
       def check_permission(collection)
         unless collection.target.user == current_user
           flash[:notice] = "Can't find ingredient."
-          redirect_to session[:collection_ingredient_return_to]
+          go_back
           return
         end
       end
 
       def collection_ingredient_params
-        params.require(:food_menus_collection_ingredient).permit(:collection_id, :ingredient_id, :quantity, :unit_id)
+        params.require(:food_menus_collection_ingredient).permit(FoodMenus::CollectionIngredient.permitted_attributes)
       end
   end
 end

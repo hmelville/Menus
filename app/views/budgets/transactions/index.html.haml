@@ -1,0 +1,35 @@
+.form
+  = render partial: '/budgets/shared/button_strip'
+  = render partial: '/budgets/shared/tabs'
+  .columns.tabs-content
+    = form_tag budgets_account_transactions_path, :method => "get", :class => 'search' do
+      .left.margin-right.date_select
+        = "Start date:"
+        = date_field_tag "filter[search_start_date]", @search_start_date
+      .left.margin-right.date_select
+        = "End date:"
+        = date_field_tag "filter[search_end_date]", @search_end_date
+      .left
+        = submit_tag("Search", class: 'button')
+    .clb
+    - if @transactions.present?
+      .transactions
+        %table
+          %tr
+            %th Date
+            %th Particulars
+            %th Credit
+            %th Debit
+            %th Balance
+            %th
+          - @transactions.each do |transaction|
+            %tr
+              %td.smaller-font= link_to transaction.transaction_date, edit_budgets_account_transaction_path(@account, transaction)
+              %td.smaller-font= transaction.particulars
+              %td.smaller-font.right-align= number_to_currency(transaction.amount, precision: 2, unit: '') if transaction.transaction_type == 1
+              %td.smaller-font.right-align.balance_red= number_to_currency(-transaction.amount, precision: 2, unit: '') if transaction.transaction_type == 2
+              %td.smaller-font.right-align= number_to_currency(transaction.balance, precision: 2, unit: '')
+              %td.smaller-font.right-align= icon(transaction.expensed_icon ,"", class: transaction.expensed_klass)
+
+    - else
+      %i No transactions found for the period.

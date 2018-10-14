@@ -1,8 +1,13 @@
 module FoodMenus
   class CollectionMealsController < BaseController
-    before_action :set_back, only: [:new, :edit]
     before_action :setup
     skip_before_action :verify_authenticity_token
+
+    BACK_TO_KEY = :food_menus_collection_meal_return_to
+
+    def back_to_key
+      BACK_TO_KEY
+    end
 
     def new
       @collection_meal = FoodMenus::CollectionMeal.new(collection_id: @collection.id)
@@ -12,9 +17,8 @@ module FoodMenus
       @collection_meal = FoodMenus::CollectionMeal.new(collection_meal_params)
       if @collection_meal.save
         flash[:notice] = "Successfully added meal."
-        redirect_to session[:collection_meal_return_to]
+        go_back
       else
-        byebug
         flash.now[:alert] = @collection_meal.errors if @collection_meal.errors.any?
         render :new
       end
@@ -23,7 +27,7 @@ module FoodMenus
     def update
       if @collection_meal.update_attributes(collection_meal_params)
         flash[:notice] = "Successfully updated meal."
-        redirect_to session[:collection_meal_return_to]
+        go_back
       else
         flash.now[:alert] = @collection_meal.errors if @collection_meal.errors.any?
         render :edit
@@ -33,13 +37,10 @@ module FoodMenus
     def destroy
       @collection_meal.destroy
       flash[:notice] = "Successfully destroyed meal."
-      redirect_to session[:collection_meal_return_to]
+      go_back
     end
 
     private
-      def set_back
-        session[:collection_meal_return_to] = request.referer
-      end
 
       def setup
         if params[:id]
@@ -71,13 +72,13 @@ module FoodMenus
       def check_permission(collection)
         unless collection.target.user == current_user
           flash[:notice] = "Can't find meal."
-          redirect_to session[:collection_meal_return_to]
+          go_back
           return
         end
       end
 
       def collection_meal_params
-        params.require(:food_menus_collection_meal).permit(:collection_id, :meal_id)
+        params.require(:food_menus_collection_meal).permit(FoodMenus::CollectionMeal.permitted_attributes)
       end
   end
 end

@@ -1,4 +1,11 @@
 //= require ./pStrength.jquery
+//= require foundation
+
+$(function(){
+  $(document).foundation();
+  attachSubmit();
+  showPopUp();
+});
 
 function showPopUp() {
   $('.flash-popup').fadeIn(500).delay(2500).fadeOut(1000);

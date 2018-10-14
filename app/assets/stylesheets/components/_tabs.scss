@@ -1,0 +1,65 @@
+ul.tabs li {
+  position: relative;
+  top: 1px;
+  z-index: 10;
+  border: 1px $colour_sb_light_grey solid;
+  margin-right: 3px;
+  &.active {
+    border-bottom: 1px $white solid;
+  }
+
+  &.warning {
+    padding-right: 30px;
+    background: $colour_sb_red url(image_path('webshop/alerts-warning-thumb-red.png')) no-repeat top 13px right 0px !important;
+  }
+  a {
+    font-weight: bold;
+    img {
+      margin: 0 5px -5px 0 !important;
+      padding: 0 !important;
+    }
+  }
+}
+
+.tab a.button.small {
+  font-size: 0.8em !important;
+  margin: 0 10px 10px 0;
+  opacity: 1.0;
+  filter: alpha(opacity=100);
+  &:hover {
+    font-size: 0.8em !important;
+    margin: 0 10px 10px 0;
+    opacity: 1.0;
+    filter: alpha(opacity=100);
+  }
+}
+
+#tabs_list .tab a {
+  margin-right: 30px;
+  &:hover {
+    background-color: $colour_sb_red !important;
+  }
+  &:not(.active) {
+    background-color: $colour_sb_medium_grey !important;
+  }
+}
+
+@media #{$small-only} {
+  .child-tabs {
+    margin-top: 20px;
+    z-index: 2000;
+  }
+  .tabs li a {
+    font-size: 1em !important;
+    padding: 5px 10px !important;
+  }
+}
+
+.child-tabs {
+  @media #{$iphone-landscape} {
+    a.basket_summary_tab {
+      padding: 8px;
+      font-size: 0.9em;
+    }
+  }
+}

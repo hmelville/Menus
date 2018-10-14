@@ -1,0 +1,9 @@
+.form
+  = render partial: '/budgets/shared/button_strip'
+  = render partial: '/budgets/shared/tabs'
+  .columns.tabs-content
+    = form_tag budgets_account_expenses_path do
+      - if @expenses.present?
+        expenses
+      - else
+        %i No expenses found.

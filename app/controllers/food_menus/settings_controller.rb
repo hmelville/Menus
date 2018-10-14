@@ -39,7 +39,7 @@ module FoodMenus
       end
 
       def setting_params
-        params.require(:food_menus_setting).permit(:menu_rotation_weeks, :menu_rotation_start_date, :reminder_emails, :reminder_emails_send_time, :default_shopping_days)
+        params.require(:food_menus_setting).permit(FoodMenus::Setting.permitted_attributes)
       end
   end
 end

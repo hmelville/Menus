@@ -5,9 +5,9 @@
         %li= link_to(icon('save',"Save"), @collection_recipe, class: 'button submit')
 
       - if @collection_recipe_buttons.include?(:cancel)
-        %li= link_to(icon('undo',"Cancel"), session[:collection_recipe_return_to], class: 'button')
+        %li= link_to(icon('undo',"Cancel"), session[:food_menus_collection_recipe_return_to], class: 'button')
 
       - if @collection_recipe_buttons.include?(:delete)
-        %li= link_to(icon('trash',"Delete"), @collection_recipe, class: 'button', data: {confirm: 'Are you sure?'}, method: :delete)
+        %li= link_to(icon('trash',"Delete"), @collection_recipe, class: 'button', data: {confirm: "Are you sure you want to delete #{@collection_recipe.recipe.name}?"}, method: :delete)
 
   %h1= @collection_recipe_page_heading.gsub(/\s/, '&nbsp;').html_safe

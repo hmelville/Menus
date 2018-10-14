@@ -12,7 +12,7 @@
   .row.margin-top
     .button_strip
       %ul.button-group.round.right
-        %li= link_to(icon('plus',"New Supplier"), new_food_menus_ingredient_supplier_path(ingredient_id: @ingredient.id), class: 'button')
+        %li= link_to(icon('plus', "New Supplier"), new_food_menus_ingredient_supplier_path(ingredient_id: @ingredient.id, reset_back: true), class: 'button')
 
   %fieldset.full
     %legend Suppliers:
@@ -27,6 +27,6 @@
           %tbody
             - @ingredient.ingredient_suppliers.each do |ingredient_supplier|
               %tr
-                %td= link_to ingredient_supplier.supplier.name, edit_food_menus_ingredient_supplier_path(ingredient_supplier), class: "red"
+                %td= link_to ingredient_supplier.supplier.name, edit_food_menus_ingredient_supplier_path(ingredient_supplier, reset_back: true), class: "red"
                 %td.right-align= number_with_precision(ingredient_supplier.price, precision: 2)
                 %td.right-align= ingredient_supplier.aisle

@@ -45,7 +45,7 @@ module FoodMenus
       end
 
       def shopping_list_params
-        params.require(:food_menus_shopping_list).permit(:start_date, :end_date, :custom_action)
+        params.require(:food_menus_shopping_list).permit(FoodMenus::ShoppingList.permitted_attributes)
       end
   end
 end

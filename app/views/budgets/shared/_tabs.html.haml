@@ -1,0 +1,6 @@
+%ul.tabs
+  %li.tab-title{:class => ("active" if @active_tab == 'transactions')}= link_to "Transactions", budgets_account_transactions_path(@account)
+  %li.tab-title{:class => ("active" if @active_tab == 'expenses')}= link_to "Expenses", budgets_account_expenses_path(@account)
+  %li.tab-title{:class => ("active" if @active_tab == 'payments')}= link_to "Payments", budgets_account_payments_path(@account)
+  %li.tab-title{:class => ("active" if @active_tab == 'balances')}= link_to "Balances", budgets_account_balances_path(@account)
+  %li.tab-title{:class => ("active" if @active_tab == 'details')}= link_to "Details", budgets_account_path(@account)

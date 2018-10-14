@@ -1,8 +1,13 @@
 module FoodMenus
   class SuppliersController < BaseController
-    before_action :set_back, only: [:new, :edit]
     before_action :setup
     skip_before_action :verify_authenticity_token
+
+    BACK_TO_KEY = :food_menus_recipe_return_to
+
+    def back_to_key
+      BACK_TO_KEY
+    end
 
     def index
       @suppliers = current_user.suppliers.all
@@ -17,7 +22,7 @@ module FoodMenus
 
       if @supplier.save
         flash[:notice] = "Successfully created supplier."
-        redirect_to session[:supplier_return_to]
+        go_back(@supplier)
       else
         flash.now[:alert] = @supplier.errors if @supplier.errors.any?
         render :new
@@ -27,7 +32,7 @@ module FoodMenus
     def update
       if @supplier.update(supplier_params)
         flash[:notice] = "Successfully updated supplier."
-        redirect_to session[:supplier_return_to]
+        go_back(food_menus_suppliers_path)
       else
         flash.now[:alert] = @supplier.errors if @supplier.errors.any?
         render :edit
@@ -37,14 +42,10 @@ module FoodMenus
     def destroy
       @supplier.destroy
       flash[:notice] = "Successfully destroyed supplier."
-      redirect_to food_menus_suppliers_path
+      go_back(food_menus_suppliers_path)
     end
 
     private
-      def set_back
-        session[:supplier_return_to] = request.referer
-      end
-
       def setup
         if params[:id]
           @supplier = current_user.suppliers.find(params[:id])
@@ -67,7 +68,7 @@ module FoodMenus
       end
 
       def supplier_params
-        params.require(:food_menus_supplier).permit(:name)
+        params.require(:food_menus_supplier).permit(FoodMenus::Supplier.permitted_attributes)
       end
   end
 end

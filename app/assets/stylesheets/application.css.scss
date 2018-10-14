@@ -5,6 +5,7 @@
   *= require jquery.swinxy-combined
   *= require elrte.min
   *= require_tree ./food_menus
+  *= require_tree ./budgets
 */
 
 $include-html-classes: false;
@@ -29,6 +30,31 @@ body {
   overflow: auto;
   overflow-x: hidden;
   padding: 10px;
+}
+
+.tabs-content{
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 10px;
+  border: 1px solid silver;
+  border-radius: 0 0 10px 10px;
+}
+
+.tabs dd > a,
+.tabs .tab-title > a {
+  display: block;
+  background-color: #DDDDDD;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+}
+
+.tabs dd.active > a,
+.tabs .tab-title.active > a {
+  background-color: silver;
+}
+
+.tabs-content {
+  margin-bottom: 0;
 }
 
 .form {
@@ -144,9 +170,9 @@ button, .button {
   font-size: 0.75em !important;
 }
 
-.button {
-  border-radius: 10px !important;
-}
+// .button {
+//   // border-radius: 10px !important;
+// }
 
 .padding-left {
   padding-left: 1em;
@@ -228,7 +254,7 @@ table {
     th {
       text-align: center;
       font-size: 0.8em;
-      border-radius: 5px;
+      border-radius: 3px;
     }
   }
   tbody tr {
@@ -239,7 +265,7 @@ table {
       font-size: 1em;
       padding-left: 5px;
       padding-right: 5px;
-      border-radius: 5px;
+      border-radius: 3px;
     }
     td.center-align {
       text-align: center;
@@ -256,6 +282,29 @@ table.full {
 
 table tr.even, table tr.alt, table tr:nth-of-type(even) {
   background: #DDDDDD !important;
+}
+
+.accounts-table {
+  all: unset;
+}
+
+.accounts-table {
+  table {
+    width: 100% !important;
+  }
+  tbody tr {
+    td{
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+      padding-left: 0px;
+      padding-right: 0px;
+      color: white;
+    }
+    td.balance {
+      text-align: right !important;
+      padding-left: 10px;
+    }
+  }
 }
 
 div.columns.scrolling {
@@ -285,6 +334,16 @@ section.top-bar-section a {
       top: 12px;
     }
   }
+}
+
+.blank-table > thead,
+.blank-table > thead > tr > th,
+.blank-table > tbody,
+.blank-table > tbody > tr > td {
+    border: none;
+    padding-left: 0px;
+    padding-right: 0px;
+    background: none !important;
 }
 
 .top-bar-section ul li > a {
@@ -384,4 +443,29 @@ section.top-bar-section a {
 
 .normal{
   font-weight: normal;
+}
+
+.balance
+{
+  &_red{
+    color: red;
+    margin-left: 5px;
+  }
+  &_green{
+    color: forestgreen;
+    margin-left: 5px;
+  }
+}
+
+.nav-divider {
+  background-color: silver !important;
+  .a {
+    color: black !important;
+  }
+}
+
+.smaller-font{
+  font-size: 0.75em;
+  padding-top: 4pt;
+  padding-bottom: 4pt;
 }

@@ -1,8 +1,13 @@
 module FoodMenus
   class RecipesController < BaseController
-    before_action :set_back, only: [:new, :edit]
     before_action :setup
     skip_before_action :verify_authenticity_token
+
+    BACK_TO_KEY = :food_menus_recipe_return_to
+
+    def back_to_key
+      BACK_TO_KEY
+    end
 
     def index
       @recipes = current_user.recipes.all
@@ -16,7 +21,7 @@ module FoodMenus
       @recipe = current_user.recipes.new(recipe_params)
       if @recipe.save
         flash[:notice] = "Successfully created recipe."
-        redirect_to session[:recipe_return_to]
+        go_back(@recipe)
       else
         flash.now[:alert] = @recipe.errors if @recipe.errors.any?
         render :new
@@ -26,7 +31,7 @@ module FoodMenus
     def update
       if @recipe.update(recipe_params)
         flash[:notice] = "Successfully updated recipe."
-        redirect_to session[:recipe_return_to]
+        go_back(food_menus_recipes_path)
       else
         flash.now[:alert] = @recipe.errors if @recipe.errors.any?
         render :edit
@@ -36,14 +41,10 @@ module FoodMenus
     def destroy
       @recipe.destroy
       flash[:notice] = "Successfully destroyed recipe."
-      redirect_to food_menus_recipes_path
+      go_back(food_menus_recipes_path)
     end
 
     private
-      def set_back
-        session[:recipe_return_to] = request.referer
-      end
-
       def setup
         if params[:id]
           @recipe = current_user.recipes.find_by_id(params[:id])
@@ -71,7 +72,7 @@ module FoodMenus
       end
 
       def recipe_params
-        params.require(:food_menus_recipe).permit(:name)
+        params.require(:food_menus_recipe).permit(FoodMenus::Recipe.permitted_attributes)
       end
 
   end

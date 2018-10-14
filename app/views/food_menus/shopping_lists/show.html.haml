@@ -19,4 +19,4 @@
             %tr
               %td{class: shopping_list_day.the_date == Date.today ? "is_today" : ""}
                 = link_to shopping_list_day.day_name, shopping_list_day
-                = render partial: '/food_menus/collections/index', locals: {id: "collection_#{shopping_list_day.id}", collection: shopping_list_day.collection, hidden_initially: true, show_prefix: true}
+                = render partial: '/food_menus/collections/index', locals: {id: "collection_#{shopping_list_day.id}", collection: shopping_list_day.collection, hidden_initially: true, show_prefix: true, show_recipe_names: false}

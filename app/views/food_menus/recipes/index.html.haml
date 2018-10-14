@@ -7,4 +7,4 @@
           %tr
             %td
               = link_to recipe.name, recipe, class: "red"
-              = render partial: '/food_menus/collections/index', locals: {id: "collection_#{recipe.id}", collection: recipe.collection, hidden_initially: true, show_prefix: false}
+              = render partial: '/food_menus/collections/index', locals: {id: "collection_#{recipe.id}", collection: recipe.collection, hidden_initially: true, show_prefix: false, show_recipe_names: false}

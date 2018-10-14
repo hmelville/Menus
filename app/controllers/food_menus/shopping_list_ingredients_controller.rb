@@ -46,7 +46,7 @@ module FoodMenus
 
         case action_name
         when 'new','create'
-          @shopping_list_ingredient_page_heading = "New Ingredient"
+          @shopping_list_ingredient_page_heading = "Add Ingredient"
           @shopping_list_ingredient_buttons = %i(save cancel)
           @ingredients = current_user.ingredients.all
         when 'index'
@@ -69,7 +69,7 @@ module FoodMenus
       end
 
       def shopping_list_ingredient_params
-        params.require(:food_menus_shopping_list_ingredient).permit(:shopping_list_id, :ingredient_id, :quantity, :unit_id)
+        params.require(:food_menus_shopping_list_ingredient).permit(FoodMenus::ShoppingListIngredient.permitted_attributes)
       end
   end
 end

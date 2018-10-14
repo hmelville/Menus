@@ -83,11 +83,20 @@
     "url": "",
     "icon": "calculator",
     "method": "",
-    "classes": ["left"]
+    "classes": ["left"],
+    "items": [
+      {
+        "name": "New Account",
+        "url": "/budgets/accounts/new",
+        "icon": "plus",
+        "method": "",
+        "classes": []
+      }
+    ]
   },
   {
     "name": "Account",
-    "url": "",
+    "url":  "",
     "icon": "user-circle",
     "method": "",
     "classes": ["left"],

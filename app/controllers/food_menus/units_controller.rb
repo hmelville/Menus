@@ -59,7 +59,7 @@ module FoodMenus
       end
 
       def unit_params
-        params.require(:food_menus_unit).permit(:name, :abbreviation, :kind, :conversion_rate, :default_unit)
+        params.require(:food_menus_unit).permit(FoodMenus::Unit.permitted_attributes)
       end
   end
 end

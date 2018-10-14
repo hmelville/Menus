@@ -32,7 +32,7 @@ module FoodMenus
       end
 
       def menu_rotations_params
-        params.require(:food_menus_menu_rotations).permit(:menu_rotation_id, :week, :day, :collection_id)
+        params.require(:food_menus_menu_rotations).permit(FoodMenus::MenuRotation.permitted_attributes)
       end
   end
 end

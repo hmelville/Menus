@@ -1,8 +1,13 @@
 module FoodMenus
   class MealsController < BaseController
-    before_action :set_back, only: [:new, :edit]
     before_action :setup
     skip_before_action :verify_authenticity_token
+
+    BACK_TO_KEY = :food_menus_collection_meal_return_to
+
+    def back_to_key
+      BACK_TO_KEY
+    end
 
     def index
       @meals = current_user.meals.all
@@ -16,7 +21,7 @@ module FoodMenus
       @meal = current_user.meals.new(meal_params)
       if @meal.save
         flash[:notice] = "Successfully created meal."
-        redirect_to session[:meal_return_to]
+        go_back(@meal)
       else
         flash.now[:alert] = @meal.errors if @meal.errors.any?
         render :new
@@ -26,7 +31,7 @@ module FoodMenus
     def update
       if @meal.update(meal_params)
         flash[:notice] = "Successfully updated meal."
-        redirect_to session[:meal_return_to]
+        go_back(food_menus_meals_path)
       else
         flash.now[:alert] = @meal.errors if @meal.errors.any?
         render :edit
@@ -36,20 +41,16 @@ module FoodMenus
     def destroy
       @meal.destroy
       flash[:notice] = "Successfully destroyed meal."
-      redirect_to food_menus_meals_path
+      go_back(food_menus_meals_path)
     end
 
     private
-      def set_back
-        session[:meal_return_to] = request.referer
-      end
-
       def setup
         if params[:id]
           @meal = current_user.meals.find_by_id(params[:id])
           unless @meal
             flash[:notice] = "Can't find meal."
-            redirect_to food_menus_meals_path
+            go_back
             return
           end
         end
@@ -71,7 +72,7 @@ module FoodMenus
       end
 
       def meal_params
-        params.require(:food_menus_meal).permit(:name)
+        params.require(:food_menus_meal).permit(FoodMenus::Meal.permitted_attributes)
       end
 
   end

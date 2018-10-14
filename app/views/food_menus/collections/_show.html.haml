@@ -2,7 +2,7 @@
   .row
     .button_strip
       %ul.button-group.round.right
-        %li= link_to(icon('plus',"New Meal"), new_food_menus_collection_meal_path(collection_id: collection.id), class: 'button')
+        %li= link_to(icon('plus', "Add Meal"), new_food_menus_collection_meal_path(collection_id: collection.id, reset_back: true), class: 'button')
 
   %fieldset.margin-bottom
     %legend Meals:
@@ -12,14 +12,14 @@
           - collection.collection_meals.each do |collection_meal|
             %tr
               %td
-                = link_to collection_meal.meal.name, edit_food_menus_collection_meal_path(collection_meal), class: "red"
-                = render partial: '/food_menus/collections/index', locals: {id: collection_meal.meal.id, collection: collection_meal.meal.collection, hidden_initially: hidden_initially, show_prefix: show_prefix}
+                = link_to collection_meal.meal.name, edit_food_menus_collection_meal_path(collection_meal, reset_back: true), class: "red"
+                = render partial: '/food_menus/collections/index', locals: {id: collection_meal.meal.id, collection: collection_meal.meal.collection, hidden_initially: hidden_initially, show_prefix: show_prefix, show_recipe_names: false}
 
 - if current_user.recipes.any? && collection.show_recipes?
   .row
     .button_strip
       %ul.button-group.round.right
-        %li= link_to(icon('plus',"New Recipe"), new_food_menus_collection_recipe_path(collection_id: collection.id), class: 'button')
+        %li= link_to(icon('plus', "Add Recipe"), new_food_menus_collection_recipe_path(collection_id: collection.id, reset_back: true), class: 'button')
 
   %fieldset.margin-bottom
     %legend Recipes:
@@ -29,14 +29,14 @@
           - collection.collection_recipes.each do |collection_recipe|
             %tr
               %td
-                = link_to collection_recipe.recipe.name, edit_food_menus_collection_recipe_path(collection_recipe), class: "red"
-                = render partial: '/food_menus/collections/index', locals: {id: collection_recipe.recipe.id, collection: collection_recipe.recipe.collection, hidden_initially: hidden_initially, show_prefix: show_prefix}
+                = link_to collection_recipe.recipe.name, edit_food_menus_collection_recipe_path(collection_recipe, reset_back: true), class: "red"
+                = render partial: '/food_menus/collections/index', locals: {id: collection_recipe.recipe.id, collection: collection_recipe.recipe.collection, hidden_initially: hidden_initially, show_prefix: show_prefix, show_recipe_names: false}
 
 - if current_user.ingredients.any?
   .row
     .button_strip
       %ul.button-group.round.right
-        %li= link_to(icon('plus',"New Ingredient"), new_food_menus_collection_ingredient_path(collection_id: collection.id), class: 'button')
+        %li= link_to(icon('plus', "Add Ingredient"), new_food_menus_collection_ingredient_path(collection_id: collection.id, reset_back: true), class: 'button')
 
   %fieldset.margin-bottom
     %legend Ingredients:
@@ -45,5 +45,5 @@
         %tbody
           - collection.collection_ingredients.each do |collection_ingredient|
             %tr
-              %td= link_to collection_ingredient, edit_food_menus_collection_ingredient_path(collection_ingredient), class: "red"
+              %td= link_to collection_ingredient, edit_food_menus_collection_ingredient_path(collection_ingredient, reset_back: true), class: "red"
 

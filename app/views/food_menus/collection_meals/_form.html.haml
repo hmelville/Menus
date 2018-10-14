@@ -9,6 +9,6 @@
         .button-row
           .button_strip
             %ul.button-group.round
-              %li= link_to(icon('plus',""), new_food_menus_meal_path, class: 'button')
+              %li= link_to(icon('plus', class: "no-padding"), new_food_menus_meal_path(reset_back: true), class: 'button')
 
     = f.hidden_field :collection_id

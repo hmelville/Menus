@@ -15,11 +15,7 @@ Rails.application.routes.draw do
     get 'unsubscribe', :action => 'unsubscribe' # this route is just to prevent a routing exception if malformed request (without a token) is received
     put 'unsubscribe/:subscription_token', :action => 'unsubscribe'
     get 'close'
-    get :xdomain_login
-    post :xdomain_redirect
-    get :xdomain_redirect
   end
-
 
   namespace :food_menus do
     resources :today, only: [:index]
@@ -48,6 +44,15 @@ Rails.application.routes.draw do
     resources :collection_recipes
     resources :collection_ingredients
 
+  end
+
+  namespace :budgets do
+    resources :accounts do
+      resources :balances
+      resources :expenses
+      resources :payments
+      resources :transactions
+    end
   end
 
   resources :users, :only => [:edit, :update] do

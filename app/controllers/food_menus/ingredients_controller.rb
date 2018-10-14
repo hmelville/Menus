@@ -1,8 +1,13 @@
 module FoodMenus
   class IngredientsController < BaseController
-    before_action :set_back, only: [:new, :edit]
     before_action :setup
     skip_before_action :verify_authenticity_token
+
+    BACK_TO_KEY = :food_menus_ingredient_return_to
+
+    def back_to_key
+      BACK_TO_KEY
+    end
 
     def index
       @ingredients = current_user.ingredients.all
@@ -16,7 +21,7 @@ module FoodMenus
       @ingredient = current_user.ingredients.new(ingredient_params)
       if @ingredient.save
         flash[:notice] = "Successfully created ingredient."
-        redirect_to session[:ingredient_return_to]
+        go_back(food_menus_ingredients_path)
       else
         flash.now[:alert] = @ingredient.errors if @ingredient.errors.any?
         render :new
@@ -26,7 +31,7 @@ module FoodMenus
     def update
       if @ingredient.update(ingredient_params)
         flash[:notice] = "Successfully updated ingredient."
-        redirect_to session[:ingredient_return_to]
+        go_back(food_menus_ingredients_path)
       else
         flash.now[:alert] = @ingredient.errors if @ingredient.errors.any?
         render :edit
@@ -36,21 +41,17 @@ module FoodMenus
     def destroy
       @ingredient.destroy
       flash[:notice] = "Successfully destroyed ingredient."
-      redirect_to food_menus_ingredients_path
+      go_back(food_menus_ingredients_path)
     end
 
     private
-      def set_back
-        session[:ingredient_return_to] = request.referer
-      end
-
       def setup
         if params[:id]
           @ingredient = current_user.ingredients.find_by_id(params[:id])
 
           unless @ingredient
             flash[:notice] = "Can't find ingredient."
-            redirect_to session[:ingredient_return_to]
+            go_back
             return
           end
         end
@@ -72,7 +73,7 @@ module FoodMenus
       end
 
       def ingredient_params
-        params.require(:food_menus_ingredient).permit(:name, :unit_id, :quantity)
+        params.require(:food_menus_ingredient).permit(FoodMenus::Ingredient.permitted_attributes)
       end
   end
 end

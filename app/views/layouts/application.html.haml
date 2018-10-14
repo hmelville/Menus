@@ -4,7 +4,7 @@
 
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
 
-    %title= content_for?(:title) ? yield(:title) : "Menus"
+    %title= content_for?(:title) ? yield(:title) : "Menus and Budgets"
 
     = javascript_include_tag "//www.google.com/jsapi"
     = javascript_include_tag "vendor/modernizr.js"
@@ -43,9 +43,6 @@
 :javascript
 
   $(document).ready(function() {
-    // $(document).foundation();
-    attachSubmit();
-    showPopUp();
 
     $('.toggle_items').click(function() {
       $('#' + this.id).children().toggleClass('fa-chevron-circle-up').toggleClass('fa-chevron-circle-down')
@@ -63,7 +60,7 @@
   });
 
   var resizeContent = function(){
-    tbh = $('#top_bar').height() ;
+    tbh = $('#top_bar').height();
     wh = $(window).height();
     $('.content').height(wh - tbh - 20);
   };

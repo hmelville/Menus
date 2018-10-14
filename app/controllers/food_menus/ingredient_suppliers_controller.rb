@@ -1,8 +1,13 @@
 module FoodMenus
   class IngredientSuppliersController < BaseController
-    before_action :set_back, only: [:new, :edit]
     before_action :setup
     skip_before_action :verify_authenticity_token
+
+    BACK_TO_KEY = :food_menus_collection_meal_return_to
+
+    def back_to_key
+      BACK_TO_KEY
+    end
 
     def new
       @ingredient_supplier = FoodMenus::IngredientSupplier.new(ingredient_id: @ingredient.id)
@@ -12,7 +17,7 @@ module FoodMenus
       @ingredient_supplier = FoodMenus::IngredientSupplier.new(ingredient_supplier_params)
       if @ingredient_supplier.save
         flash[:notice] = "Successfully added supplier to ingredient."
-        redirect_to session[:ingredient_supplier_return_to]
+        go_back
       else
         flash.now[:alert] = @ingredient_supplier.errors if @ingredient_supplier.errors.any?
         render :new
@@ -22,7 +27,7 @@ module FoodMenus
     def update
       if @ingredient_supplier.update_attributes(ingredient_supplier_params)
         flash[:notice] = "Successfully updated ingredient supplier."
-        redirect_to session[:ingredient_supplier_return_to]
+        go_back
       else
         flash.now[:alert] = @ingredient_supplier.errors if @ingredient_supplier.errors.any?
         render :new
@@ -32,14 +37,10 @@ module FoodMenus
     def destroy
       @ingredient_supplier.destroy
       flash[:notice] = "Successfully destroyed ingredient supplier."
-      redirect_to session[:ingredient_supplier_return_to]
+        go_back
     end
 
     private
-      def set_back
-        session[:ingredient_supplier_return_to] = request.referer
-      end
-
       def setup
         if params[:id]
           @ingredient_supplier = FoodMenus::IngredientSupplier.find(params[:id])
@@ -52,7 +53,7 @@ module FoodMenus
 
         unless @ingredient.user == current_user
           flash[:notice] = "Can't find ingredient supplier."
-          redirect_to session[:ingredient_supplier_return_to]
+          go_back
           return
         end
 
@@ -72,7 +73,7 @@ module FoodMenus
       end
 
       def ingredient_supplier_params
-        params.require(:food_menus_ingredient_supplier).permit(:ingredient_id, :supplier_id, :price, :aisle)
+        params.require(:food_menus_ingredient_supplier).permit(FoodMenus::IngredientSupplier.permitted_attributes)
       end
   end
 end

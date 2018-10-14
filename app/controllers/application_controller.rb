@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :prevent_browser_caching
   before_filter :get_platform
 
+  before_action :set_back, only: [:new, :edit]
   before_action :set_request_uuid
   before_filter :prevent_browser_caching
 
@@ -49,6 +50,19 @@ class ApplicationController < ActionController::Base
     else
       redirect_to root_path(:back_to => sanitise_uri(request.fullpath), :unauthenticated => true)
     end
+  end
+
+  def back_to_key
+  end
+
+  def set_back
+    session[back_to_key] = request.referer.gsub('&reset_back=true', '') if params[:reset_back].present?
+  end
+
+  def go_back(default_path = nil)
+    back_to = session[back_to_key]
+    session.delete(back_to_key)
+    redirect_to back_to || default_path || root_path
   end
 
   # Redirects to the URI given by {#safe_back_to_uri} or if that is not present
