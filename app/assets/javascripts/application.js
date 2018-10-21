@@ -2,6 +2,8 @@
 //= require foundation
 //= require jquery-ui/datepicker
 
+var dateFormat = "yy-mm-dd"
+
 $(function(){
   $(document).foundation();
   showPopUp();

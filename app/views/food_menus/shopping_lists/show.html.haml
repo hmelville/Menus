@@ -24,7 +24,6 @@
 
 :javascript
   $(function() {
-    var dateFormat = "yy-mm-dd"
     var today = new Date();
     start_date = $("#start_date")
       .datepicker({
@@ -62,12 +61,3 @@
     start_date.datepicker("option", "maxDate", end_date.val());
     end_date.datepicker("option", "minDate", start_date.val());
   });
-
-//  $(function(){
-//
-//    $(".start_date ").datepicker({
-//    });
-//
-//    $(".end_date ").datepicker({
-//    });
-//  });

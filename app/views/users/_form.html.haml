@@ -37,48 +37,56 @@
       .columns
         .large-6.medium-6.input
           = f.label 'Use Menus:'
-          = f.select :use_menus, [["Yes", true], ["No", false]]
-        %fieldset.margin-bottom
-          %legend Menu Rotations:
-          .large-6.columns
-            = f.label 'Weeks:'
-            = f.select :menu_rotation_weeks, User::WEEKS, required: true
-          .large-6.columns
-            = f.label 'Start date:'
-            = f.text_field :menu_rotation_start_date, class: "datepickable", id: "menu_rotation_start_date"
+          = f.select :use_menus, [["Yes", true], ["No", false]], id: "use_menus"
+        #menus
+          %fieldset.margin-bottom
+            %legend Menu Rotations:
+            .large-6.columns
+              = f.label 'Weeks:'
+              = f.select :menu_rotation_weeks, User::WEEKS, required: true
+            .large-6.columns
+              = f.label 'Start date:'
+              = f.text_field :menu_rotation_start_date, class: "datepickable", id: "menu_rotation_start_date"
 
-      .columns
-        %fieldset.margin-bottom
-          %legend Emails:
-          .large-6.columns
-            .input
-              = f.label 'Send reminders:'
-              = f.select :reminder_emails, [["Yes!", true], ["No", false]]
+          %fieldset.margin-bottom
+            %legend Emails:
+            .large-6.columns
+              .input
+                = f.label 'Send reminders:'
+                = f.select :reminder_emails, [["Yes!", true], ["No", false]]
 
-          .large-6.columns
-            .input
-              = f.label 'Time to send:'
-              = f.text_field :reminder_emails_send_time, class: "datepickable"
+            .large-6.columns
+              .input
+                = f.label 'Time to send:'
+                = f.text_field :reminder_emails_send_time, class: "datepickable"
 
-      .columns
-        %fieldset
-          %legend Shopping:
-          .large-6.columns
-            .input
-              = f.label 'Default days:'
-              = f.select :default_shopping_days, (0..31), required: true
+          %fieldset
+            %legend Shopping:
+            .large-6.columns
+              .input
+                = f.label 'Default days:'
+                = f.select :default_shopping_days, (0..31), required: true
 
 :javascript
   $(function() {
-    var dateFormat = "yy-mm-dd"
-    var today = new Date();
     menu_rotation_start_date = $("#menu_rotation_start_date")
       .datepicker({
         dateFormat: dateFormat,
         showOtherMonths: true,
-        selectOtherMonths: true
-      })
+        selectOtherMonths: true,
+        minDate: "-7D"
+      });
 
+    $("#user_use_menus").on("change", function() {
+      toggleMenus();
+    });
 
-    menu_rotation_start_date.datepicker("option", "minDate", today);
+    var toggleMenus = function() {
+      if ($("#user_use_menus").val() == 'true') {
+        $('#menus').show();
+      } else {
+        $('#menus').hide();
+      }
+    };
+    toggleMenus();
   });
