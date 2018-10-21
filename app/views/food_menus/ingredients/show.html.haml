@@ -1,32 +1,30 @@
-.form
+= form_for @ingredient, html:{class: "no-padding"} do |f|
   = render partial: 'button_strip'
+  .large-8.columns
+    = f.label :name, 'Name:'
+    %h2= @ingredient.name
+  .large-4.columns
+    = f.label :unit, 'Purchase Unit:'
+    %h2= @ingredient.unit.try(:name)
 
-  = form_for @ingredient, html:{class: "no-padding"} do |f|
-    .large-8.columns
-      = f.label :name, 'Name:'
-      %h2= @ingredient.name
-    .large-4.columns
-      = f.label :unit, 'Purchase Unit:'
-      %h2= @ingredient.unit.try(:name)
+.row.margin-top
+  .button_strip
+    %ul.button-group.round.right
+      %li= link_to(icon('plus', "Add Supplier"), new_food_menus_ingredient_ingredient_supplier_path(@ingredient), class: 'button')
 
-  .row.margin-top
-    .button_strip
-      %ul.button-group.round.right
-        %li= link_to(icon('plus', "New Supplier"), new_food_menus_ingredient_supplier_path(ingredient_id: @ingredient.id, reset_back: true), class: 'button')
-
-  %fieldset.full
-    %legend Suppliers:
-    - if @ingredient.ingredient_suppliers.any?
-      %table.full
+%fieldset.full
+  %legend Suppliers:
+  - if @ingredient.ingredient_suppliers.any?
+    %table.full
+      %tbody
+        %thead
+          %tr
+            %th= "Supplier"
+            %th= "Price"
+            %th= "Aisle"
         %tbody
-          %thead
+          - @ingredient.ingredient_suppliers.each do |ingredient_supplier|
             %tr
-              %th= "Supplier"
-              %th= "Price"
-              %th= "Aisle"
-          %tbody
-            - @ingredient.ingredient_suppliers.each do |ingredient_supplier|
-              %tr
-                %td= link_to ingredient_supplier.supplier.name, edit_food_menus_ingredient_supplier_path(ingredient_supplier, reset_back: true), class: "red"
-                %td.right-align= number_with_precision(ingredient_supplier.price, precision: 2)
-                %td.right-align= ingredient_supplier.aisle
+              %td= link_to ingredient_supplier.supplier.name, edit_food_menus_ingredient_ingredient_supplier_path(@ingredient, ingredient_supplier), class: "red"
+              %td.right-align= number_with_precision(ingredient_supplier.price, precision: 2)
+              %td.right-align= ingredient_supplier.aisle

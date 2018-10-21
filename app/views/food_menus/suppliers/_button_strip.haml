@@ -2,21 +2,21 @@
   .button_strip
     %ul.button-group.round.right
       - if @supplier_buttons.include?(:new)
-        %li= link_to(icon('plus',"New Supplier"), new_food_menus_supplier_path(reset_back: true), class: 'button')
+        %li= link_to(icon('plus', 'New Supplier'), new_food_menus_supplier_path(reset_back: true), class: 'button')
 
       - if @supplier_buttons.include?(:save)
-        %li= link_to(icon('save',"Save"), @supplier_supplier, class: 'button submit')
+        %li= f.button icon('save', 'Save'), class: 'button'
 
       - if @supplier_buttons.include?(:cancel)
-        %li= link_to(icon('undo',"Cancel"), session[:food_menus_supplier_return_to], class: 'button')
+        %li= link_to(icon('undo', 'Cancel'), session[FoodMenus::SuppliersController::BACK_TO_KEY], class: 'button')
 
       - if @supplier_buttons.include?(:index)
-        %li= link_to(icon('list',"List"), food_menus_suppliers_path(reset_back: true), class: 'button')
+        %li= link_to(icon('list', 'List'), food_menus_suppliers_path(reset_back: true), class: 'button')
 
       - if @supplier_buttons.include?(:edit)
-        %li= link_to(icon('pencil',"Edit"), edit_food_menus_supplier_path(reset_back: true), class: 'button')
+        %li= link_to(icon('pencil', 'Edit'), edit_food_menus_supplier_path(reset_back: true), class: 'button')
 
       - if @supplier_buttons.include?(:delete)
-        %li= link_to(icon('trash',"Delete"), @supplier_supplier, class: 'button', data: {confirm: 'Are you sure?'}, method: :delete)
+        %li= link_to(icon('trash', 'Delete'), @supplier, class: 'button', data: { confirm: "Are you sure you want to delete #{@supplier.name}?" }, method: :delete)
 
   %h1= @supplier_page_heading.gsub(/\s/, '&nbsp;').html_safe

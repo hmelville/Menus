@@ -1,22 +1,73 @@
-.form
-  = simple_form_for @shopping_list, html: {class: "submit_form"} do |f|
-    %h1= "Build Shopping List:".gsub(/\s/, '&nbsp;').html_safe
-    .columns.no-padding
-      .left.margin-right
-        = f.input :start_date, label: "Start date:", as: :date, include_blank: true, input_html: { class: "calende" }
-      .left
-        = f.input :end_date, label: "End date:", as: :date, include_blank: true, input_html: { class: "calende" }
+= form_for @shopping_list do |f|
+  %h1= "Build Shopping List:".gsub(/\s/, '&nbsp;').html_safe
+  .columns.no-padding
+    .left.margin-right
+      = f.label 'Start date:'
+      = f.text_field :start_date, class: "datepickable", id: "start_date"
+    .left.margin-right
+      = f.label 'End date:'
+      = f.text_field :end_date, class: "datepickable", id: "end_date"
+    .left
+      .columns.no-padding
+        %ul.button-group.round.margin-top.margin-bottom
+          = f.button icon('save', 'Refresh'), class: 'button'
+          %li= link_to(icon('save',"Build List"), build_shopping_list_food_menus_shopping_list_path(@shopping_list), class: 'button')
 
-    .columns.no-padding
-      %ul.button-group.round.margin-top.margin-bottom
-        %li= link_to(icon('save',"Create Menus"), @shopping_list, class: 'button submit')
-        %li= link_to(icon('save',"Build List"), build_shopping_list_food_menus_shopping_list_path(@shopping_list), class: 'button')
+  - if @shopping_list.shopping_list_days.any?
+    %table.full
+      %tbody
+        - @shopping_list.shopping_list_days.each do |shopping_list_day|
+          %tr
+            %td{class: shopping_list_day.the_date == Date.today ? "is_today" : ""}
+              = link_to shopping_list_day.day_name, shopping_list_day
+              = render partial: '/food_menus/collections/index', locals: {id: "collection_#{shopping_list_day.id}", collection: shopping_list_day.collection, hidden_initially: true, show_prefix: true, show_recipe_names: true}
 
-    - if @shopping_list.shopping_list_days.any?
-      %table.full
-        %tbody
-          - @shopping_list.shopping_list_days.each do |shopping_list_day|
-            %tr
-              %td{class: shopping_list_day.the_date == Date.today ? "is_today" : ""}
-                = link_to shopping_list_day.day_name, shopping_list_day
-                = render partial: '/food_menus/collections/index', locals: {id: "collection_#{shopping_list_day.id}", collection: shopping_list_day.collection, hidden_initially: true, show_prefix: true, show_recipe_names: false}
+:javascript
+  $(function() {
+    var dateFormat = "yy-mm-dd"
+    var today = new Date();
+    start_date = $("#start_date")
+      .datepicker({
+        dateFormat: dateFormat,
+        showOtherMonths: true,
+        selectOtherMonths: true
+      })
+      .on("change", function() {
+        end_date.datepicker("option", "minDate", getDate(this));
+      });
+
+    end_date = $("#end_date")
+      .datepicker({
+        dateFormat: dateFormat,
+        showOtherMonths: true,
+        selectOtherMonths: true
+      })
+      .on("change", function() {
+        start_date.datepicker("option", "maxDate", getDate(this));
+      });
+
+
+    function getDate (element) {
+      var date;
+      try {
+        date = $.datepicker.parseDate(dateFormat, element.value);
+      }
+      catch (error) {
+        date = null;
+      }
+      return date;
+    }
+
+    start_date.datepicker("option", "minDate", today);
+    start_date.datepicker("option", "maxDate", end_date.val());
+    end_date.datepicker("option", "minDate", start_date.val());
+  });
+
+//  $(function(){
+//
+//    $(".start_date ").datepicker({
+//    });
+//
+//    $(".end_date ").datepicker({
+//    });
+//  });

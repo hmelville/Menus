@@ -1,0 +1,10 @@
+- content_for :title do
+  My account
+= form_for @user, html: { method: :put } do |f|
+  = render partial: "button_strip", locals: { f: f }
+  %h2 Closing your account
+  .columns.no-padding
+    %h2.warning Warning
+    .columns
+      %strong
+        We are sorry to see you go, but if you close your account you will no longer be able to log in and your account cannot be re-opened.

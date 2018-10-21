@@ -1,26 +1,25 @@
-.form
-  = render partial: '/budgets/shared/button_strip'
-  = render partial: '/budgets/shared/tabs'
-  .columns.tabs-content
-    = form_for @account, :method => "put", html: {class: "submit_form"} do |a|
-      = a.fields_for :transactions, @transaction do |f|
-        .row
-          .large-4.columns
-            = "Transaction date:"
-            = f.date_field :transaction_date, include_blank: true, disabled: @transaction.is_opening?
-          .large-4.columns
-            = "Type:"
-            = f.select :transaction_type, Budgets::Transaction::TYPES, {}, {disabled: @transaction.is_opening?}
-          .large-4.columns
-            = "Amount:"
-            = f.number_field :amount, value: number_to_currency(@transaction.amount, delimiter: '', unit: ''), step: :any
-          .large-6.columns
-            = "Particulars:"
-            = f.text_field :particulars, disabled: @transaction.is_opening?
-          .large-6.columns
-            = "Details:"
-            = f.text_field :details, disabled: @transaction.is_opening?
-        .row
-          .large-12.columns
-            expenses
+= render partial: '/budgets/shared/button_strip'
+= render partial: '/budgets/shared/tabs'
+.columns.tabs-content
+  = form_for @account, :method => "put" do |a|
+    = a.fields_for :transactions, @transaction do |f|
+      .row
+        .large-4.columns
+          = "Transaction date:"
+          = f.date_field :transaction_date, include_blank: true, disabled: @transaction.is_opening?
+        .large-4.columns
+          = "Type:"
+          = f.select :transaction_type, Budgets::Transaction::TYPES, {}, {disabled: @transaction.is_opening?}
+        .large-4.columns
+          = "Amount:"
+          = f.number_field :amount, value: number_to_currency(@transaction.amount, delimiter: '', unit: ''), step: :any
+        .large-6.columns
+          = "Particulars:"
+          = f.text_field :particulars, disabled: @transaction.is_opening?
+        .large-6.columns
+          = "Details:"
+          = f.text_field :details, disabled: @transaction.is_opening?
+      .row
+        .large-12.columns
+          expenses
 

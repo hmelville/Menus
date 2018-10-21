@@ -1,8 +1,7 @@
-.form
-  = render partial: 'button_strip'
-  - if @suppliers.any?
-    %table.full
-      %tbody
-        - @suppliers.each do |supplier|
-          %tr
-            %td= link_to supplier.name, supplier, class: "red"
+= render partial: 'button_strip'
+- if @suppliers.any?
+  %table.full
+    %tbody
+      - @suppliers.each do |supplier|
+        %tr
+          %td= link_to supplier.name, supplier, class: "red"

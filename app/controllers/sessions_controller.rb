@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_authentication_check :only => :create
 
   def show
-    redirect_to account_path
+    redirect_to user_path
   end
 
   def create
@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
   private
 
   def path_after_sign_in(user)
-    return safe_back_to_uri || account_path
+    return safe_back_to_uri || user
   end
 
   def path_after_sign_out

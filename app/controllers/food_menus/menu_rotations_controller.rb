@@ -1,10 +1,13 @@
 module FoodMenus
   class MenuRotationsController < BaseController
+
+    load_and_authorize_resource :user, class: 'User'
+    load_and_authorize_resource :menu_rotation, class: 'FoodMenus::MenuRotation'
+
     before_action :setup
     skip_before_action :verify_authenticity_token
 
     def show
-      @menu_rotations = current_user.menu_rotations.all
     end
 
     def index
@@ -14,16 +17,6 @@ module FoodMenus
 
     private
       def setup
-        if params[:id]
-          @menu_rotation = current_user.menu_rotations.find_by_id(params[:id])
-          unless @menu_rotation
-            flash[:notice] = "Can't find menu rotation."
-            redirect_to food_menus_menu_rotations_path
-            return
-          end
-        end
-        @setting = current_user.setting
-
         case action_name
         when 'show'
           @menu_rotation_page_heading = "#{@menu_rotation.week_day_name}"

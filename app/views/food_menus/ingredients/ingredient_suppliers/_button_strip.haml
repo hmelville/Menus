@@ -1,0 +1,13 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+      - if @ingredient_supplier_buttons.include?(:save)
+        %li= f.button icon('save', 'Save'), class: 'button'
+
+      - if @ingredient_supplier_buttons.include?(:cancel)
+        %li= link_to(icon('undo', 'Cancel'), @ingredient, class: 'button')
+
+      - if @ingredient_supplier_buttons.include?(:delete)
+        %li= link_to(icon('trash', 'Delete'), food_menus_ingredient_ingredient_supplier_path(@ingredient, @ingredient_supplier), class: 'button', data: { confirm: "Are you sure you want to delete #{@ingredient_supplier.supplier.name}?" }, method: :delete)
+
+  %h1= @ingredient_supplier_page_heading.gsub(/\s/, '&nbsp;').html_safe

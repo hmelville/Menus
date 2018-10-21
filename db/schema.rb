@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180802120355) do
+ActiveRecord::Schema.define(version: 20181019203621) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -188,17 +188,6 @@ ActiveRecord::Schema.define(version: 20180802120355) do
     t.datetime "updated_at"
   end
 
-  create_table "settings", force: true do |t|
-    t.integer  "menu_rotation_weeks"
-    t.boolean  "reminder_emails"
-    t.time     "reminder_emails_send_time"
-    t.date     "menu_rotation_start_date"
-    t.integer  "default_shopping_days"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id"
-  end
-
   create_table "shopping_list_days", force: true do |t|
     t.integer  "shopping_list_id"
     t.date     "the_date"
@@ -276,6 +265,14 @@ ActiveRecord::Schema.define(version: 20180802120355) do
     t.boolean  "account_closed"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "balance",                   precision: 8, scale: 2
+    t.integer  "menu_rotation_weeks"
+    t.boolean  "reminder_emails"
+    t.time     "reminder_emails_send_time"
+    t.date     "menu_rotation_start_date"
+    t.integer  "default_shopping_days"
+    t.boolean  "use_menus"
+    t.boolean  "use_budgets"
   end
 
 end

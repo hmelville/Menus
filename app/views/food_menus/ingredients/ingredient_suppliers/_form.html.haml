@@ -1,0 +1,19 @@
+
+= render partial: 'button_strip', locals: { f: f }
+.fields
+  .large-6.columns
+    .large-10.medium-10.small-10.columns.no-padding
+      = f.label 'Supplier:'
+      = f.select :supplier_id, options_from_collection_for_select(@ingredient_suppliers, :id, :name, @ingredient_supplier.supplier.try(:id)), include_blank: true
+    .large-2.medium-2.small-2.columns.add-button
+      .button-row
+        .button_strip
+          %ul.button-group.round
+            %li= link_to(icon('plus', class: "no-padding"), new_food_menus_supplier_path(reset_back: true), class: 'button')
+  .large-6.columns.no-padding
+    .large-6.medium-6.small-6.columns
+      = f.label "Price:"
+      = f.number_field :price, value: number_to_currency(f.object.price, delimiter: '', unit: ''), step: :any
+    .large-6.medium-6.small-6.columns
+      = f.label "Aisle:"
+      = f.number_field :aisle, step: 1

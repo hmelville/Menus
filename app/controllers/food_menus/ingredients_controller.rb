@@ -1,5 +1,6 @@
 module FoodMenus
   class IngredientsController < BaseController
+    load_and_authorize_resource class: 'FoodMenus::Ingredient'
     before_action :setup
     skip_before_action :verify_authenticity_token
 
@@ -10,15 +11,12 @@ module FoodMenus
     end
 
     def index
-      @ingredients = current_user.ingredients.all
     end
 
     def new
-      @ingredient = FoodMenus::Ingredient.new()
     end
 
     def create
-      @ingredient = current_user.ingredients.new(ingredient_params)
       if @ingredient.save
         flash[:notice] = "Successfully created ingredient."
         go_back(food_menus_ingredients_path)
@@ -29,7 +27,7 @@ module FoodMenus
     end
 
     def update
-      if @ingredient.update(ingredient_params)
+      if @ingredient.update_attributes(ingredient_params)
         flash[:notice] = "Successfully updated ingredient."
         go_back(food_menus_ingredients_path)
       else
@@ -46,16 +44,6 @@ module FoodMenus
 
     private
       def setup
-        if params[:id]
-          @ingredient = current_user.ingredients.find_by_id(params[:id])
-
-          unless @ingredient
-            flash[:notice] = "Can't find ingredient."
-            go_back
-            return
-          end
-        end
-
         case action_name
         when 'new','create'
           @ingredient_page_heading = "New Ingredient"

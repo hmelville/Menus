@@ -1,1 +1,5 @@
 = render partial: 'button_strip'
+= form_for @supplier, html:{class: "no-padding"} do |f|
+  .large-8.columns
+    = f.label :name, 'Name:'
+    %h2= @supplier.name

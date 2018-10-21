@@ -1,11 +1,51 @@
 module ApplicationHelper
-  def top_menu
-    render partial: '/shared/menu', locals: { menus: MenuItem }
+  def main_menu(&block)
+    output = '<ul class="left">'
+    MenuItem.where(parent: nil).order(:lft).each do |root_item|
+      next if root_item.name == "Menus" && !current_user.use_menus
+      next if root_item.name == "Budgets" && !current_user.use_budgets
+      add_item(root_item, output, &block)
+    end
+    output << '</ul>'
+    output.html_safe
   end
 
-  def menu_item_classes(menu_item, menu_items)
+  def add_item(menu_item, output, &block)
+    output << '<li class="' + menu_item_classes(menu_item) + '">'
+
+    if menu_item.name == "Menus"
+      # byebug
+    end
+
+    output << '<a href="' + menu_item_url(menu_item) + '"' + get_method(menu_item) +'>' + get_icon(menu_item) + menu_item.name + '</a>'
+
+    if menu_item.children.any?
+      output << '<ul class="dropdown">'
+
+      if menu_item.name == "Budgets"
+        current_user.accounts.group_by(&:group).each do |group|
+          output << '<li class="divider"><a href="#">' + group[0] + '</a></li>'
+          group[1].each do |account|
+            account_item = MenuItem.new(name: account.name, url: "/budgets/accounts/#{account.id}", icon: "university", method: "", classes: [], parent_id: menu_item.parent_id)
+            output << '<li class="' + menu_item_classes(account_item) + '" style="width: 200px;">'
+            output << '<a href="' + menu_item_url(account_item) + '">' + get_icon(account_item) + account.name + '<div style="float:right;">' + number_to_currency(account.current_balance, precision: 2, format: "%u%n", unit: account.currency) + '</div></a>'
+            output << '</li>'
+          end
+        end
+      end
+
+      menu_item.children.each do |child|
+        add_item(child, output, &block)
+      end
+      output << '</ul>'
+    end
+
+    output << '</li>'
+  end
+
+  def menu_item_classes(menu_item)
     result = []
-    result << 'active' if menu_item_active_state?(menu_item, menu_items)
+    result << 'active' if menu_item_active_state?(menu_item)
     result << 'not-click' unless menu_item.url.present?
     result << 'has-dropdown' unless menu_item.url.present?
     result += menu_item.classes.split(',') if menu_item.classes.present?
@@ -16,75 +56,14 @@ module ApplicationHelper
     menu_item.url.present? ? menu_item.url : "#"
   end
 
-  def menu_item_active_state?(menu_item, menu_items)
+  def menu_item_active_state?(menu_item)
     if menu_item.name == "Budgets" && request.path.start_with?("/budgets")
       true
     elsif menu_item.url.present?
-      request.path == menu_item.url || request.path.start_with?(menu_item.url+"/")
+      request.path == menu_item.url || request.path.start_with?(menu_item.url + "/")
     else
-      menu_item_parents(menu_items.select {|mi| mi.url.present? && (mi.url == request.path || request.path.start_with?(mi.url+"/"))}.first, menu_items).include?(menu_item.id)
+      menu_item.self_and_descendants.collect(&:url).include?(request.path)
     end
-  end
-
-  def menu_item_parents(menu_item, menu_items, ids=[])
-    if menu_item.present?
-      ids << menu_item.id
-      menu_item_parents(menu_items.select {|mi| mi.id == menu_item.parent_id}.first, menu_items, ids)
-    else
-      return ids
-    end
-  end
-
-  def main_menu(menu_items, &block)
-    menu_items = menu_items.order(:lft) if menu_items.is_a? Class
-    return '' unless menu_items.any?
-
-    output = '<ul class="left"><li class="' + menu_item_classes(menu_items.first, menu_items) + '">'
-    path = [nil]
-
-    menu_items.each_with_index do |menu_item, index|
-
-      if menu_item.name == "New Account"
-        # byebug
-      end
-
-      if menu_item.parent_id != path.last
-        if path.include?(menu_item.parent_id)
-          while path.last != menu_item.parent_id
-            path.pop
-            output << '</li></ul>'
-          end
-          output << '</li><li class="' + menu_item_classes(menu_item, menu_items) + '">'
-        else
-          path << menu_item.parent_id
-          output << '<ul class="dropdown">'
-
-          if menu_item.name == "New Account"
-            group = ""
-            current_user.accounts.each do |account|
-              if group != account.group
-                group = account.group
-                output << '</li><li class="divider"><a href="#">' + account.group + '</a>'
-              end
-
-              account_item = MenuItem.new(name: account.name, url:"/budgets/accounts/#{account.id}", icon: "university", method: "", classes: [], parent_id: menu_item.parent_id)
-              output << '</li><li class="' + menu_item_classes(account_item, menu_items) + '" style="width: 200px;">'
-              output << '<a href="' + menu_item_url(account_item) + '">' + get_icon(account_item) + capture(account_item, path.size - 1, &block) + '<div style="float:right;">' + number_to_currency(account.current_balance, precision: 2, format: "%u%n", unit: account.currency) + '</div></a>'
-
-            end
-          end
-
-          output << '<li class="' + menu_item_classes(menu_item, menu_items) + '">'
-        end
-      elsif index != 0
-        output << '</li><li class="' + menu_item_classes(menu_item, menu_items) + '">'
-      end
-
-      output << '<a href="' + menu_item_url(menu_item) + '"' + get_method(menu_item) +'>' + get_icon(menu_item) + capture(menu_item, path.size - 1, &block) + '</a>'
-    end
-
-    output << '</li></ul>' * path.length
-    output.html_safe
   end
 
   def get_method(menu_item)

@@ -1,20 +1,19 @@
-.form
-  = render partial: '/budgets/shared/button_strip'
-  - if @accounts.present?
-    %table
-      - group = ""
+= render partial: '/budgets/shared/button_strip'
+- if @accounts.present?
+  %table
+    - group = ""
 
-      - @accounts.each do |account|
-        - if account.group != group
-          - group = account.group
-          %tr
-            %th= group
-
+    - @accounts.each do |account|
+      - if account.group != group
+        - group = account.group
         %tr
-          %td.smaller-font
-            = link_to account.name, account
-            .balance{style: "float: right; padding-left:25px;"}
-              = number_to_currency(account.current_balance, precision: 2, format: "%u%n", unit: account.currency)
+          %th= group
 
-  - else
-    %i No transactions found for the period.
+      %tr
+        %td.smaller-font
+          = link_to account.name, account
+          .balance{style: "float: right; padding-left:25px;"}
+            = number_to_currency(account.current_balance, precision: 2, format: "%u%n", unit: account.currency)
+
+- else
+  %i No transactions found for the period.

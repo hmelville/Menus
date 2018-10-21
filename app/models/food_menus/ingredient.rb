@@ -7,8 +7,7 @@ module FoodMenus
     has_one :collection, as: :target, dependent: :destroy
     after_create :create_collection
 
-    has_many :ingredient_suppliers, dependent: :destroy
-    has_many :suppliers, through: :ingredient_suppliers
+    has_many :ingredient_suppliers, dependent: :destroy, class_name: 'FoodMenus::Ingredients::IngredientSupplier'
 
     validates :name, presence: true
     validates_uniqueness_of :name, scope: :user_id

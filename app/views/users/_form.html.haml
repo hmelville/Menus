@@ -1,0 +1,84 @@
+= javascript_include_tag "password"
+= form_for @user do |f|
+  = render partial: "button_strip", locals: { f: f }
+  .columns
+    %fieldset.margin-bottom
+      %legend My details
+      .large-6.columns
+        = f.label "First Name:"
+        = f.text_field :first_name, required: true, maxlength: 35
+        = f.label "Last Name:"
+        = f.text_field :last_name, required: true, maxlength: 40
+      .large-6.columns
+        = f.label "Email Address:"
+        = f.text_field :email, required: true, type: "email"
+        = f.label "Confirm Email Address:"
+        = f.text_field :email_confirmation, required: type == "new", type: "email"
+        = text_field_tag 'name', '', class: 'absent'
+    - if type == "new"
+      .large-6.columns.no-padding
+        %h2 Password
+        .columns
+          = f.label "Password:"
+          = f.text_field :password, input_html: { autocomplete: "off" }, required: type == "new"
+          #user-password-text
+          = f.label "Confirm Password:"
+          = f.text_field :password_confirmation, input_html: { autocomplete: "off" }, required: type == "new"
+
+    %fieldset.margin-bottom
+      %legend Budget Settings
+      .columns
+        .large-6.medium-6.input
+          = f.label 'Use Budgets:'
+          = f.select :use_budgets, [["Yes", true], ["No", false]]
+
+    %fieldset.margin-bottom
+      %legend Menu Settings
+      .columns
+        .large-6.medium-6.input
+          = f.label 'Use Menus:'
+          = f.select :use_menus, [["Yes", true], ["No", false]]
+        %fieldset.margin-bottom
+          %legend Menu Rotations:
+          .large-6.columns
+            = f.label 'Weeks:'
+            = f.select :menu_rotation_weeks, User::WEEKS, required: true
+          .large-6.columns
+            = f.label 'Start date:'
+            = f.text_field :menu_rotation_start_date, class: "datepickable", id: "menu_rotation_start_date"
+
+      .columns
+        %fieldset.margin-bottom
+          %legend Emails:
+          .large-6.columns
+            .input
+              = f.label 'Send reminders:'
+              = f.select :reminder_emails, [["Yes!", true], ["No", false]]
+
+          .large-6.columns
+            .input
+              = f.label 'Time to send:'
+              = f.text_field :reminder_emails_send_time, class: "datepickable"
+
+      .columns
+        %fieldset
+          %legend Shopping:
+          .large-6.columns
+            .input
+              = f.label 'Default days:'
+              = f.select :default_shopping_days, (0..31), required: true
+
+:javascript
+  $(function() {
+    var dateFormat = "yy-mm-dd"
+    var today = new Date();
+    menu_rotation_start_date = $("#menu_rotation_start_date")
+      .datepicker({
+        dateFormat: dateFormat,
+        showOtherMonths: true,
+        selectOtherMonths: true
+      })
+
+
+    menu_rotation_start_date.datepicker("option", "minDate", today);
+  });

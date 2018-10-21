@@ -6,7 +6,7 @@ module FoodMenus
     has_many :ingredients, through: :ingredient_suppliers
 
     validates :name, presence: true
-    validates_uniqueness_of :user_id, :name
+    validates_uniqueness_of :name, scope: :user_id
 
     default_scope { order(:name) }
 

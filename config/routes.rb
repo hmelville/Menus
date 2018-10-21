@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resource :session
-  resource :account do
+  resource :user do
     get 'password', :action => 'password', :as => :password_recovery
     post 'password', :action => 'password_sent'
     get 'password_reset/:token', :action => 'password_reset', :as => :password_reset, purpose: "password_reset"
@@ -22,11 +22,12 @@ Rails.application.routes.draw do
     resources :meals
     resources :menu_rotations
     resources :recipes
-    resources :ingredients
-    resources :ingredient_suppliers
+    resources :ingredients do
+      resources :ingredient_suppliers, controller: 'ingredients/ingredient_suppliers'
+    end
+
     resources :suppliers
     resources :units
-    resources :settings
     resources :shopping_lists do
       member do
         get :create_menus, action: 'create_menus'

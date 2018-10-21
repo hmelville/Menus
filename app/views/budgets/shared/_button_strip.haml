@@ -14,7 +14,7 @@
         %li= link_to(icon('pencil', 'Edit'), @edit_path, class: 'button')
 
       - if @buttons.include?(:delete)
-        %li= link_to(icon('trash', 'Delete'), @delete_path, class: 'button', data: {confirm: 'Are you sure?'}, method: :delete)
+        %li= link_to(icon('trash', 'Delete'), @delete_path, class: 'button', data: { confirm: 'Are you sure?' }, method: :delete)
 
   -if @account.present?
     %h2= @account.name + " : " + number_to_currency(@account.current_balance, precision: 2, format: "%u%n", unit: @account.currency)

@@ -2,12 +2,12 @@
   .button_strip
     %ul.button-group.round.right
       - if @collection_ingredient_buttons.include?(:save)
-        %li= link_to(icon('save',"Save"), @collection_ingredient, class: 'button submit')
+        %li= f.button icon('save', 'Save'), class: 'button'
 
       - if @collection_ingredient_buttons.include?(:cancel)
-        %li= link_to(icon('undo',"Cancel"), session[:food_menus_collection_ingredient_return_to], class: 'button')
+        %li= link_to(icon('undo', 'Cancel'), session[:food_menus_collection_ingredient_return_to], class: 'button')
 
       - if @collection_ingredient_buttons.include?(:delete)
-        %li= link_to(icon('trash',"Delete"), @collection_ingredient, class: 'button', data: {confirm: "Are you sure want to delete #{@collection_ingredient.ingredient.name}?"}, method: :delete)
+        %li= link_to(icon('trash', 'Delete'), @collection_ingredient, class: 'button', data: { confirm: "Are you sure want to delete #{@collection_ingredient.ingredient.name}?" }, method: :delete)
 
   %h1= @collection_ingredient_page_heading.gsub(/\s/, '&nbsp;').html_safe

@@ -1,0 +1,16 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+      - if @buttons.include?(:save)
+        %li= f.button icon('save', 'Save'), class: 'button'
+
+      - if @buttons.include?(:cancel)
+        %li= link_to(icon('undo', 'Cancel'), session[:user_return_to], class: 'button')
+
+      - if @buttons.include?(:edit)
+        %li= link_to(icon('pencil', 'Edit'), edit_user_path(reset_back: true), class: 'button')
+
+      - if @buttons.include?(:close)
+        %li= link_to(icon('trash', 'Close Account'), close_user_path, class: 'button', data: { confirm: "Are you sure you want to close your account?" }, method: :delete)
+
+  %h1= @page_heading.gsub(/\s/, '&nbsp;').html_safe

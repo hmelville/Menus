@@ -1,5 +1,6 @@
 module FoodMenus
   class SuppliersController < BaseController
+    load_and_authorize_resource class: 'FoodMenus::Supplier'
     before_action :setup
     skip_before_action :verify_authenticity_token
 
@@ -10,16 +11,12 @@ module FoodMenus
     end
 
     def index
-      @suppliers = current_user.suppliers.all
     end
 
     def new
-      @supplier = FoodMenus::Supplier.new
     end
 
     def create
-      @supplier = FoodMenus::Supplier.new(supplier_params)
-
       if @supplier.save
         flash[:notice] = "Successfully created supplier."
         go_back(@supplier)
@@ -30,7 +27,7 @@ module FoodMenus
     end
 
     def update
-      if @supplier.update(supplier_params)
+      if @supplier.update_attributes(supplier_params)
         flash[:notice] = "Successfully updated supplier."
         go_back(food_menus_suppliers_path)
       else
@@ -47,10 +44,6 @@ module FoodMenus
 
     private
       def setup
-        if params[:id]
-          @supplier = current_user.suppliers.find(params[:id])
-        end
-
         case action_name
         when 'new','create'
           @supplier_page_heading = "New Supplier"

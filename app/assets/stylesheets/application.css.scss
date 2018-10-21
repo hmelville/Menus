@@ -2,10 +2,10 @@
   *= require_self
   *= require jquery-ui
   *= require jquery.treeview
-  *= require jquery.swinxy-combined
   *= require elrte.min
   *= require_tree ./food_menus
   *= require_tree ./budgets
+  *= require jquery-ui/datepicker
 */
 
 $include-html-classes: false;
@@ -15,6 +15,7 @@ $include-html-classes: false;
 @import 'config/foundation_and_overrides';
 @import "font-awesome-sprockets";
 @import "font-awesome";
+@import "jquery-ui";
 @import url('https://fonts.googleapis.com/css?family=Droid+Sans');
 
 body {

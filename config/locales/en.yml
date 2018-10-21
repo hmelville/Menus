@@ -235,7 +235,7 @@ en:
     success: Your password was successfully updated.
     blank: You must enter a password.
 
-  account_activation:
+  user_activation:
     expired: We're sorry, but that activation link has expired. To activate your account please request a Password Recovery email using the form below.
     invalid: We're sorry, but we do not recognise that account activation link. Either contact Customer Services or re-register using the form below.
     success: Your account has now been activated

@@ -1,17 +1,16 @@
-.form
-  = render partial: 'button_strip'
+= render partial: 'button_strip'
 
-  - if @units.any?
-    %table.full
-      %thead
+- if @units.any?
+  %table.full
+    %thead
+      %tr
+        %th Name
+        %th Kind
+        %th Rate
+
+    %tbody
+      - @units.each do |unit|
         %tr
-          %th Name
-          %th Kind
-          %th Rate
-
-      %tbody
-        - @units.each do |unit|
-          %tr
-            %td= link_to unit, edit_food_menus_unit_path(unit), class: "name"
-            %td= unit.kind
-            %td.right-align= unit.conversion_rate
+          %td= link_to unit, edit_food_menus_unit_path(unit), class: "name"
+          %td= unit.kind
+          %td.right-align= unit.conversion_rate

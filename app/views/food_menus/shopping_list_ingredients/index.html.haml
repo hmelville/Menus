@@ -1,29 +1,28 @@
-.form
-  = render partial: 'button_strip'
-  - if @shopping_list_ingredients.any?
-    %table.full
-      %tbody
-        - @shopping_list_ingredients.each do |shopping_list_ingredient|
-          %tr
-            %td
-              = shopping_list_ingredient
-              -# = render partial: 'all_ingredients', locals: {id: "all_ingredients_#{shopping_list_ingredient.id}", ingredient_id: shopping_list_ingredient.ingredient_id}
-              - ingredients = @shopping_list.get_all_ingredients(shopping_list_ingredient.ingredient_id)
-              - if ingredients.any?
-                = link_to icon("chevron-circle-down"), "#", id: "ingredients_#{shopping_list_ingredient.id}", class: "padding-left toggle_items"
-              .right.larger
-                - if shopping_list_ingredient.quantity <= 1
-                  = link_to(icon('minus-circle', class: "margin-right"), shopping_list_ingredient, data: {confirm: "Are you sure you want to remove #{shopping_list_ingredient.ingredient.name}?"}, method: :delete)
-                - else
-                  = link_to(icon('minus-circle', class: "margin-right"), deduct_quantity_food_menus_shopping_list_ingredient_path(shopping_list_ingredient))
+= render partial: 'button_strip'
+- if @shopping_list_ingredients.any?
+  %table.full
+    %tbody
+      - @shopping_list_ingredients.each do |shopping_list_ingredient|
+        %tr
+          %td
+            = shopping_list_ingredient
+            -# = render partial: 'all_ingredients', locals: {id: "all_ingredients_#{shopping_list_ingredient.id}", ingredient_id: shopping_list_ingredient.ingredient_id}
+            - ingredients = @shopping_list.get_all_ingredients(shopping_list_ingredient.ingredient_id)
+            - if ingredients.any?
+              = link_to icon("chevron-circle-down"), "#", id: "ingredients_#{shopping_list_ingredient.id}", class: "padding-left toggle_items"
+            .right.larger
+              - if shopping_list_ingredient.quantity <= 1
+                = link_to(icon('minus-circle', class: "margin-right"), shopping_list_ingredient, data: {confirm: "Are you sure you want to remove #{shopping_list_ingredient.ingredient.name}?"}, method: :delete)
+              - else
+                = link_to(icon('minus-circle', class: "margin-right"), deduct_quantity_food_menus_shopping_list_ingredient_path(shopping_list_ingredient))
 
-                = link_to(icon('plus-circle', class: "margin-right"), add_quantity_food_menus_shopping_list_ingredient_path(shopping_list_ingredient))
-                = link_to(icon('trash'), shopping_list_ingredient, data: {confirm: "Are you sure you want to remove #{shopping_list_ingredient.ingredient.name}?"}, method: :delete)
+              = link_to(icon('plus-circle', class: "margin-right"), add_quantity_food_menus_shopping_list_ingredient_path(shopping_list_ingredient))
+              = link_to(icon('trash'), shopping_list_ingredient, data: {confirm: "Are you sure you want to remove #{shopping_list_ingredient.ingredient.name}?"}, method: :delete)
 
-              .items_table{id: "ingredients_#{shopping_list_ingredient.id}_items_table", class: "hidden"}
-                %table.full
-                  %tbody
-                    - ingredients.each do |ingredient|
-                      %tr
-                        %td
-                          = "#{ingredient.collection.target.name} - #{ingredient}"
+            .items_table{id: "ingredients_#{shopping_list_ingredient.id}_items_table", class: "hidden"}
+              %table.full
+                %tbody
+                  - ingredients.each do |ingredient|
+                    %tr
+                      %td
+                        = "#{ingredient.collection.target.name} - #{ingredient}"

@@ -1,5 +1,6 @@
 module FoodMenus
   class MealsController < BaseController
+    load_and_authorize_resource class: 'FoodMenus::Meal'
     before_action :setup
     skip_before_action :verify_authenticity_token
 
@@ -10,15 +11,12 @@ module FoodMenus
     end
 
     def index
-      @meals = current_user.meals.all
     end
 
     def new
-      @meal = FoodMenus::Meal.new()
     end
 
     def create
-      @meal = current_user.meals.new(meal_params)
       if @meal.save
         flash[:notice] = "Successfully created meal."
         go_back(@meal)
@@ -29,7 +27,7 @@ module FoodMenus
     end
 
     def update
-      if @meal.update(meal_params)
+      if @meal.update_attributes(meal_params)
         flash[:notice] = "Successfully updated meal."
         go_back(food_menus_meals_path)
       else
@@ -46,15 +44,6 @@ module FoodMenus
 
     private
       def setup
-        if params[:id]
-          @meal = current_user.meals.find_by_id(params[:id])
-          unless @meal
-            flash[:notice] = "Can't find meal."
-            go_back
-            return
-          end
-        end
-
         case action_name
         when 'new','create'
           @meal_page_heading = "New Meal"

@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_back
-    session[back_to_key] = request.referer.gsub('&reset_back=true', '') if params[:reset_back].present?
+    session[back_to_key] = request.referer.gsub('&reset_back=true', '') if request.referer && params[:reset_back].present?
   end
 
   def go_back(default_path = nil)

@@ -1,27 +1,26 @@
-.form
-  = render partial: '/budgets/shared/button_strip'
-  = render partial: '/budgets/shared/tabs'
-  .columns.tabs-content
-    = simple_form_for @account do |f|
-      .fields
-        .large-6.columns
-          = f.label 'Account name:'
-          %p= @account.name
-        .large-6.columns
-          = f.label 'Group:'
-          %p= @account.group
-        .large-6.columns
-          = f.label 'Start date:'
-          %p= @account.start_date
-        .large-6.columns
-          = f.label 'Opening balance:'
-          %p= number_to_currency(@account.opening_balance, precision: 2, unit: @account.currency)
-        .large-6.columns
-          = f.label 'Currency:'
-          %p= @account.currency
-        .large-6.columns
-          = f.label 'Sort order:'
-          %p= @account.sort_order
-        .large-6.columns
-          = f.label 'Active:'
-          %p= @account.active
+= render partial: '/budgets/shared/button_strip'
+= render partial: '/budgets/shared/tabs'
+.columns.tabs-content
+  = form_for @account do |f|
+    .fields
+      .large-6.columns
+        = f.label 'Account name:'
+        %p= @account.name
+      .large-6.columns
+        = f.label 'Group:'
+        %p= @account.group
+      .large-6.columns
+        = f.label 'Start date:'
+        %p= @account.start_date
+      .large-6.columns
+        = f.label 'Opening balance:'
+        %p= number_to_currency(@account.opening_balance, precision: 2, unit: @account.currency)
+      .large-6.columns
+        = f.label 'Currency:'
+        %p= @account.currency
+      .large-6.columns
+        = f.label 'Sort order:'
+        %p= @account.sort_order
+      .large-6.columns
+        = f.label 'Active:'
+        %p= @account.active

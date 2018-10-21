@@ -1,11 +1,11 @@
 .row
-  .columns.form
+  .columns
     %h1 Menus and Budgets
     %h2 Already registered?
     = render partial: "/pages/form"
 .row
-  .columns.form.explainer
+  .columns.explainer
     %h2
       New user?
       %p.intro-copy
-      = link_to "Register here", new_account_path, class: "new_user", title: "Users' registration page"
+      = link_to "Register here", new_user_path, class: "new_user", title: "Users' registration page"

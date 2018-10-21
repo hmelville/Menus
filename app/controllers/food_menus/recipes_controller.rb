@@ -1,5 +1,6 @@
 module FoodMenus
   class RecipesController < BaseController
+    load_and_authorize_resource class: 'FoodMenus::Recipe'
     before_action :setup
     skip_before_action :verify_authenticity_token
 
@@ -10,15 +11,12 @@ module FoodMenus
     end
 
     def index
-      @recipes = current_user.recipes.all
     end
 
     def new
-      @recipe = FoodMenus::Recipe.new()
     end
 
     def create
-      @recipe = current_user.recipes.new(recipe_params)
       if @recipe.save
         flash[:notice] = "Successfully created recipe."
         go_back(@recipe)
@@ -29,7 +27,7 @@ module FoodMenus
     end
 
     def update
-      if @recipe.update(recipe_params)
+      if @recipe.update_attributes(recipe_params)
         flash[:notice] = "Successfully updated recipe."
         go_back(food_menus_recipes_path)
       else
@@ -46,15 +44,6 @@ module FoodMenus
 
     private
       def setup
-        if params[:id]
-          @recipe = current_user.recipes.find_by_id(params[:id])
-          unless @recipe
-            flash[:notice] = "Can't find recipe."
-            redirect_to food_menus_recipes_path
-            return
-          end
-        end
-
         case action_name
         when 'new','create'
           @recipe_page_heading = "New Recipe"

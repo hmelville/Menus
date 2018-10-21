@@ -1,11 +1,10 @@
-.form
-  = render partial: 'button_strip'
+= render partial: 'button_strip'
 
-  - if @meals.any?
-    %table.full
-      %tbody
-        - @meals.each do |meal|
-          %tr
-            %td
-              = link_to meal.name, meal, class: "red"
-              = render partial: '/food_menus/collections/index', locals: {id: "collection_#{meal.id}", collection: meal.collection, hidden_initially: true, show_prefix: true, show_recipe_names: false}
+- if @meals.any?
+  %table.full
+    %tbody
+      - @meals.each do |meal|
+        %tr
+          %td
+            = link_to meal.name, meal, class: "red"
+            = render partial: '/food_menus/collections/index', locals: {id: "collection_#{meal.id}", collection: meal.collection, hidden_initially: true, show_prefix: true, show_recipe_names: false}

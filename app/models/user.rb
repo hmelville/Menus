@@ -10,12 +10,24 @@ class User < ::ApplicationBase
   has_many :ingredients, class_name: '::FoodMenus::Ingredient', dependent: :destroy
   has_many :suppliers, class_name: '::FoodMenus::Supplier', dependent: :destroy
   has_many :menu_rotations, class_name: '::FoodMenus::MenuRotation', dependent: :destroy
-  has_one :setting, class_name: '::FoodMenus::Setting', dependent: :destroy
   has_one :shopping_list, class_name: '::FoodMenus::ShoppingList', dependent: :destroy
 
   has_many :accounts, class_name: '::Budgets::Account', dependent: :destroy
 
   attr_accessor :old_password, :email_is_valid, :email_validator_message
+
+  WEEKS = [1,2,3,4]
+
+  DAYS =
+    {
+      1 => "Sunday",
+      2 => "Monday",
+      3 => "Tuesday",
+      4 => "Wednesday",
+      5 => "Thursday",
+      6 => "Friday",
+      7 => "Saturday"
+    }
 
   default_scope { where(account_closed: false) }
 
@@ -40,6 +52,9 @@ class User < ::ApplicationBase
 
   validates :last_name,
             presence: true, length: { maximum: 40 }
+
+  validates :menu_rotation_weeks, numericality: { greater_than: 0 }
+  validates_presence_of :menu_rotation_weeks, :menu_rotation_start_date
 
   def display_name
     [first_name, last_name].compact.join(' ')
@@ -83,17 +98,15 @@ class User < ::ApplicationBase
   end
 
   def get_day_week_by_date(the_date)
-    @setting = setting
-    day_diff = (the_date - @setting.menu_rotation_start_date).to_i
-    week = (((day_diff / 7) + 1 )% -@setting.menu_rotation_weeks) + @setting.menu_rotation_weeks
+    day_diff = (the_date - menu_rotation_start_date).to_i
+    week = (((day_diff / 7) + 1 )% -menu_rotation_weeks) + menu_rotation_weeks
     day = ((day_diff + 1) % - 7) + 7
     {week: week, day: day}
   end
 
   def process_menu_rotations
     # Create new ones if they don't already exist
-    @setting = setting
-    (1..@setting.menu_rotation_weeks).each do |menu_rotation_week|
+    (1..menu_rotation_weeks).each do |menu_rotation_week|
       (1..7).each do |menu_rotation_day|
         next if menu_rotations.where("week = ? AND day = ?", menu_rotation_week, menu_rotation_day).any?
         menu_rotations.create(week: menu_rotation_week, day: menu_rotation_day)
@@ -102,7 +115,7 @@ class User < ::ApplicationBase
 
     # Remove ones that are no longer needed
     menu_rotations.all.each do |menu_rotation|
-      menu_rotation.destroy unless (1..@setting.menu_rotation_weeks).include?(menu_rotation.week)
+      menu_rotation.destroy unless (1..menu_rotation_weeks).include?(menu_rotation.week)
     end
   end
 

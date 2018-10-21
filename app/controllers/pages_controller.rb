@@ -23,7 +23,7 @@ class PagesController < ApplicationController
 
   def welcome_all(target)
     if current_user
-      redirect_to account_path
+      redirect_to user_path
     else
       @hide_menu = true
       render target

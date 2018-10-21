@@ -12,17 +12,15 @@ module FoodMenus
     end
 
     def day_of_week(num_days)
-      setting = user.setting
-      (setting.menu_rotation_start_date + (num_days.days)).wday
+      (user.menu_rotation_start_date + (num_days.days)).wday
     end
 
     def day_name
-      setting = user.setting
-      (setting.menu_rotation_start_date + ((week - 1) * 7 + (day - 1)).days).strftime("%A")
+      (user.menu_rotation_start_date + ((week - 1) * 7 + (day - 1)).days).strftime("%A")
     end
 
     def is_today?
-      h = current_user.menu_rotation.get_day_week_by_date(Date.today, current_user.setting)
+      h = user.menu_rotation.get_day_week_by_date(Date.today, user)
       h[:week] == week && h[:day] == day
     end
   end

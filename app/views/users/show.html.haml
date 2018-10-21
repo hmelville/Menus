@@ -1,0 +1,55 @@
+- content_for :title do
+  My details
+= form_for @user do |f|
+  = render partial: "button_strip", locals: { f: f }
+  .columns
+    %fieldset.margin-bottom
+      %legend My Details
+      .large-6.columns
+        = f.label 'Name:'
+        %p= @user_d.display_name
+      .columns
+        = f.label 'Email:'
+        %p= @user_d.email
+
+    %fieldset.margin-bottom
+      %legend Budget Settings
+      .columns
+        .large-6.medium-6.input
+          = f.label 'Use Budgets:'
+          %p= @user_d.to_yesno(@user_d.use_budgets)
+
+    %fieldset.margin-bottom
+      %legend Menu Settings
+      .columns
+        .large-6.medium-6.input
+          = f.label 'Use Menus:'
+          %p= @user_d.to_yesno(@user_d.use_menus)
+      - if @user.use_menus
+        .columns
+          %fieldset.margin-bottom
+            %legend Menu Rotations:
+            .large-6.columns
+              = f.label 'Weeks:'
+              %p= @user_d.menu_rotation_weeks
+            .large-6.columns
+              = f.label 'Start date:'
+              %p= @user_d.menu_rotation_start_date
+
+        .columns
+          %fieldset.margin-bottom
+            %legend Emails:
+            .large-6.columns
+              = f.label 'Email reminders:'
+              %p= @user_d.to_yesno(@user_d.reminder_emails)
+
+            .large-6.columns
+              = f.label 'Time to send:'
+              %p= @user_d.reminder_emails_send_time
+
+        .columns
+          %fieldset
+            %legend Shopping:
+            .columns
+              = f.label 'Default days:'
+              %p= @user_d.default_shopping_days

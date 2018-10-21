@@ -1,5 +1,5 @@
 module Budgets
-  class AccountsDecorator < ::BaseDecorator
+  class AccountDecorator < ::BaseDecorator
     delegate_all
   end
 end

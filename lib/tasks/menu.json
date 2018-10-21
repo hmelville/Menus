@@ -53,13 +53,6 @@
         "url": "/food_menus/shopping_list_ingredients",
         "icon": "list-ul",
         "method": "",
-        "classes": []
-      },
-      {
-        "name": "Settings",
-        "url": "/food_menus/settings",
-        "icon": "cog",
-        "method": "",
         "classes": ["divider"]
       },
       {
