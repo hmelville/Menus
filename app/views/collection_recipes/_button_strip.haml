@@ -1,0 +1,13 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+      - if @buttons.include?(:save)
+        %li= f.button icon('save', 'Save'), class: 'button', data: { disable_with: "Save" }
+
+      - if @buttons.include?(:cancel)
+        %li= link_to(icon('undo', 'Cancel'), session[:collection_recipe_return_to], class: 'button')
+
+      - if @buttons.include?(:delete)
+        %li= link_to(icon('trash', 'Delete'), [@collection_recipe.target, @collection_recipe], class: 'button', method: :delete, data: { confirm: { title: "Are you sure you want to delete #{@collection_recipe.recipe.name}?" }})
+
+  %h1= @heading.gsub(/\s/, '&nbsp;').html_safe

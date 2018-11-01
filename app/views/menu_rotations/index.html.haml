@@ -1,0 +1,14 @@
+%h1= "Menu Rotations:".gsub(/\s/, '&nbsp;').html_safe
+-if @menu_rotations.any?
+  %table.full
+    %tbody
+      - (1..@current_user.menu_rotation_weeks).each do |week|
+        %tr
+          %td
+            %b= "Week #{week}"
+            = link_to icon('chevron-circle-up'), "#", id: "menu_rotation_#{week}", class: "padding-left", onclick: "toggleItemsTable(this.id);"
+            .items_table{id: "menu_rotation_#{week}_items_table"}
+              %table.full
+                %tbody
+                  - @menu_rotations.where(week: week).each do |menu_rotation|
+                    = render partial: 'index_row', locals: { target: menu_rotation }

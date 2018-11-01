@@ -11,6 +11,6 @@
         %li= link_to(icon('pencil', 'Edit'), edit_budgets_account_path(@account), class: 'button')
 
       - if @buttons.include?(:delete)
-        %li= link_to(icon('trash', 'Delete'), @account, class: 'button', data: { confirm: 'Are you sure?' }, method: :delete)
+        %li= link_to(icon('trash', 'Delete'), @account, class: 'button', method: :delete, data: { confirm: { title: "Are you sure you want to delete #{@account.name}?" }})
 
   %h2= @account.name + ' : ' + number_to_currency(@account.current_balance, precision: 2, format: '%u%n', unit: @account.currency)

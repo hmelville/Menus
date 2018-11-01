@@ -1,0 +1,13 @@
+- id = "row_#{target.class.table_name}_#{target.id}"
+%tr{id: id}
+  %td{class: target.the_date == Date.today ? "is_today" : ""}
+    = link_to target.day_name, target
+    - if target.meals.any? || target.recipes.any? || target.ingredients.any?
+      - chevron = target.hidden_initially ? "down" : "up"
+      - items_class = target.hidden_initially ? "hidden" : ""
+      = link_to icon("chevron-circle-#{chevron}"), "#", id: "#{id}_toggle", class: "padding-left", onclick: "toggleItemsTable(this.id);"
+      = target.main_recipes
+      .items_table{id: "#{id}_toggle_items_table", class: items_class}
+        = render partial: '/collection_meals/index', locals: { target: target, show_actions: true, depth: 0 }
+        = render partial: '/collection_recipes/index', locals: { target: target, show_actions: true, depth: 0 }
+        = render partial: '/collection_ingredients/index', locals: { target: target, show_actions: true, depth: 0 }

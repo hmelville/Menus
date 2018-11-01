@@ -1,0 +1,16 @@
+.button-row#button-row
+  .button_strip
+    %ul.button-group.round.right
+      - if @buttons.include?(:new)
+        %li= link_to(icon('plus', "Add Ingredient"), [:new, @shopping_list, :collection_ingredient, reset_back: true], class: 'button')
+
+      - if @buttons.include?(:undo)
+        %li= link_to(icon('undo', 'Undo Delete'), undo_last_delete_shopping_list_path, method: :post, class: 'button')
+
+      - if @buttons.include?(:save)
+        %li= f.button icon('save', 'Save'), class: 'button', data: { disable_with: "Save" }
+
+      - if @buttons.include?(:cancel)
+        %li= link_to(icon('undo', 'Cancel'), @shopping_list, class: 'button')
+
+  %h1= @page_heading.gsub(/\s/, '&nbsp;').html_safe

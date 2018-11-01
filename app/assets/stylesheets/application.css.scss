@@ -3,7 +3,6 @@
   *= require jquery-ui
   *= require jquery.treeview
   *= require elrte.min
-  *= require_tree ./food_menus
   *= require_tree ./budgets
   *= require jquery-ui/datepicker
 */
@@ -447,4 +446,12 @@ section.top-bar-section a {
   font-size: 0.75em;
   padding-top: 4pt;
   padding-bottom: 4pt;
+}
+
+.reveal-modal .button.left.with-padding {
+  margin-right: 10px !important;
+}
+
+.larger-font {
+  font-size: 1em !important;
 }

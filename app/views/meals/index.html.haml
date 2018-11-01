@@ -1,0 +1,7 @@
+= render partial: 'button_strip'
+
+- if @meals.any?
+  %table.full
+    %tbody
+      - @meals.each do |meal|
+        = render partial: 'index_row', locals: { target: meal }

@@ -1,0 +1,18 @@
+= render partial: 'button_strip', locals: { f: f }
+.fields
+  .large-6.columns
+    .large-10.medium-10.small-10.columns.no-padding
+      = f.label :ingredient_id, 'Ingredient:'
+      = f.select :ingredient_id, options_from_collection_for_select(@ingredients, :id, :name, @collection_ingredient.ingredient.try(:id)), include_blank: true
+    .large-2.medium-2.small-2.columns.add-button
+      .button-row
+        .button_strip
+          %ul.button-group.round
+            %li= link_to(icon('plus', class: "no-padding"), new_ingredient_path(reset_back: true), class: 'button')
+  .large-6.columns.no-padding
+    .large-6.medium-6.small-6.columns
+      = f.label :quantity
+      = f.number_field :quantity, step: :any
+    .large-6.medium-6.small-6.columns
+      = f.label :unit
+      = f.select :unit_id, options_from_collection_for_select(Unit.all, :id, :name, @collection_ingredient.unit.try(:id)), include_blank: true

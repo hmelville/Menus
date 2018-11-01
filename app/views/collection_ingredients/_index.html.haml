@@ -1,0 +1,7 @@
+- if target.collection_ingredients.any?
+  %fieldset.full
+    %legend Ingredients:
+    %table.full
+      %tbody
+        - target.collection_ingredients.each do |collection_ingredient|
+          = render partial: 'collection_ingredients/index_ingredient_row', locals: { target: target, collection_ingredient: collection_ingredient, show_actions: show_actions, depth: depth }

@@ -1,0 +1,6 @@
+%h2
+  = @today.strftime("%A %d/%m/%Y")
+  - if @collection.present? && (@collection.collection_meals.any? || @collection.collection_recipes.any? || @collection.collection_ingredients.any?)
+    = render partial: '/collection_meals/index', locals: { target: @collection, show_actions: false, depth: 0 }
+    = render partial: '/collection_recipes/index', locals: { target: @collection, show_actions: false, depth: 0 }
+    = render partial: '/collection_ingredients/index', locals: { target: @collection, show_actions: false, depth: 0 }

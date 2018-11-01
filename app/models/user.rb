@@ -5,12 +5,13 @@ class User < ::ApplicationBase
 
   has_secure_password
 
-  has_many :meals, class_name: '::FoodMenus::Meal', dependent: :destroy
-  has_many :recipes, class_name: '::FoodMenus::Recipe', dependent: :destroy
-  has_many :ingredients, class_name: '::FoodMenus::Ingredient', dependent: :destroy
-  has_many :suppliers, class_name: '::FoodMenus::Supplier', dependent: :destroy
-  has_many :menu_rotations, class_name: '::FoodMenus::MenuRotation', dependent: :destroy
-  has_one :shopping_list, class_name: '::FoodMenus::ShoppingList', dependent: :destroy
+  has_many :meals, class_name: '::Meal', dependent: :destroy
+  has_many :recipes, class_name: '::Recipe', dependent: :destroy
+  has_many :ingredients, class_name: '::Ingredient', dependent: :destroy
+  has_many :suppliers, class_name: '::Supplier', dependent: :destroy
+  has_many :menu_rotations, class_name: '::MenuRotation', dependent: :destroy
+  has_many :shopping_lists, class_name: '::ShoppingList', dependent: :destroy
+  has_many :shopping_list_days, class_name: '::ShoppingListDay', dependent: :destroy
 
   has_many :accounts, class_name: '::Budgets::Account', dependent: :destroy
 
@@ -55,6 +56,8 @@ class User < ::ApplicationBase
 
   validates :menu_rotation_weeks, numericality: { greater_than: 0 }
   validates_presence_of :menu_rotation_weeks, :menu_rotation_start_date
+
+  after_create :create_dependencies
 
   def display_name
     [first_name, last_name].compact.join(' ')
@@ -104,6 +107,10 @@ class User < ::ApplicationBase
     {week: week, day: day}
   end
 
+  def shopping_list
+    shopping_lists.last
+  end
+
   def process_menu_rotations
     # Create new ones if they don't already exist
     (1..menu_rotation_weeks).each do |menu_rotation_week|
@@ -124,13 +131,78 @@ class User < ::ApplicationBase
     menu_rotations.where("week = ? AND day = ?", h[:week], h[:day]).first
   end
 
-  def method_missing(m, *args, &block)
-    # Use this so we don't have to create a new method every time we add to PAYMENT_TYPES
-    if m.to_s =~ /^pay_(.+)\?$/
-      run_pay_method(Regexp.last_match(1), *args, &block)
-    else
-      super
+
+  def build_shopping_list_days(start_date, end_date)
+    shopping_list_days.destroy_all
+
+    (start_date..end_date).each do |the_date|
+
+      shopping_list_day = shopping_list_days.create(the_date: the_date)
+
+      menu_rotation = get_rotation_by_date(the_date)
+
+      if menu_rotation.present?
+        menu_rotation.collection_meals.each do |meal|
+          shopping_list_day.collection_meals.create(meal.dup.attributes)
+        end
+
+        menu_rotation.collection_recipes.each do |recipe|
+          shopping_list_day.collection_recipes.create(recipe.dup.attributes)
+        end
+
+        menu_rotation.collection_ingredients.each do |ingredient|
+          shopping_list_day.collection_ingredients.create(ingredient.dup.attributes)
+        end
+      end
     end
+  end
+
+
+  def build_shopping_list
+    shopping_list.collection_ingredients.unscoped.where(target: shopping_list).destroy_all
+
+    if shopping_list_days.present?
+      shopping_list_days.each do |shopping_list_day|
+        if shopping_list_day.present?
+          shopping_list_day.get_all_ingredients.each do |col_ingredient|
+            add_shopping_list_ingredient(col_ingredient)
+          end
+        end
+      end
+    end
+  end
+
+  def add_shopping_list_ingredient(new_ingredient)
+    new_ingredient = align_to_purchase_unit(new_ingredient)
+    if (existing = shopping_list.collection_ingredients.find_by(ingredient_id: new_ingredient.ingredient_id, unit_id: new_ingredient.unit_id)).present?
+      existing.update_attributes(quantity: (existing.quantity + new_ingredient.quantity))
+    else
+      shopping_list.collection_ingredients.create(ingredient_id: new_ingredient.ingredient_id, unit_id: new_ingredient.unit_id, quantity: new_ingredient.quantity)
+    end
+  end
+
+  def align_to_purchase_unit(new_ingredient)
+    ingredient_unit = new_ingredient.unit
+    purchase_unit = new_ingredient.ingredient.unit
+
+    if purchase_unit.present?
+      new_ingredient.unit = purchase_unit
+      new_ingredient.quantity = new_ingredient.quantity / purchase_unit.conversion_rate * ingredient_unit.conversion_rate
+    end
+
+    return new_ingredient
+  end
+
+  def get_all_ingredients(ingredient_id = 0, unit_id = 0)
+    all_ingredients = []
+
+    if shopping_list_days.present?
+      shopping_list_days.each do |shopping_list_day|
+        all_ingredients += shopping_list_day.get_all_ingredients(ingredient_id, unit_id)
+      end
+    end
+
+    return all_ingredients
   end
 
   def self.permitted_attributes
@@ -154,5 +226,9 @@ class User < ::ApplicationBase
             end
       errors.add(:email, msg)
     end
+  end
+
+  def create_dependencies
+    ShoppingList.create(user_id: self.id, start_date: menu_rotation_start_date, end_date: menu_rotation_start_date + (default_shopping_days - 1).day) unless shopping_list.present?
   end
 end

@@ -17,34 +17,95 @@ Rails.application.routes.draw do
     get 'close'
   end
 
-  namespace :food_menus do
-    resources :today, only: [:index]
-    resources :meals
-    resources :menu_rotations
-    resources :recipes
-    resources :ingredients do
-      resources :ingredient_suppliers, controller: 'ingredients/ingredient_suppliers'
-    end
+  resources :today, only: [:index]
 
-    resources :suppliers
-    resources :units
-    resources :shopping_lists do
+  resources :ingredients do
+    resources :ingredient_suppliers, controller: 'ingredients/ingredient_suppliers'
+  end
+
+  resources :recipes do
+    resources :collection_ingredients, controller: 'collection_ingredients' do
       member do
-        get :create_menus, action: 'create_menus'
-        get :build_shopping_list, action: 'build_shopping_list'
+        post :add_quantity, action: 'add_quantity'
+        post :deduct_quantity, action: 'deduct_quantity'
+        post :delete, action: 'delete'
       end
     end
-    resources :shopping_list_days
-    resources :shopping_list_ingredients do
+  end
+
+  resources :meals do
+    resources :collection_recipes, controller: 'collection_recipes' do
       member do
-        get :add_quantity, action: 'add_quantity'
-        get :deduct_quantity, action: 'deduct_quantity'
+        post :delete, action: 'delete'
       end
     end
-    resources :collection_meals
-    resources :collection_recipes
-    resources :collection_ingredients
+    resources :collection_ingredients, controller: 'collection_ingredients' do
+      member do
+        post :add_quantity, action: 'add_quantity'
+        post :deduct_quantity, action: 'deduct_quantity'
+        post :delete, action: 'delete'
+      end
+    end
+  end
 
+  resources :menu_rotations do
+    resources :collection_meals, controller: 'collection_meals' do
+      member do
+        post :delete, action: 'delete'
+      end
+    end
+    resources :collection_recipes, controller: 'collection_recipes' do
+      member do
+        post :delete, action: 'delete'
+      end
+    end
+    resources :collection_ingredients, controller: 'collection_ingredients' do
+      member do
+        post :add_quantity, action: 'add_quantity'
+        post :deduct_quantity, action: 'deduct_quantity'
+        post :delete, action: 'delete'
+      end
+    end
+  end
+
+  resources :suppliers
+  resources :units
+
+  resources :shopping_lists do
+    member do
+      post :undo_last_delete
+    end
+    resources :collection_ingredients, controller: 'collection_ingredients' do
+      member do
+        post :add_quantity, action: 'add_quantity'
+        post :deduct_quantity, action: 'deduct_quantity'
+        post :delete, action: 'delete'
+      end
+    end
+  end
+
+  resources :shopping_list_days do
+    collection do
+      post :build_days, action: 'build_days'
+      post :build_list, action: 'build_list'
+    end
+    resources :collection_meals, controller: 'collection_meals' do
+      member do
+        post :delete, action: 'delete'
+      end
+    end
+    resources :collection_recipes, controller: 'collection_recipes' do
+      member do
+        post :delete, action: 'delete'
+      end
+    end
+    resources :collection_ingredients, controller: 'collection_ingredients' do
+      member do
+        post :add_quantity, action: 'add_quantity'
+        post :deduct_quantity, action: 'deduct_quantity'
+        post :delete, action: 'delete'
+      end
+    end
   end
 
   namespace :budgets do
