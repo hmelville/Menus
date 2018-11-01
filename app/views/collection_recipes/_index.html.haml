@@ -1,0 +1,22 @@
+- if target.collection_recipes.any?
+  %fieldset.full
+    %legend Recipes:
+    %table.full
+      %tbody
+        - target.collection_recipes.each do |collection_recipe|
+          - id = "row_#{collection_recipe.class.table_name}_#{collection_recipe.id}"
+          %tr{ id: "#{id}" }
+            %td
+              = collection_recipe.name
+              - if collection_recipe.recipe.ingredients.any?
+                - chevron = collection_recipe.recipe.hidden_initially ? "down" : "up"
+                = link_to icon("chevron-circle-#{chevron}"), "#", id: "#{id}_toggle", class: "padding-left", onclick: "toggleItemsTable(this.id);"
+              - if show_actions && depth == 0
+                .right.larger
+                  - url = "#{polymorphic_path([collection_recipe.target, collection_recipe])}"
+                  - partial = partial_class(__FILE__)
+                  = link_to(icon('trash'), '#', data: { confirm: { title: "Are you sure you want to remove #{collection_recipe.name}?" }}, callback: "call_method('#{url + '/delete'}', #{collection_recipe.id}, '#{partial}');")
+              - if collection_recipe.recipe.ingredients.any?
+                - items_class = collection_recipe.recipe.hidden_initially ? "hidden" : ""
+                .items_table{id: "#{id}_toggle_items_table", class: items_class}
+                  = render partial: '/collection_ingredients/index', locals: { target: collection_recipe.recipe, show_actions: show_actions, depth: depth + 1 }

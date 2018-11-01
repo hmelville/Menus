@@ -1,0 +1,15 @@
+= form_for @unit do |f|
+  = render partial: 'button_strip', locals: { f: f }
+  .fields
+    .large-3.medium-3.small-6.columns
+      = f.label :name, 'Unit name:'
+      = f.text_field :name
+    .large-3.medium-3.small-6.columns
+      = f.label :abbreviation
+      = f.text_field :abbreviation
+    .large-3.medium-3.small-6.columns
+      = f.label :kind
+      = f.select :kind, Unit::KINDS
+    .large-3.medium-3.small-6.columns
+      = f.label :conversion_rate
+      = f.number_field :conversion_rate, step: 1

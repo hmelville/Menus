@@ -1,0 +1,22 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+      - if @buttons.include?(:new)
+        %li= link_to(icon('plus', 'New Unit'), new_unit_path(reset_back: true), class: 'button')
+
+      - if @buttons.include?(:save)
+        %li= f.button icon('save', 'Save'), class: 'button', data: { disable_with: "Save" }
+
+      - if @buttons.include?(:cancel)
+        %li= link_to(icon('undo', 'Cancel'), units_path, class: 'button')
+
+      - if @buttons.include?(:index)
+        %li= link_to(icon('list', 'List'), units_path(reset_back: true), class: 'button')
+
+      - if @buttons.include?(:edit)
+        %li= link_to(icon('pencil', 'Edit'), edit_unit_path(reset_back: true), class: 'button')
+
+      - if @buttons.include?(:delete)
+        %li= link_to(icon('trash', 'Delete'), @unit, class: 'button', method: :delete, data: { confirm: { title: "Are you sure you want to delete #{@unit.name}?" }})
+
+  %h1= @page_heading.gsub(/\s/, '&nbsp;').html_safe

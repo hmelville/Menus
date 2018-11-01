@@ -1,0 +1,15 @@
+- id = "row_#{collection_ingredient.class.table_name}_#{collection_ingredient.id}"
+%tr{ id: id }
+  %td
+    = link_to collection_ingredient, [:edit, target, collection_ingredient, reset_back: true], class: "red"
+    - if show_actions && depth == 0
+      .right.larger
+        - id = collection_ingredient.id
+        - url = "#{polymorphic_path([collection_ingredient.target, collection_ingredient])}"
+        - partial = partial_class(__FILE__)
+        - if collection_ingredient.quantity <= 1
+          = link_to(icon('minus-circle', class: "margin-right"), '#', data: { confirm: { title: "Are you sure you want to remove #{collection_ingredient.name}?" }}, callback: "call_method('#{url + '/delete'}', #{id}, '#{partial}');")
+        - else
+          = link_to(icon('minus-circle', class: "margin-right"), '#', onclick: "call_method('#{url + '/deduct_quantity'}', #{id}, '#{partial}');")
+        = link_to(icon('plus-circle', class: "margin-right"), '#', onclick: "call_method('#{url + '/add_quantity'}', #{id}, '#{partial}');")
+        = link_to(icon('trash'), '#', data: { confirm: { title: "Are you sure you want to remove #{collection_ingredient.name}?" }}, callback: "call_method('#{url + '/delete'}', #{id}, '#{partial}');")

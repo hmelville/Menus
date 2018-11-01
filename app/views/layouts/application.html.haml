@@ -42,14 +42,7 @@
         = yield
 
 :javascript
-
   $(document).ready(function() {
-
-    $('.toggle_items').click(function() {
-      $('#' + this.id).children().toggleClass('fa-chevron-circle-up').toggleClass('fa-chevron-circle-down')
-      $('#' + this.id + '_items_table').slideToggle(500);
-      return false;
-    });
     resizeContent();
   });
 

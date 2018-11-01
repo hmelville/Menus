@@ -1,0 +1,28 @@
+- rid = "row_#{collection_ingredient.class.table_name}_#{collection_ingredient.id}"
+%tr{ id: rid}
+  %td
+    = collection_ingredient
+    -if collection_ingredient.target.class.name == "ShoppingList"
+      - ingredients = current_user.get_all_ingredients(collection_ingredient.ingredient_id, collection_ingredient.unit_id)
+      - if ingredients.any?
+        = link_to icon("chevron-circle-down"), "#", id: "#{rid}_toggle", class: "padding-left", onclick: "toggleItemsTable(this.id);"
+    - if show_actions && depth == 0
+      .right.larger
+        - id = collection_ingredient.id
+        - url = "#{polymorphic_path([collection_ingredient.target, collection_ingredient])}"
+        - partial = partial_class(__FILE__)
+        - if collection_ingredient.quantity <= 1
+          = link_to(icon('minus-circle', class: "margin-right"), '#', data: { confirm: { title: "Are you sure you want to remove #{collection_ingredient.name}?" }}, callback: "call_method('#{url + '/delete'}', #{id}, '#{partial}');")
+        - else
+          = link_to(icon('minus-circle', class: "margin-right"), '#', onclick: "call_method('#{url + '/deduct_quantity'}', #{id}, '#{partial}');")
+        = link_to(icon('plus-circle', class: "margin-right"), '#', onclick: "call_method('#{url + '/add_quantity'}', #{id}, '#{partial}');")
+        = link_to(icon('trash'), '#', data: { confirm: { title: "Are you sure you want to remove #{collection_ingredient.name}?" }}, callback: "call_method('#{url + '/delete'}', #{id}, '#{partial}');")
+
+    -if collection_ingredient.target.class.name == "ShoppingList"
+      .items_table{id: "#{rid}_toggle_items_table", class: "hidden"}
+        %table.full
+          %tbody
+            - ingredients.each do |ingredient|
+              %tr
+                %td
+                  = "#{ingredient.target.name} - #{ingredient}"

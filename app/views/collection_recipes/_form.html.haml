@@ -1,0 +1,10 @@
+= render partial: 'button_strip', locals: { f: f }
+.fields.columns
+  .large-10.medium-10.small-10.columns.no-padding
+    = f.label :recipe_id, 'Recipe:'
+    = f.select :recipe_id, options_from_collection_for_select(@recipes, :id, :name, @collection_recipe.recipe.try(:id)), include_blank: true
+  .large-2.medium-2.small-2.columns.add-button
+    .button-row
+      .button_strip
+        %ul.button-group.round
+          %li= link_to(icon('plus', class: "no-padding"), new_recipe_path(reset_back: true), class: 'button')

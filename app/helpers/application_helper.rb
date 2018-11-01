@@ -57,6 +57,11 @@ module ApplicationHelper
   end
 
   def menu_item_active_state?(menu_item)
+
+    if menu_item.name == "Menus"
+      # byebug
+    end
+
     if menu_item.name == "Budgets" && request.path.start_with?("/budgets")
       true
     elsif menu_item.url.present?
@@ -78,5 +83,9 @@ module ApplicationHelper
       return icon(menu_item.icon,'')
     end
     return ''
+  end
+
+  def partial_class(partial)
+    partial.split(".").first.split("/").last.sub(/^_/, "")
   end
 end

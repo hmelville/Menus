@@ -8,63 +8,63 @@
     "items": [
       {
         "name": "Today",
-        "url": "/food_menus/today",
+        "url": "/today",
         "icon": "calendar",
         "method": "",
         "classes": []
       },
       {
         "name": "Ingredients",
-        "url": "/food_menus/ingredients",
+        "url": "/ingredients",
         "icon": "pagelines",
         "method": "",
         "classes": ["divider"]
       },
       {
         "name": "Recipes",
-        "url": "/food_menus/recipes",
+        "url": "/recipes",
         "icon": "book",
         "method": "",
         "classes": []
       },
       {
         "name": "Meals",
-        "url": "/food_menus/meals",
+        "url": "/meals",
         "icon": "cutlery",
         "method": "",
         "classes": []
       },
       {
         "name": "Menu Rotations",
-        "url": "/food_menus/menu_rotations",
+        "url": "/menu_rotations",
         "icon": "exchange",
         "method": "",
         "classes": ["divider"]
       },
       {
         "name": "Build Shopping List",
-        "url": "/food_menus/shopping_lists",
+        "url": "/shopping_list_days",
         "icon": "cart-plus",
         "method": "",
         "classes": []
       },
       {
         "name": "Shopping List",
-        "url": "/food_menus/shopping_list_ingredients",
+        "url": "/shopping_lists",
         "icon": "list-ul",
-        "method": "",
-        "classes": ["divider"]
-      },
-      {
-        "name": "Units",
-        "url": "/food_menus/units",
-        "icon": "balance-scale",
         "method": "",
         "classes": []
       },
       {
+        "name": "Units",
+        "url": "/units",
+        "icon": "balance-scale",
+        "method": "",
+        "classes": ["divider"]
+      },
+      {
         "name": "Suppliers",
-        "url": "/food_menus/suppliers",
+        "url": "/suppliers",
         "icon": "shopping-basket",
         "method": "",
         "classes": []
@@ -96,7 +96,7 @@
     "items": [
       {
         "name": "Details",
-        "url": "/account",
+        "url": "/user",
         "icon": "user-circle",
         "method": "",
         "classes": []

@@ -1,0 +1,14 @@
+- if current_user.ingredients.any?
+  .row
+    .button_strip
+      %ul.button-group.round.right
+        %li= link_to(icon('plus', "Add Ingredient"), [:new, target, :collection_ingredient, reset_back: true], class: 'button')
+
+  %fieldset.margin-bottom
+    %legend Ingredients:
+    - if target.collection_ingredients.any?
+      %table.full
+        %tbody
+          - target.collection_ingredients.each do |collection_ingredient|
+            = render partial: 'collection_ingredients/show_ingredient_row', locals: { target: target, collection_ingredient: collection_ingredient, show_actions: show_actions, depth: depth }
+

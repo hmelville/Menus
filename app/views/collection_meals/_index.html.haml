@@ -1,0 +1,23 @@
+- if target.collection_meals.any?
+  %fieldset.full
+    %legend Meals:
+    %table.full
+      %tbody
+        - target.collection_meals.each do |collection_meal|
+          - id = "row_#{collection_meal.class.table_name}_#{collection_meal.id}"
+          %tr{id: id}
+            %td
+              = collection_meal.name
+              - if collection_meal.meal.recipes.any?
+                - chevron = collection_meal.meal.hidden_initially ? "down" : "up"
+                = link_to icon("chevron-circle-#{chevron}"), "#", id: "#{id}_toggle", class: "padding-left", onclick: "toggleItemsTable(this.id);"
+              - if show_actions && depth == 0
+                .right.larger
+                  - url = "#{polymorphic_path([collection_meal.target, collection_meal])}"
+                  - partial = partial_class(__FILE__)
+                  = link_to(icon('trash'), '#', data: { confirm: { title: "Are you sure you want to remove #{collection_meal.name}?" }}, callback: "call_method('#{url + '/delete'}', #{collection_meal.id}, '#{partial}');")
+              - if collection_meal.meal.recipes.any?
+                - items_class = collection_meal.meal.hidden_initially ? "hidden" : ""
+                .items_table{id: "#{id}_toggle_items_table", class: items_class}
+                  = render partial: '/collection_recipes/index', locals: { target: collection_meal.meal, show_actions: show_actions, depth: depth + 1 }
+                  = render partial: '/collection_ingredients/index', locals: { target: collection_meal.meal, show_actions: show_actions, depth: depth + 1 }

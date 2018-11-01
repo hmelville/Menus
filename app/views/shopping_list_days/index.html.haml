@@ -1,0 +1,64 @@
+= form_for :build_days, url: build_days_shopping_list_days_path do |f|
+  %h1= "Build Shopping List:".gsub(/\s/, '&nbsp;').html_safe
+  .columns.no-padding
+    .left.margin-right
+      = f.label 'Start date:'
+      = f.text_field :start_date, class: "datepickable", id: "start_date", value: @start_date
+    .left.margin-right
+      = f.label 'End date:'
+      = f.text_field :end_date, class: "datepickable", id: "end_date", value: @end_date
+    .left
+      .columns.no-padding
+        %ul.button-group.round.margin-top.margin-bottom
+          %li= f.button icon('save', 'Refresh Days'), class: 'button'
+
+  - if @shopping_list_days.any?
+    %table.full
+      %tbody
+        - @shopping_list_days.each do |shopping_list_day|
+          = render partial: 'index_row', locals: { target: shopping_list_day }
+
+= form_for :build_list, url: build_list_shopping_list_days_path do |f|
+  .columns.no-padding
+    %ul.button-group.round.margin-top.margin-bottom
+      %li= f.button icon('save', 'Build List'), class: 'button'
+
+:javascript
+  $(function() {
+    var today = new Date();
+    start_date = $("#start_date")
+      .datepicker({
+        dateFormat: dateFormat,
+        showOtherMonths: true,
+        selectOtherMonths: true
+      })
+      .on("change", function() {
+        end_date.datepicker("option", "minDate", getDate(this));
+      });
+
+    end_date = $("#end_date")
+      .datepicker({
+        dateFormat: dateFormat,
+        showOtherMonths: true,
+        selectOtherMonths: true
+      })
+      .on("change", function() {
+        start_date.datepicker("option", "maxDate", getDate(this));
+      });
+
+
+    function getDate (element) {
+      var date;
+      try {
+        date = $.datepicker.parseDate(dateFormat, element.value);
+      }
+      catch (error) {
+        date = null;
+      }
+      return date;
+    }
+
+    start_date.datepicker("option", "minDate", today);
+    start_date.datepicker("option", "maxDate", end_date.val());
+    end_date.datepicker("option", "minDate", start_date.val());
+  });

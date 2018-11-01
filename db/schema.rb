@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181019203621) do
+ActiveRecord::Schema.define(version: 20181028164618) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -27,31 +27,28 @@ ActiveRecord::Schema.define(version: 20181019203621) do
   end
 
   create_table "collection_ingredients", force: true do |t|
-    t.integer  "collection_id"
+    t.string   "target_type"
+    t.integer  "target_id"
     t.integer  "ingredient_id"
     t.integer  "unit_id"
     t.decimal  "quantity",      precision: 8, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "collection_meals", force: true do |t|
-    t.integer  "collection_id"
+    t.string   "target_type"
+    t.integer  "target_id"
     t.integer  "meal_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "collection_recipes", force: true do |t|
-    t.integer  "collection_id"
-    t.integer  "recipe_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "collections", force: true do |t|
     t.string   "target_type"
     t.integer  "target_id"
+    t.integer  "recipe_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -98,22 +95,6 @@ ActiveRecord::Schema.define(version: 20181019203621) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "unit_id"
-  end
-
-  create_table "meal_ingredients", force: true do |t|
-    t.integer  "meal_id"
-    t.integer  "ingredient_id"
-    t.integer  "unit_id"
-    t.decimal  "quantity",      precision: 8, scale: 2
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "meal_recipes", force: true do |t|
-    t.integer  "meal_id"
-    t.integer  "recipe_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "meals", force: true do |t|
@@ -165,15 +146,6 @@ ActiveRecord::Schema.define(version: 20181019203621) do
     t.datetime "updated_at"
   end
 
-  create_table "recipe_ingredients", force: true do |t|
-    t.integer  "recipe_id"
-    t.integer  "ingredient_id"
-    t.decimal  "quantity",      precision: 8, scale: 2
-    t.integer  "unit_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "recipes", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -193,23 +165,13 @@ ActiveRecord::Schema.define(version: 20181019203621) do
     t.date     "the_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "shopping_list_ingredients", force: true do |t|
-    t.integer  "shopping_list_id"
-    t.integer  "ingredient_id"
-    t.integer  "unit_id"
-    t.decimal  "quantity",         precision: 8, scale: 2
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "shopping_lists", force: true do |t|
-    t.date     "start_date"
-    t.date     "end_date"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   create_table "suppliers", force: true do |t|

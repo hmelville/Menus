@@ -1,0 +1,13 @@
+.button-row
+  .button_strip
+    %ul.button-group.round.right
+      - if @buttons.include?(:save)
+        %li= f.button icon('save', 'Save'), class: 'button', data: { disable_with: "Save" }
+
+      - if @buttons.include?(:cancel)
+        %li= link_to(icon('undo', 'Cancel'), @collection_ingredient.target, class: 'button')
+
+      - if @buttons.include?(:delete)
+        %li= link_to(icon('trash', 'Delete'), [@collection_ingredient.target, @collection_ingredient], class: 'button', method: :delete, data: { confirm: { title: "Are you sure want to delete #{@collection_ingredient.name}?" }})
+
+  %h1= @page_heading.gsub(/\s/, '&nbsp;').html_safe

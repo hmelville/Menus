@@ -1,6 +1,14 @@
 class ApplicationBase < ActiveRecord::Base
   self.abstract_class = true
 
+  def hidden_initially
+    true
+  end
+
+  def soft_delete
+    false
+  end
+
   # Writes the supplied message into the log and emails it in a notification. If msg is an Exception it writes
   # msg.message and msg.backtrace into the log
   def self.log_and_notify(msg)
@@ -12,6 +20,7 @@ class ApplicationBase < ActiveRecord::Base
       ExceptionNotifier.notify_exception(RuntimeError.new(msg))
     end
   end
+
   def log_and_notify(msg) self.class.log_and_notify(msg) end
 
   # Logs the execution time of the supplied block, including the supplied text in the log message
@@ -24,6 +33,7 @@ class ApplicationBase < ActiveRecord::Base
     Rails.logger.info("ExecutionTime Log: #{subject} ran in #{Time.now - start} seconds")
     return
   end
+
   def self.log_exec_time(subject)
     start = Time.now
     yield
